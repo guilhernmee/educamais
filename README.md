@@ -12,12 +12,12 @@
   <img alt="Android" src="https://img.shields.io/badge/Android-minSdk%2026-3DDC84?logo=android&logoColor=white">
 </p>
 
-<!-- Dica: coloque 2 ou 3 prints do app em docs/img/ e mostre aqui:
 <p align="center">
-  <img src="docs/img/mapa.png" width="220">
-  <img src="docs/img/insights.png" width="220">
+  <img src="docs/img/aluno-03-mapa-de-ilhas.png" width="150" alt="Mapa de ilhas">
+  <img src="docs/img/aluno-07-desafio.png" width="150" alt="Desafio">
+  <img src="docs/img/professor-02-insights.png" width="150" alt="Insights da IA">
+  <img src="docs/img/coordenacao-01-painel.png" width="150" alt="Painel da escola">
 </p>
--->
 
 ## Sobre o projeto
 
@@ -30,6 +30,113 @@ Existem três perfis de uso:
 | **Aluno** | Joga as trilhas, ganha estrelas, compra itens na loja e personaliza o personagem |
 | **Professor** | Acompanha insights da turma, vê o perfil de cada aluno, liga ou desliga disciplinas e cria atividades |
 | **Coordenador** | Vê indicadores da escola, cadastra professores e turmas e revisa os conteúdos criados |
+
+## Telas do app
+
+<details open>
+<summary><b>Aluno</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/img/aluno-01-login.png" width="150" alt="Login"></td>
+    <td align="center"><img src="docs/img/aluno-02-contas-de-teste.png" width="150" alt="Contas de teste"></td>
+    <td align="center"><img src="docs/img/aluno-03-mapa-de-ilhas.png" width="150" alt="Mapa de ilhas"></td>
+    <td align="center"><img src="docs/img/aluno-04-ilha-e-regioes.png" width="150" alt="Ilha e regiões"></td>
+    <td align="center"><img src="docs/img/aluno-05-trilha.png" width="150" alt="Trilha de níveis"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Login</sub></td>
+    <td align="center"><sub>Contas de teste</sub></td>
+    <td align="center"><sub>Mapa de ilhas</sub></td>
+    <td align="center"><sub>Ilha e regiões</sub></td>
+    <td align="center"><sub>Trilha de níveis</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/img/aluno-06-inicio-do-nivel.png" width="150" alt="Início do nível"></td>
+    <td align="center"><img src="docs/img/aluno-07-desafio.png" width="150" alt="Desafio"></td>
+    <td align="center"><img src="docs/img/aluno-08-ia-adapta.png" width="150" alt="IA adapta o nível"></td>
+    <td align="center"><img src="docs/img/aluno-09-resultado.png" width="150" alt="Resultado"></td>
+    <td align="center"><img src="docs/img/aluno-10-recompensa.png" width="150" alt="Recompensa"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Início do nível</sub></td>
+    <td align="center"><sub>Desafio</sub></td>
+    <td align="center"><sub>IA adapta o nível</sub></td>
+    <td align="center"><sub>Resultado</sub></td>
+    <td align="center"><sub>Recompensa</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/img/aluno-11-tico.png" width="150" alt="Conversa com o Tico"></td>
+    <td align="center"><img src="docs/img/aluno-12-personagem.png" width="150" alt="Personagem"></td>
+    <td align="center"><img src="docs/img/aluno-13-loja.png" width="150" alt="Loja de estrelas"></td>
+    <td align="center"><img src="docs/img/aluno-14-progresso.png" width="150" alt="Progresso"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Conversa com o Tico</sub></td>
+    <td align="center"><sub>Personagem</sub></td>
+    <td align="center"><sub>Loja de estrelas</sub></td>
+    <td align="center"><sub>Progresso</sub></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><b>Professor</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/img/professor-01-painel.png" width="150" alt="Painel"></td>
+    <td align="center"><img src="docs/img/professor-02-insights.png" width="150" alt="Insights da IA"></td>
+    <td align="center"><img src="docs/img/professor-03-perfil-do-aluno.png" width="150" alt="Perfil do aluno"></td>
+    <td align="center"><img src="docs/img/professor-04-turmas.png" width="150" alt="Minhas turmas"></td>
+    <td align="center"><img src="docs/img/professor-05-disciplinas-por-aluno.png" width="150" alt="Disciplinas por aluno"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Painel</sub></td>
+    <td align="center"><sub>Insights da IA</sub></td>
+    <td align="center"><sub>Perfil do aluno</sub></td>
+    <td align="center"><sub>Minhas turmas</sub></td>
+    <td align="center"><sub>Disciplinas por aluno</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/img/professor-06-conteudos.png" width="150" alt="Conteúdos"></td>
+    <td align="center"><img src="docs/img/professor-07-editor-de-atividade.png" width="150" alt="Editor de atividade"></td>
+    <td align="center"><img src="docs/img/professor-08-desempenho.png" width="150" alt="Desempenho"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Conteúdos</sub></td>
+    <td align="center"><sub>Editor de atividade</sub></td>
+    <td align="center"><sub>Desempenho</sub></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><b>Coordenação</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/img/coordenacao-01-painel.png" width="150" alt="Painel da escola"></td>
+    <td align="center"><img src="docs/img/coordenacao-02-indicadores.png" width="150" alt="Indicadores"></td>
+    <td align="center"><img src="docs/img/coordenacao-03-professores.png" width="150" alt="Professores"></td>
+    <td align="center"><img src="docs/img/coordenacao-04-insights.png" width="150" alt="Insights da escola"></td>
+    <td align="center"><img src="docs/img/coordenacao-05-revisao.png" width="150" alt="Revisão de conteúdos"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Painel da escola</sub></td>
+    <td align="center"><sub>Indicadores</sub></td>
+    <td align="center"><sub>Professores</sub></td>
+    <td align="center"><sub>Insights da escola</sub></td>
+    <td align="center"><sub>Revisão de conteúdos</sub></td>
+  </tr>
+</table>
+
+</details>
 
 ## Arquitetura
 
@@ -48,6 +155,7 @@ O app não acessa o banco diretamente. Toda leitura e gravação passa pela API,
 | [`banco/`](banco) | `01_schema.sql` (tabelas, gatilhos, procedure e views), `02_dados_demo.sql` (escola de demonstração) e `gerar_dados_demo.py` | MySQL Workbench |
 | [`api/`](api) | API REST em Spring Boot 3 + JPA + MySQL | IntelliJ IDEA |
 | [`android/`](android) | App Android em Java | Android Studio |
+| [`docs/img/`](docs/img) | Capturas de tela do app usadas neste README | — |
 | [`Educa+_debug.apk`](Educa%2B_debug.apk) | App já compilado, para instalar direto no celular | — |
 
 ## Tecnologias
@@ -157,7 +265,6 @@ mvnw.cmd spring-boot:run      # Windows
   - Na API (`IaService` e `BootstrapService`): agrupa erros, acertos e inatividade por turma e gera os insights.
 - **Tico (chat):** responde com roteiros por habilidade, sem gerar texto com IA. As conversas ficam gravadas em `mensagem_tutor`.
 - **Login Google:** por enquanto são contas de teste. Para ligar o Google de verdade é preciso criar um projeto no Google Cloud/Firebase com o SHA-1 do Android Studio. A API já tem a coluna `google_sub` e o endpoint de login esperando o e-mail confirmado.
-- **Segurança:** não há autenticação nas chamadas da API, então qualquer pessoa na rede consegue chamá-la. A API escuta em todas as interfaces (`0.0.0.0`, para o celular acessar), o CORS está aberto, o app permite tráfego HTTP sem criptografia e a senha padrão do banco é `root`. Serve para demonstração em rede local, **não para produção**.
 - **Minijogos:** os desafios das trilhas são gerados pelo motor do jogo. O banco guarda as questões criadas por professores (tabelas `questao` e `alternativa`) e o resultado de cada partida.
 
 ## Endpoints da API
