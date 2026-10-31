@@ -313,7 +313,15 @@ O JPA está com `ddl-auto=none`: as tabelas são criadas só pelo script SQL, po
 
 ## Autores
 
-<!-- Adicione aqui os nomes da equipe e, se quiser, o link do GitHub de cada um. -->
+- [Guilherme dos Santos Matos](https://github.com/guilhernmee): líder
+- [Iris Pfister Pascoal](https://github.com/IrisPfister): análise de requisitos
+- [Felipe Neres Vieira](https://github.com/Feliprow): desenvolvimento
+- Matheus Ferreira de Almeida Sá: testes e qualidade
+- [Victor Leandro da Silva](https://github.com/Vleandro26): projeto de banco de dados
+- [Ellen Mayumi Borges](https://github.com/emayumi): documentação
+- Vitor Ferreira de Assis Gomes
+
+Projeto desenvolvido no curso de Análise e Desenvolvimento de Sistemas da Universidade Cidade de São Paulo (UNICID), sob orientação do professor Jadir Custodio Mendonça Junior.
 
 ## Licença
 
