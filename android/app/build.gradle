@@ -1,0 +1,41 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'br.com.educamais.app'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'br.com.educamais.app'
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName '1.0'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+// As telas do jogo vêm do mesmo arquivo que a API serve (api/src/main/resources/static/index.html).
+// Antes de cada build, a cópia dentro do app é atualizada. Se a pasta da API não estiver ao lado,
+// o app usa a cópia que já está em src/main/assets/www.
+def telasDaApi = rootProject.file('../api/src/main/resources/static')
+tasks.register('copiarTelas', Copy) {
+    from(telasDaApi) { include 'index.html' }
+    into 'src/main/assets/www'
+}
+preBuild.dependsOn 'copiarTelas'
+
+// Sem bibliotecas extras: só o SDK do Android (Activity, WebView, HttpURLConnection, org.json).
+dependencies {
+}

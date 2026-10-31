@@ -1,0 +1,1489 @@
+<title>Educa+</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800;900&display=swap">
+<style>
+/* Layout: um app vertical (portrait) — mundo de ilhas num mar que rola para baixo; área adulta usa o mesmo mar em cartões calmos */
+:root{
+  color-scheme: light;
+  --outer:#0E4A72; --outer-2:#0B3A5B;
+  --sea:#3EC1EC; --sea-2:#1E95CF; --foam:#E9FAFF;
+  --sky:#EAF8FF;
+  --ink:#1B2350; --ink-2:#4A5684; --ink-3:#8790B5;
+  --paper:#FFFFFF; --line:#DFE6F3; --mist:#F2F6FC; --adult-bg:#F2F6FB;
+  --sand:#FFD88A; --grass:#5FD38D;
+  --star:#FFC21A; --star-2:#E58A00; --star-bg:#FFF4CC;
+  --good:#1FAE64; --good-dk:#168A4F; --good-bg:#E0F7EA;
+  --try:#FF8A1F; --try-bg:#FFF0DF; --try-ink:#8A4300;
+  --bad:#E5484D; --tico:#2BC4B4;
+  --mat:#FF7A1A; --por:#8B5CF6; --cie:#1FB866; --his:#E0533D; --geo:#2D7FF9; --ing:#EC4899;
+  --f-display:"Baloo 2","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Nunito","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--outer);color:var(--ink);font-family:var(--f-body);font-size:16px;display:flex;justify-content:center;align-items:center;overflow:hidden;
+  background-image:radial-gradient(circle at 15% 20%,rgba(255,255,255,.07) 0 60px,transparent 61px),radial-gradient(circle at 85% 75%,rgba(255,255,255,.06) 0 90px,transparent 91px)}
+#app{position:relative;width:100%;max-width:440px;height:100%;background:var(--sky);display:flex;flex-direction:column;overflow:hidden}
+@media (min-width:600px){#app{height:min(900px,calc(100% - 48px));border-radius:38px;box-shadow:0 30px 80px rgba(0,20,50,.5),0 0 0 10px var(--outer-2)}}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;padding:0}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--star);outline-offset:2px}
+h1,h2,h3,p{margin:0}
+.disp{font-family:var(--f-display)}
+.st{width:1em;height:1em;display:inline-block;vertical-align:-.14em;flex:none}
+.st.on{fill:var(--star);stroke:var(--star-2);stroke-width:1.2}
+.st.off{fill:rgba(27,35,80,.14)}
+.s3{display:inline-flex;gap:1px}
+.ic{width:24px;height:24px;flex:none}
+.em{font-size:40px;line-height:1}
+.hide{display:none!important}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- botões ---------- */
+.btn{font-family:var(--f-display);font-weight:800;font-size:19px;line-height:1.1;border-radius:20px;padding:12px 20px;min-height:58px;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--b,var(--mat));color:#fff;box-shadow:0 5px 0 var(--bs,rgba(0,0,0,.22));transition:transform .08s,box-shadow .08s;text-align:center}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--bs,rgba(0,0,0,.22))}
+.btn.block{width:100%}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:0 4px 0 #CBDDEE}
+.btn.sm{min-height:44px;font-size:16px;padding:8px 14px;border-radius:14px}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.round-btn{width:46px;height:46px;border-radius:16px;background:#fff;display:grid;place-items:center;box-shadow:0 3px 0 rgba(27,35,80,.12);flex:none}
+.round-btn.sm{width:40px;height:40px;border-radius:12px;box-shadow:none;background:var(--mist)}
+
+/* ---------- login ---------- */
+.login{height:100%;background:linear-gradient(180deg,#68D4F6 0%,#36B6E6 55%,#1E92CC 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;position:relative;overflow:hidden;padding-block:24px}
+.login .logo{font-family:var(--f-display);font-weight:800;font-size:64px;line-height:.9;color:#fff;letter-spacing:-1px;text-shadow:0 5px 0 rgba(10,60,110,.35)}
+.login .logo span{color:var(--star)}
+.login .tag{font-family:var(--f-display);font-weight:700;font-size:24px;color:#fff;max-width:16ch;line-height:1.15}
+.login .hero{position:relative;width:240px;height:200px}
+.login .hero .isl-svg{position:absolute;inset:auto 0 0 0;width:240px;height:180px}
+.login .hero .tico{position:absolute;width:96px;height:96px;left:72px;top:6px;animation:hop 1.8s ease-in-out infinite}
+.gbtn{background:#fff;color:var(--ink);font-family:var(--f-display);font-weight:800;font-size:20px;border-radius:20px;min-height:62px;padding:10px 26px;display:inline-flex;align-items:center;gap:12px;box-shadow:0 6px 0 rgba(10,60,110,.35)}
+.gbtn .g{width:30px;height:30px;border-radius:50%;background:conic-gradient(#EA4335 0 25%,#FBBC05 0 50%,#34A853 0 75%,#4285F4 0);display:grid;place-items:center}
+.gbtn .g i{width:18px;height:18px;border-radius:50%;background:#fff;display:block}
+.login small{color:rgba(255,255,255,.9);font-weight:700;font-size:13px;max-width:30ch}
+.cloud{position:absolute;background:#fff;border-radius:99px;opacity:.85}
+.cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud::before{width:44%;height:160%;left:16%;bottom:20%}
+.cloud::after{width:34%;height:130%;right:16%;bottom:24%}
+.acc-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.acc{display:flex;align-items:center;gap:12px;text-align:left;padding:12px;border-radius:16px;border:2px solid var(--line);background:#fff}
+.acc:active{background:var(--mist)}
+.acc b{display:block;font-size:16px}
+.acc small{color:var(--ink-2);font-weight:600;font-size:13px;word-break:break-all}
+.acc .who{margin-left:auto;font-size:12px;font-weight:800;border-radius:99px;padding:4px 10px;white-space:nowrap}
+
+/* ---------- topo e navegação infantil ---------- */
+.ktop{display:flex;align-items:center;gap:10px;padding-block:10px;background:#fff;border-bottom:3px solid #D2ECFA;position:relative;z-index:3}
+.ktop .mini{width:48px;height:48px;border-radius:50%;background:#FFE9C7;overflow:hidden;border:3px solid #fff;box-shadow:0 0 0 2.5px var(--star);flex:none}
+.ktop .mini .av{width:100%;height:100%;transform:scale(1.55) translateY(14%)}
+.ktop .hi{font-family:var(--f-display);font-weight:800;font-size:22px;line-height:1}
+.ktop .hi small{display:block;font-family:var(--f-body);font-size:13px;color:var(--ink-2);font-weight:700}
+.ktop h1{font-family:var(--f-display);font-weight:800;font-size:22px;line-height:1.05;flex:1;min-width:0}
+.wallet{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:var(--star-bg);border:2.5px solid var(--star);border-radius:99px;padding:3px 12px 3px 8px;font-family:var(--f-display);font-weight:800;font-size:20px;color:#8A5200;font-variant-numeric:tabular-nums;flex:none}
+.wallet .st{width:24px;height:24px}
+.knav{display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border-top:3px solid #D2ECFA;padding:6px 4px 8px;flex:none;position:relative;z-index:3}
+.knav button{display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--f-display);font-weight:700;font-size:13px;color:var(--ink-3);padding:4px 0}
+.knav .bub{width:50px;height:36px;border-radius:14px;display:grid;place-items:center;transition:transform .18s,background .18s}
+.knav button.on{color:var(--ink)}
+.knav button.on .bub{background:var(--k);color:#fff;transform:translateY(-3px);box-shadow:0 3px 0 rgba(0,0,0,.15)}
+
+/* ---------- mapa ---------- */
+.sea{position:relative;background:linear-gradient(180deg,#5CD0F4 0%,#33B4E6 40%,#1F96D0 100%);overflow:hidden}
+.sea::before{content:"";position:absolute;inset:0;background-image:radial-gradient(ellipse 16px 4px at 50% 50%,rgba(255,255,255,.45) 60%,transparent 64%);background-size:96px 64px;background-position:0 0,48px 32px;opacity:.55;pointer-events:none}
+.sea .route{position:absolute;left:0;top:0;width:100%;pointer-events:none}
+.mission{position:relative;z-index:2;margin-top:14px;display:flex;align-items:center;gap:10px;background:#fff;border-radius:22px;padding:10px 12px;box-shadow:0 5px 0 rgba(0,50,90,.18);text-align:left;width:100%}
+.mission .tico{width:54px;height:54px;flex:none}
+.mission b{font-family:var(--f-display);font-size:17px;line-height:1.1;display:block}
+.mission small{font-weight:700;color:var(--ink-2);font-size:13px;line-height:1.3;display:block}
+.mission .go{margin-left:auto;width:42px;height:42px;border-radius:14px;background:var(--mc,var(--mat));color:#fff;display:grid;place-items:center;flex:none;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.mission.alert{background:#EAF2FF;border:2.5px dashed #6E9CFF}
+.isl{position:absolute;width:172px;display:flex;flex-direction:column;align-items:center;transform:translateX(-50%);z-index:2}
+.isl .isl-svg{width:172px;height:129px;animation:bob 4.2s ease-in-out infinite;filter:drop-shadow(0 6px 0 rgba(0,40,90,.16));transition:transform .15s}
+.isl:nth-child(even) .isl-svg{animation-delay:-2s}
+.isl:active .isl-svg{transform:scale(.93)}
+.plate{display:block;background:#fff;border-radius:18px;padding:6px 14px 9px;margin-top:-12px;box-shadow:0 4px 0 rgba(0,50,90,.2);text-align:center;min-width:140px;border:3px solid var(--c)}
+.plate b{font-family:var(--f-display);font-weight:800;font-size:15px;letter-spacing:.06em;line-height:1.15;color:var(--c);display:block;text-transform:uppercase}
+.plate .s3{font-size:20px;margin:1px 0}
+.plate small{display:block;font-weight:800;font-size:12.5px;color:var(--ink-2)}
+.pbar{display:block;height:9px;border-radius:99px;background:#E6EDF7;overflow:hidden;margin-top:4px}
+.pbar i{display:block;height:100%;background:var(--c);border-radius:inherit}
+.me-on-map{position:absolute;width:74px;z-index:3;transform:translateX(-50%);pointer-events:none;text-align:center}
+.me-on-map .av{width:74px;height:90px;animation:hop 2.4s ease-in-out infinite}
+.me-on-map span{display:inline-block;background:var(--ink);color:#fff;font-weight:800;font-size:11px;border-radius:99px;padding:2px 8px;margin-top:-4px}
+.empty-map{position:relative;z-index:2;background:#fff;border-radius:22px;padding:20px;text-align:center;margin-top:30px;font-weight:700}
+
+/* ---------- ilha ---------- */
+.scene{position:relative;background:linear-gradient(180deg,#5CD0F4,#2EA9E0);padding-block:12px 18px;overflow:hidden;text-align:center}
+.scene .isl-svg{width:290px;height:218px;max-width:100%;animation:bob 5s ease-in-out infinite}
+.scene .me{position:absolute;width:70px;height:86px;left:calc(50% + 70px);top:92px;animation:hop 2.2s ease-in-out infinite}
+.scene .iname{font-family:var(--f-display);font-weight:800;font-size:28px;color:#fff;text-shadow:0 3px 0 rgba(0,60,110,.35);line-height:1}
+.scene .isub{color:#fff;font-weight:800;opacity:.95;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+.statrow{display:flex;gap:10px;margin-top:-18px;position:relative;z-index:2}
+.stat{flex:1;background:#fff;border-radius:20px;padding:10px 12px;box-shadow:0 4px 0 rgba(27,35,80,.1);min-width:0}
+.stat b{font-family:var(--f-display);font-weight:800;font-size:24px;line-height:1;display:flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums}
+.stat small{font-weight:700;color:var(--ink-2);font-size:13px}
+.regions{display:flex;flex-direction:column;gap:12px}
+.region{display:flex;align-items:center;gap:12px;background:#fff;border-radius:22px;padding:12px;text-align:left;box-shadow:0 4px 0 rgba(27,35,80,.1);width:100%}
+.region .rb{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:22px;color:#fff;background:var(--c);flex:none}
+.region.locked .rb{background:#C9D3E5}
+.region b{font-family:var(--f-display);font-size:18px;line-height:1.1;display:block}
+.region small{font-weight:700;color:var(--ink-2);font-size:13px}
+.region .tagx{margin-left:auto;font-weight:800;font-size:12px;border-radius:99px;padding:4px 10px;white-space:nowrap}
+
+/* ---------- trilha de níveis ---------- */
+.trail{position:relative;background:linear-gradient(180deg,#C9F0B5 0%,#9FE08A 100%)}
+.trail::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 50% 50%,rgba(255,255,255,.35) 0 3px,transparent 4px);background-size:44px 44px;pointer-events:none}
+.trail .route{position:absolute;left:0;top:0;width:100%;pointer-events:none}
+.node{position:absolute;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:30px;color:#fff;background:var(--c);box-shadow:0 7px 0 rgba(0,0,0,.22),inset 0 -6px 0 rgba(0,0,0,.12);z-index:2}
+.node .s3{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);font-size:20px;background:#fff;border-radius:99px;padding:1px 6px;box-shadow:0 2px 0 rgba(0,0,0,.1)}
+.node.locked{background:#B9C4D8;color:#fff}
+.node.cur{width:90px;height:90px;font-size:36px;animation:pulse 1.6s ease-in-out infinite}
+.node.cur::after{content:"";position:absolute;inset:-10px;border-radius:50%;border:4px solid #fff;opacity:.9}
+.node .me{position:absolute;width:62px;height:76px;bottom:72px;left:50%;transform:translateX(-50%);animation:hop 2s ease-in-out infinite;pointer-events:none}
+.sign{position:absolute;z-index:1;background:#7A4E26;color:#FFF3D6;font-family:var(--f-display);font-weight:800;font-size:14px;padding:5px 12px;border-radius:10px;box-shadow:0 4px 0 #5A3818;transform:translateX(-50%);white-space:nowrap}
+.sign::after{content:"";position:absolute;left:50%;top:100%;width:6px;height:16px;background:#5A3818;transform:translateX(-50%)}
+.startflag{position:absolute;left:50%;top:14px;transform:translateX(-50%);font-family:var(--f-display);font-weight:800;color:#2C6B1C;font-size:15px;letter-spacing:.12em}
+
+/* ---------- atividade ---------- */
+.act{display:flex;flex-direction:column;height:100%;background:var(--soft,#EAF8FF)}
+.act-top{display:flex;align-items:center;gap:10px;padding-block:10px;flex:none}
+.dots{flex:1;display:flex;gap:6px;min-width:0}
+.dots i{flex:1;height:13px;border-radius:99px;background:rgba(27,35,80,.12);transition:background .3s}
+.dots i.done{background:var(--c)}
+.dots i.cur{background:var(--c);opacity:.4}
+.hintbtn{display:flex;align-items:center;gap:4px;background:#fff;border-radius:16px;padding:4px 12px 4px 4px;height:46px;font-family:var(--f-display);font-weight:800;font-size:16px;box-shadow:0 3px 0 rgba(27,35,80,.12);flex:none}
+.hintbtn .tico{width:38px;height:38px}
+.act-body{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding-block:4px 10px}
+.qcard{background:#fff;border-radius:26px;padding:16px;box-shadow:0 5px 0 rgba(27,35,80,.08);text-align:center}
+.prompt{font-family:var(--f-display);font-weight:800;font-size:23px;line-height:1.2;text-wrap:balance}
+.prompt.long{font-size:19px;line-height:1.28;font-family:var(--f-body);font-weight:800}
+.visual{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;margin-top:12px;font-size:34px;line-height:1}
+.visual:empty{display:none}
+.visual .it{display:inline-block;animation:popin .35s both}
+.visual .op{font-family:var(--f-display);font-weight:800;font-size:34px;color:var(--ink-2);margin:0 4px}
+.visual .eq{font-family:var(--f-display);font-weight:800;font-size:40px;color:var(--ink);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.grp{display:inline-flex;flex-wrap:wrap;gap:3px;justify-content:center;max-width:150px;padding:8px;border-radius:18px;background:var(--soft,#EAF8FF)}
+.apples{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:280px}
+.apples .gone{opacity:.25;transform:scale(.8) rotate(-12deg);transition:all .4s}
+.friendtag{font-size:14px;font-weight:800;color:var(--ink-2);width:100%;margin-top:4px}
+.plates{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.plates .grp{font-size:24px;max-width:96px;border-radius:50%;padding:12px 10px;background:#FFF1DC;border:3px solid #FFD6A0}
+.seq{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.seq span{min-width:58px;height:58px;border-radius:16px;background:var(--soft,#EAF8FF);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:28px;font-variant-numeric:tabular-nums;padding:0 6px}
+.seq span.q{background:var(--c);color:#fff}
+.shape{width:120px;height:120px}
+.pizza{width:150px;height:150px;border-radius:50%;border:7px solid #E8B36A;background:repeating-conic-gradient(from 0deg,transparent 0 calc(360deg / var(--n) - 1.6deg),#fff calc(360deg / var(--n) - 1.6deg) calc(360deg / var(--n))),conic-gradient(var(--mat) 0 var(--k),#FFE6BF var(--k) 360deg)}
+.gmap{display:grid;grid-template-columns:repeat(3,64px);gap:6px;padding:8px;border-radius:18px;background:#D8F1C8;font-size:34px}
+.gmap span{height:64px;border-radius:12px;background:rgba(255,255,255,.65);display:grid;place-items:center}
+.gmap span.mid{background:#fff;box-shadow:0 0 0 3px var(--geo)}
+.opts{display:grid;gap:12px;grid-template-columns:repeat(var(--cols,1),1fr)}
+.opt{background:#fff;border-radius:22px;min-height:76px;font-family:var(--f-display);font-weight:800;font-size:30px;color:var(--ink);box-shadow:0 5px 0 var(--oc,#C9D8EA);border:3px solid var(--oc,#C9D8EA);padding:8px 12px;transition:transform .08s;font-variant-numeric:tabular-nums;line-height:1.1}
+.opt:active{transform:translateY(3px);box-shadow:0 2px 0 var(--oc)}
+.opt.txt{font-size:20px;min-height:62px}
+.opt.emo{font-size:46px}
+.opt.sw{min-height:84px}
+.opt.sw i{display:block;width:100%;height:56px;border-radius:14px}
+.opt.right{background:var(--good);border-color:var(--good-dk);color:#fff;box-shadow:0 5px 0 var(--good-dk);animation:pop .4s}
+.opt.no{opacity:.32;pointer-events:none;box-shadow:none;transform:translateY(3px)}
+.opt.shake,.tile.shake,.bin.shake,.card-ord.shake{animation:shake .45s}
+.slots{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.slot{width:48px;height:58px;border-radius:14px;border:3px dashed var(--c);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:30px;color:var(--ink)}
+.slot.f{border-style:solid;background:var(--soft);animation:popin .25s}
+.tiles{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.tile{width:62px;height:62px;border-radius:18px;background:#fff;box-shadow:0 5px 0 var(--oc,#C9D8EA);border:3px solid var(--oc,#C9D8EA);font-family:var(--f-display);font-weight:800;font-size:30px}
+.tile.used{visibility:hidden}
+.sort-item{display:flex;flex-direction:column;align-items:center;gap:2px;margin:10px auto 0;background:var(--soft);border-radius:22px;padding:12px 22px;animation:popin .3s}
+.sort-item .em{font-size:64px}
+.sort-item b{font-family:var(--f-display);font-size:22px}
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bin{min-height:150px;border-radius:24px;background:#fff;border:3px solid var(--oc,#C9D8EA);box-shadow:0 5px 0 var(--oc,#C9D8EA);display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px}
+.bin .bh{font-size:38px;line-height:1}
+.bin b{font-family:var(--f-display);font-size:20px;line-height:1.1}
+.bin .got{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;font-size:24px;min-height:28px}
+.tl{display:flex;flex-direction:column;gap:8px;margin-top:12px;position:relative}
+.tl-row{display:flex;align-items:center;gap:10px;border-radius:16px;border:3px dashed #CFD9EA;padding:6px 10px;min-height:54px;text-align:left}
+.tl-row .n{width:30px;height:30px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;flex:none}
+.tl-row.f{border-style:solid;border-color:var(--c);background:var(--soft);animation:popin .25s}
+.tl-row .em{font-size:28px}
+.tl-row b{margin-left:auto;font-family:var(--f-display);font-size:16px;color:var(--c)}
+.tl-row span:not(.n):not(.em){font-weight:800;font-size:15px;line-height:1.2}
+.cards-ord{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card-ord{background:#fff;border-radius:18px;border:3px solid var(--oc,#C9D8EA);box-shadow:0 5px 0 var(--oc,#C9D8EA);padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;font-size:15px;line-height:1.2;min-height:96px;justify-content:center}
+.card-ord .em{font-size:34px}
+.card-ord.used{visibility:hidden}
+.act-foot{padding-block:6px 12px;flex:none}
+.bubble{display:flex;align-items:flex-end;gap:8px}
+.bubble .tico{width:60px;height:60px;flex:none}
+.say{background:#fff;border-radius:22px 22px 22px 6px;padding:10px 14px;font-weight:700;font-size:16px;line-height:1.35;box-shadow:0 4px 0 rgba(27,35,80,.08);flex:1;min-width:0;animation:popin .25s}
+.say b{display:block;font-family:var(--f-display);font-size:18px;line-height:1.15}
+.say.good{background:var(--good-bg);color:#0C6237}
+.say.try{background:var(--try-bg);color:var(--try-ink)}
+.say.hint{background:#FFF7D2;color:#6B5000}
+.say.adapt{background:#E7F0FF;color:#1D3F95;border:2.5px dashed #79A5FF}
+.say .ai{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;background:#2F62E8;color:#fff;border-radius:99px;padding:2px 8px;margin-bottom:4px}
+
+/* ---------- resultado e recompensa ---------- */
+.res{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding-block:24px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 32%,#FFF7CF 0%,#FFDA6B 42%,#FFAE21 100%)}
+.res h1{font-family:var(--f-display);font-weight:800;font-size:40px;line-height:1;color:#fff;text-shadow:0 4px 0 #D97A00,0 0 18px rgba(255,255,255,.5)}
+.bigstars{display:flex;align-items:flex-end;gap:4px;margin-block:4px}
+.bigstars .st{width:74px;height:74px;animation:starin .5s cubic-bezier(.2,1.6,.4,1) both}
+.bigstars .st:nth-child(2){width:96px;height:96px;margin-bottom:14px;animation-delay:.25s}
+.bigstars .st:nth-child(3){animation-delay:.5s}
+.bigstars .st.off{fill:rgba(255,255,255,.55);stroke:none}
+.chips-res{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.chips-res span{background:rgba(255,255,255,.85);border-radius:99px;padding:6px 12px;font-weight:800;font-size:14px;color:#7A4400;font-variant-numeric:tabular-nums}
+.res .bubble{max-width:340px;text-align:left}
+.res .av{width:120px;height:146px;animation:jump 1s ease-in-out infinite}
+.conf{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.conf i{position:absolute;top:-20px;width:10px;height:15px;border-radius:2px;animation:fall linear forwards}
+.rew{background:radial-gradient(circle at 50% 30%,#5B74F5 0%,#3A49C9 55%,#26318F 100%)}
+.rew h1{text-shadow:0 4px 0 #1A2366}
+.chestwrap{position:relative;width:180px;height:150px}
+.chest{width:180px;height:150px}
+.chest .lid{transform-box:fill-box;transform-origin:0% 100%;animation:lid .7s .3s cubic-bezier(.3,1.6,.5,1) both}
+.burst .st{position:absolute;left:50%;top:50%;width:30px;height:30px;animation:burst 1s .5s ease-out both}
+.plus{font-family:var(--f-display);font-weight:800;font-size:46px;color:var(--star);text-shadow:0 4px 0 #8A5200;line-height:1;animation:starin .5s .8s both}
+.unlock{background:rgba(255,255,255,.14);color:#fff;border-radius:18px;padding:10px 14px;font-weight:800;display:flex;align-items:center;gap:8px}
+.suggest{display:flex;align-items:center;gap:12px;background:#fff;border-radius:22px;padding:10px 14px;text-align:left;max-width:340px;width:100%}
+.suggest .av{width:64px;height:78px;animation:none}
+.suggest b{font-family:var(--f-display);font-size:17px;line-height:1.15;display:block}
+.suggest small{font-weight:700;color:var(--ink-2);font-size:13px}
+
+/* ---------- personagem e loja ---------- */
+.stage{position:relative;padding-block:16px 4px;background:linear-gradient(180deg,#B9E9FF 0%,#DDF5FF 70%);text-align:center;overflow:hidden}
+.stage::after{content:"";position:absolute;left:50%;bottom:-38px;width:280px;height:80px;border-radius:50%;background:#7CD98F;transform:translateX(-50%)}
+.stage .av{width:190px;height:232px;position:relative;z-index:1}
+.stage .av.pop{animation:pop .45s}
+.stage .nm{position:relative;z-index:1;font-family:var(--f-display);font-weight:800;font-size:22px;margin-top:-10px}
+.ktabs{display:flex;gap:8px;overflow-x:auto;padding-block:12px 4px;scrollbar-width:none}
+.ktabs::-webkit-scrollbar{display:none}
+.ktab{white-space:nowrap;font-family:var(--f-display);font-weight:800;font-size:16px;border-radius:16px;padding:8px 16px;background:#fff;box-shadow:0 3px 0 #CBDDEE;color:var(--ink-2)}
+.ktab.on{background:var(--ink);color:#fff;box-shadow:0 3px 0 #0C1233}
+.igrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-block:10px 20px}
+.item{position:relative;background:#fff;border-radius:20px;padding:6px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 4px 0 #CBDDEE;border:3px solid transparent;min-width:0}
+.item .av{width:76px;height:92px}
+.item b{font-family:var(--f-display);font-size:14px;line-height:1.1;text-align:center}
+.item .price{display:inline-flex;align-items:center;gap:3px;font-family:var(--f-display);font-weight:800;font-size:15px;color:#8A5200;font-variant-numeric:tabular-nums}
+.item.eq{border-color:var(--good)}
+.item .badge{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center}
+.item .badge .ic{width:16px;height:16px}
+.item.locked .av{opacity:.55}
+.item .lockic{position:absolute;top:6px;right:6px;color:var(--ink-3)}
+.item .lockic .ic{width:18px;height:18px}
+.item .own{font-size:12px;font-weight:800;color:var(--good-dk)}
+.item .short{font-size:12px;font-weight:800;color:var(--ink-3)}
+.swatches{display:flex;gap:12px;flex-wrap:wrap;padding-block:8px}
+.swatch{width:52px;height:52px;border-radius:50%;border:4px solid #fff;box-shadow:0 0 0 2px #CBDDEE}
+.swatch.on{box-shadow:0 0 0 3px var(--ink)}
+.shophead{display:flex;align-items:center;gap:12px;padding-block:14px;background:linear-gradient(180deg,#FFE7A8,#FFF4D6)}
+.shophead .big{font-family:var(--f-display);font-weight:800;font-size:40px;line-height:1;display:flex;align-items:center;gap:6px;color:#8A5200;font-variant-numeric:tabular-nums}
+.shophead .big .st{width:40px;height:40px}
+.shophead small{display:block;font-weight:800;color:#8A5200;font-size:13px}
+.shophead .av{width:72px;height:88px;margin-left:auto}
+
+/* ---------- progresso ---------- */
+.kp-sec{display:flex;flex-direction:column;gap:12px;padding-block:14px 24px}
+.kp-sec h2{font-family:var(--f-display);font-weight:800;font-size:22px;margin-top:6px}
+.bigcounts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bigc{border-radius:22px;padding:12px 14px;color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.15)}
+.bigc b{font-family:var(--f-display);font-weight:800;font-size:38px;line-height:1;display:flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums}
+.bigc small{font-weight:800;font-size:14px;opacity:.95}
+.bigc .st.on{fill:#fff;stroke:none}
+.irow{display:flex;align-items:center;gap:10px;background:#fff;border-radius:20px;padding:8px 12px 8px 6px;box-shadow:0 3px 0 rgba(27,35,80,.08)}
+.irow .isl-svg{width:66px;height:50px;flex:none}
+.irow .grow{flex:1;min-width:0}
+.irow b{font-family:var(--f-display);font-size:17px;line-height:1.1}
+.chunky{display:flex;gap:3px;margin-top:5px}
+.chunky i{flex:1;height:12px;border-radius:4px;background:#E6EDF7}
+.chunky i.on{background:var(--c)}
+.irow .sc{font-family:var(--f-display);font-weight:800;font-size:17px;display:flex;align-items:center;gap:3px;color:#8A5200;font-variant-numeric:tabular-nums;flex:none}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.bdg{background:#fff;border-radius:20px;padding:10px 6px;text-align:center;box-shadow:0 3px 0 rgba(27,35,80,.08)}
+.bdg .e{font-size:34px;line-height:1.1;display:block}
+.bdg b{font-family:var(--f-display);font-size:14px;line-height:1.1;display:block;margin-top:2px}
+.bdg small{font-size:11px;font-weight:700;color:var(--ink-2);line-height:1.2;display:block}
+.bdg.off{opacity:.5;filter:grayscale(1)}
+.kchips{display:flex;flex-wrap:wrap;gap:8px}
+.kchip{background:#fff;border-radius:99px;padding:7px 12px;font-weight:800;font-size:14px;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 0 rgba(27,35,80,.08)}
+.kchip.green{background:var(--good-bg);color:#0C6237}
+.kchip.blue{background:#E7F0FF;color:#1D3F95}
+.linkbtn{font-weight:800;color:var(--ink-2);text-decoration:underline;padding:10px;font-size:14px;align-self:center}
+
+/* ---------- tico ---------- */
+.chat{display:flex;flex-direction:column;gap:10px;padding-block:14px}
+.msg{max-width:84%;padding:10px 14px;border-radius:20px;font-weight:700;line-height:1.35;font-size:16px;animation:popin .2s}
+.msg.t{background:#fff;border-bottom-left-radius:6px;align-self:flex-start;box-shadow:0 3px 0 rgba(27,35,80,.07)}
+.msg.k{background:var(--tico);color:#fff;border-bottom-right-radius:6px;align-self:flex-end}
+.msg .btn{margin-top:8px}
+.tico-head{display:flex;align-items:center;gap:12px;padding-block:10px;background:linear-gradient(180deg,#C9F4EE,#EAF8FF)}
+.tico-head .tico{width:64px;height:64px;animation:hop 2.4s ease-in-out infinite}
+.tico-head b{font-family:var(--f-display);font-size:22px;line-height:1;display:block}
+.tico-head small{font-weight:700;color:var(--ink-2);font-size:13px}
+.qchips{display:flex;gap:8px;overflow-x:auto;padding-block:8px 6px;scrollbar-width:none}
+.qchips::-webkit-scrollbar{display:none}
+.qchip{white-space:nowrap;background:#fff;border:2.5px solid var(--tico);color:#0F7A6F;font-weight:800;border-radius:99px;padding:8px 14px;font-size:15px}
+.chatbar{display:flex;gap:8px;padding-block:8px 10px;background:#fff;border-top:3px solid #D2ECFA;flex:none}
+.chatbar input{flex:1;min-width:0;font:inherit;font-weight:700;font-size:16px;border:2.5px solid var(--line);border-radius:18px;padding:10px 14px;min-height:50px}
+.chatbar button{width:52px;height:50px;border-radius:16px;background:var(--tico);color:#fff;display:grid;place-items:center;flex:none}
+
+/* ---------- área adulta ---------- */
+.tshell{display:flex;flex-direction:column;height:100%;background:var(--adult-bg)}
+.thead{display:flex;align-items:center;gap:10px;padding-block:12px;background:#fff;border-bottom:1px solid var(--line);flex:none}
+.thead .tt{flex:1;min-width:0}
+.thead small{display:block;font-weight:800;font-size:12px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
+.thead h1{font-family:var(--f-display);font-weight:800;font-size:23px;line-height:1.05;text-wrap:balance}
+.me-btn{width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;font-weight:900;font-size:14px;display:grid;place-items:center;flex:none}
+.tnav{display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border-top:1px solid var(--line);padding:6px 2px 8px;flex:none}
+.tnav button{display:flex;flex-direction:column;align-items:center;gap:3px;font-weight:800;font-size:11.5px;color:var(--ink-3);padding:4px 0}
+.tnav button .bub{width:46px;height:30px;border-radius:12px;display:grid;place-items:center}
+.tnav button.on{color:var(--ink)}
+.tnav button.on .bub{background:#E3ECFF;color:#2F55D4}
+.sec{display:flex;flex-direction:column;gap:12px;padding-block:14px 28px}
+.sec>h2,.h2{font-family:var(--f-display);font-weight:800;font-size:19px;line-height:1.1;margin-top:8px;display:flex;align-items:center;gap:8px}
+.h2 .more{margin-left:auto;font-family:var(--f-body);font-size:14px;color:#2F55D4;font-weight:800}
+.card{background:#fff;border-radius:20px;padding:14px;border:1px solid var(--line)}
+.card.tap{text-align:left;width:100%;display:block}
+.card.tap:active{background:var(--mist)}
+.hello{background:linear-gradient(135deg,#2F55D4,#4C7DF5);color:#fff;border:0;display:flex;align-items:center;gap:12px}
+.hello b{font-family:var(--f-display);font-size:22px;line-height:1.1;display:block}
+.hello small{font-weight:700;opacity:.9}
+.hello .tico{width:58px;height:58px;margin-left:auto;flex:none}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 14px;min-width:0}
+.kpi b{font-family:var(--f-display);font-weight:800;font-size:30px;line-height:1;display:block;font-variant-numeric:tabular-nums}
+.kpi small{font-weight:700;color:var(--ink-2);font-size:13px;line-height:1.25;display:block;margin-top:2px}
+.kpi .delta{font-size:12px;font-weight:800;color:var(--good-dk)}
+.row{display:flex;align-items:center;gap:12px;min-width:0}
+.grow{flex:1;min-width:0}
+.pill{font-size:12px;font-weight:800;border-radius:99px;padding:3px 10px;white-space:nowrap;display:inline-block}
+.pill.ok{background:var(--good-bg);color:#11703F}
+.pill.warn{background:var(--try-bg);color:#9A4A00}
+.pill.up{background:#E3ECFF;color:#2F55D4}
+.pill.gray{background:var(--mist);color:var(--ink-2)}
+.pill.live{background:#FDE4E4;color:#B4232A}
+.ava{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#fff;font-size:14px;flex:none;overflow:hidden}
+.ava .av{width:100%;height:100%;transform:scale(1.55) translateY(14%)}
+.ava.k{background:#FFE9C7}
+.list{display:flex;flex-direction:column}
+.li{display:flex;align-items:center;gap:12px;padding:12px 2px;border-top:1px solid var(--line);text-align:left;width:100%;min-width:0}
+.li:first-child{border-top:0}
+.li b{font-weight:800;font-size:15.5px;display:block;line-height:1.2;overflow-wrap:anywhere}
+.li small{font-weight:600;color:var(--ink-2);font-size:13px;display:block;line-height:1.3}
+.li .chev{color:var(--ink-3)}
+.bar{height:9px;background:#E7EDF7;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--c,#2F55D4);border-radius:inherit}
+.subrow{display:grid;grid-template-columns:92px 1fr 42px;gap:10px;align-items:center;font-weight:700;font-size:14px}
+.subrow b{text-align:right;font-variant-numeric:tabular-nums;font-size:14px}
+.dotc{width:10px;height:10px;border-radius:50%;display:inline-block;background:var(--c);margin-right:6px;vertical-align:1px}
+.tchips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.tchips::-webkit-scrollbar{display:none}
+.chip{white-space:nowrap;border-radius:99px;padding:8px 14px;background:#fff;border:1.5px solid var(--line);font-weight:800;font-size:14px;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ins{display:flex;flex-direction:column;gap:8px}
+.ins .tagrow{display:flex;align-items:center;gap:8px}
+.ins .tagrow .ic{width:18px;height:18px;color:#2F55D4}
+.ins h3{font-family:var(--f-display);font-weight:800;font-size:18px;line-height:1.2;text-wrap:balance}
+.ins p{color:var(--ink-2);font-weight:600;font-size:14.5px;line-height:1.4}
+.ins .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.abtn{font-weight:800;font-size:14px;border-radius:12px;padding:9px 14px;background:#2F55D4;color:#fff;min-height:40px}
+.abtn.light{background:var(--mist);color:var(--ink)}
+.abtn.green{background:var(--good)}
+.note{display:flex;gap:10px;align-items:flex-start;background:#EEF3FF;border-radius:16px;padding:12px 14px;color:#253D8E;font-weight:700;font-size:14px;line-height:1.4}
+.note .ic{color:#2F55D4;margin-top:1px}
+.qa{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.qa button{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:800;font-size:13px;line-height:1.2;text-align:center;position:relative}
+.qa .qi{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;color:#fff}
+.qa .count{position:absolute;top:6px;right:6px;background:var(--bad);color:#fff;border-radius:99px;font-size:11px;padding:1px 7px}
+.sw{width:54px;height:32px;border-radius:99px;background:#C9D2E3;position:relative;flex:none;transition:background .2s}
+.sw::after{content:"";position:absolute;top:4px;left:4px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.sw.on{background:var(--good)}
+.sw.on::after{transform:translateX(22px)}
+.subj-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--soft)}
+.subj-ic .isl-svg{width:40px;height:30px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field>span{font-weight:800;font-size:14px;color:var(--ink-2)}
+.field input,.field select,.field textarea,.inp{width:100%;font:inherit;font-weight:600;color:var(--ink);border:1.5px solid var(--line);border-radius:14px;padding:11px 12px;background:#fff;min-height:48px}
+.field textarea{min-height:80px;resize:vertical}
+.optrow{display:flex;align-items:center;gap:8px}
+.optrow input[type=text]{flex:1;min-width:0}
+.radio{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);display:grid;place-items:center;flex:none;color:var(--ink-3);background:#fff}
+.radio.on{background:var(--good);border-color:var(--good);color:#fff}
+.seg{display:flex;background:var(--mist);border-radius:14px;padding:4px;gap:4px}
+.seg button{flex:1;padding:9px 6px;border-radius:10px;font-weight:800;font-size:14px;color:var(--ink-2)}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.preview{background:var(--soft,#EAF8FF);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.preview .qcard{padding:12px}
+.preview .prompt{font-size:18px}
+.preview .opts{gap:8px}
+.preview .opt{min-height:48px;font-size:16px;box-shadow:0 3px 0 var(--oc,#C9D8EA)}
+.preview .opt.right{box-shadow:0 3px 0 var(--good-dk)}
+.lvl-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);min-width:0}
+.lvl-row:first-child{border-top:0}
+.lvl-row .num{width:34px;height:34px;border-radius:50%;background:var(--c);color:#fff;font-family:var(--f-display);font-weight:800;display:grid;place-items:center;flex:none;font-variant-numeric:tabular-nums}
+.lvl-row b{font-weight:800;font-size:15px;line-height:1.2;display:block}
+.lvl-row small{font-weight:600;color:var(--ink-2);font-size:12.5px}
+.mini-btn{width:36px;height:36px;border-radius:10px;background:var(--mist);display:grid;place-items:center;color:var(--ink-2);flex:none}
+.mini-btn .ic{width:18px;height:18px}
+.mini-btn[disabled]{opacity:.3}
+.stack{display:flex;height:16px;border-radius:99px;overflow:hidden}
+.stack i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-weight:700;font-size:13px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:4px;display:inline-block}
+.chart{width:100%;height:auto;display:block}
+.chart text{font-family:var(--f-body);font-weight:700;fill:var(--ink-3);font-size:11px}
+.searchbox{position:relative}
+.searchbox .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink-3);width:20px;height:20px}
+.searchbox input{padding-left:40px}
+.tico-sm{width:22px;height:22px;flex:none}
+
+/* ---------- folhas, toast, rotação ---------- */
+.scrim{position:absolute;inset:0;background:rgba(10,20,50,.5);display:flex;align-items:flex-end;z-index:50;animation:fade .2s}
+.sheet{background:#fff;width:100%;border-radius:30px 30px 0 0;padding-block:10px 22px;max-height:90%;overflow-y:auto;animation:up .28s cubic-bezier(.2,.9,.3,1)}
+.sheet .grab{width:44px;height:5px;border-radius:99px;background:#D5DCEA;margin:0 auto 12px}
+.sheet h2{font-family:var(--f-display);font-weight:800;font-size:24px;line-height:1.1;text-wrap:balance}
+.sheet p{color:var(--ink-2);font-weight:600;line-height:1.4}
+.sheet .col{display:flex;flex-direction:column;gap:12px}
+.toast{position:absolute;left:16px;right:16px;bottom:92px;background:var(--ink);color:#fff;border-radius:18px;padding:12px 16px;font-weight:700;z-index:60;animation:up .25s;box-shadow:0 10px 30px rgba(0,0,0,.25);display:flex;gap:10px;align-items:center;line-height:1.35}
+.toast .st{width:22px;height:22px}
+.loading{display:flex;flex-direction:column;align-items:center;gap:12px;padding-block:24px;text-align:center}
+.loading .tico{width:80px;height:80px;animation:hop 1s ease-in-out infinite}
+.rotate{display:none}
+@media (orientation:landscape) and (max-height:520px){
+  .rotate{display:flex;position:fixed;inset:0;z-index:99;background:var(--outer);color:#fff;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;font-family:var(--f-display);font-weight:800;font-size:24px;padding:20px}
+  .rotate .phone{width:48px;height:80px;border:5px solid #fff;border-radius:12px;animation:turn 2s ease-in-out infinite}
+}
+
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes hop{0%,100%{transform:translateY(0)}45%{transform:translateY(-8px)}}
+@keyframes jump{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-16px) rotate(-4deg)}60%{transform:translateY(0) rotate(3deg)}}
+@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.07)}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes popin{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+@keyframes starin{0%{transform:scale(0) rotate(-40deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+@keyframes lid{0%{transform:rotate(0)}100%{transform:rotate(-32deg) translateY(-6px)}}
+@keyframes burst{0%{transform:translate(-50%,-50%) scale(.2);opacity:0}30%{opacity:1}100%{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1);opacity:0}}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+@keyframes turn{0%,30%{transform:rotate(90deg)}60%,100%{transform:rotate(0)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+
+<div id="app"></div>
+<div class="rotate" aria-live="polite"><div class="phone"></div>Gire o celular para ficar em pé</div>
+
+<script>
+/* =========================================================
+   Educa+ — protótipo navegável (dados de demonstração)
+   ========================================================= */
+const app=document.getElementById('app');
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const ri=(a,b,r=Math.random)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r=Math.random)=>arr[Math.floor(r()*arr.length)];
+const shuffle=(arr,r=Math.random)=>{const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+
+const STAR_P='M12 2.6l2.85 5.95 6.55.85-4.8 4.55 1.25 6.5L12 17.3l-5.85 3.15 1.25-6.5-4.8-4.55 6.55-.85z';
+const star=(c='on')=>`<svg class="st ${c}" viewBox="0 0 24 24" aria-hidden="true"><path d="${STAR_P}"/></svg>`;
+const stars3=n=>`<span class="s3" aria-label="${n} de 3 estrelas">${[0,1,2].map(i=>star(i<n?'on':'off')).join('')}</span>`;
+const IC={
+ map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+ bag:'<path d="M5 8h14l-1 13H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+ chart:'<path d="M4 20V11M10 20V5M16 20v-6M21 20H3"/>',
+ chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+ back:'<path d="M15 5l-7 7 7 7"/>',
+ close:'<path d="M6 6l12 12M18 6L6 18"/>',
+ lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+ home:'<path d="M3 11l9-7 9 7v9H3z"/><path d="M9 20v-6h6v6"/>',
+ users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1-3.5 3.5-5 6.5-5s5.5 1.5 6.5 5"/><circle cx="17" cy="9" r="2.8"/><path d="M16 14.5c3 0 5 1.5 5.5 4.5"/>',
+ book:'<path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4z"/><path d="M20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/>',
+ spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+ up:'<path d="M6 15l6-6 6 6"/>', down:'<path d="M6 9l6 6 6-6"/>',
+ search:'<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>',
+ school:'<path d="M3 10l9-5 9 5-9 5z"/><path d="M7 12v5c3 2 7 2 10 0v-5"/>',
+ check:'<path d="M5 12l5 5 9-10"/>',
+ chev:'<path d="M9 5l7 7-7 7"/>',
+ send:'<path d="M4 12l16-8-6 16-3-7z"/>',
+ layers:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',
+ toggle:'<rect x="2" y="7" width="20" height="10" rx="5"/><circle cx="16" cy="12" r="3"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/>',
+ logout:'<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>',
+ trend:'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+};
+const icon=(n,c='')=>`<svg class="ic ${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]}</svg>`;
+
+/* ---------- disciplinas e trilhas ---------- */
+const SUBJ=[
+ {id:'mat',name:'Matemática',island:'Ilha dos Números',hex:'#FF7A1A',soft:'#FFEBDA',oc:'#FFC79B',regions:['Praia da Contagem','Floresta das Operações','Vulcão dos Desafios']},
+ {id:'por',name:'Português',island:'Ilha das Letras',hex:'#8B5CF6',soft:'#EFE8FF',oc:'#CDB8FB',regions:['Vila das Letras','Bosque das Palavras','Torre das Histórias']},
+ {id:'cie',name:'Ciências',island:'Ilha das Descobertas',hex:'#1FB866',soft:'#DEF7E9',oc:'#A1E3BF',regions:['Jardim dos Seres Vivos','Lagoa das Experiências','Observatório']},
+ {id:'his',name:'História',island:'Ilha do Tempo',hex:'#E0533D',soft:'#FDE5E0',oc:'#F4B2A6',regions:['Aldeia do Passado','Estrada do Tempo','Museu Secreto']},
+ {id:'geo',name:'Geografia',island:'Ilha dos Mapas',hex:'#2D7FF9',soft:'#E1ECFF',oc:'#A9C8FC',regions:['Vale dos Ambientes','Montanha dos Mapas','Porto do Mundo']},
+ {id:'ing',name:'Inglês',island:'Ilha Hello!',hex:'#EC4899',soft:'#FCE4F1',oc:'#F6B0D3',regions:['Hello Beach','Color Park','Number Hill']},
+];
+const SB=Object.fromEntries(SUBJ.map(s=>[s.id,s]));
+const MATK={contar:'contagem',soma:'adição',comparar:'comparação',formas:'formas',sequencia:'sequências',problema:'problemas',soma2:'adição com dezenas',subtracao:'subtração',multi:'multiplicação',fracao:'frações'};
+const KIND_BY_SKILL=Object.fromEntries(Object.entries(MATK).map(([k,v])=>[v,k]));
+const LEVEL_SEED={
+ mat:[['Contar até 20','contar'],['Somar com objetos','soma'],['Maior ou menor','comparar'],['Formas geométricas','formas'],['Sequências','sequencia'],['Problemas de soma','problema'],['Somas com dezenas','soma2'],['Subtração com maçãs','subtracao'],['Multiplicação','multi'],['Frações','fracao']],
+ por:['Vogais','Sílabas','Formar palavras','Completar frases','Rimas','Plural','Leitura curta','Interpretação','Palavras novas','Desafio das letras'],
+ cie:['Seres vivos','Onde vivem os animais','Plantas','Corpo humano','Água e gelo','Experiências','Insetos','Reciclagem','Classificar','Desafio do cientista'],
+ his:['Minha história','Linha do tempo','Antigamente','Povos indígenas','Datas importantes','Fontes históricas','Brasil colônia','Independência','Família e tempo','Desafio do museu'],
+ geo:['Ambientes','Animais e lugares','Pontos cardeais','Mapa do bairro','Rios e mares','Paisagens','Brasil no mapa','Capitais','Clima','Desafio do explorador'],
+ ing:['Hello!','Colors','Animals','Numbers','Fruits','Family','School','Toys','Body','Final challenge'],
+};
+const DIFF0=[1,1,1,2,2,2,2,2,3,3];
+const START={mat:[3,3,2,3,1,3,2,0,0,0],por:[3,2,3,2,0,0,0,0,0,0],cie:[3,3,2,0,0,0,0,0,0,0],his:[2,1,0,0,0,0,0,0,0,0],geo:[3,3,3,2,3,0,0,0,0,0],ing:[2,0,0,0,0,0,0,0,0,0]};
+const DIFF_LABEL=['Bem fácil','Fácil','Médio','Difícil'];
+const TYPE_LABEL={mat:'Minijogo de números',por:'Palavras e leitura',cie:'Classificar e descobrir',his:'Linha do tempo',geo:'Mapas e lugares',ing:'Associação de palavras'};
+
+/* ---------- banco de minijogos ---------- */
+const BANK={
+ por:{
+  words:[['GATO','🐱'],['BOLA','⚽'],['SAPO','🐸'],['UVA','🍇'],['PEIXE','🐟'],['LIVRO','📖'],['ABELHA','🐝'],['CASA','🏠'],['LUA','🌙'],['PATO','🦆']],
+  ch:[
+   {prompt:"Complete: O ___ late no quintal.",visual:'<span class="em">🏡</span>',options:["cachorro","peixe","sapato"],answer:"cachorro",hint:"Leia a frase em voz alta com cada palavra. Qual delas faz sentido?",skill:"completar frases"},
+   {prompt:"Qual palavra rima com MÃO?",options:["pão","pé","sol"],answer:"pão",hint:"Rima é quando o final soa igual. Escute o final de cada palavra: mÃO…",skill:"rimas"},
+   {prompt:"Com qual letra começa ABACAXI?",visual:'<span class="em">🍍</span>',options:["A","E","O"],answer:"A",hint:"Fale bem devagar: aaa-ba-ca-xi. Qual é o primeiro som?",skill:"vogais"},
+   {prompt:"Um gato, dois…",visual:'<span class="em">🐱🐱</span>',options:["gatos","gato","gata"],answer:"gatos",hint:"Quando tem mais de um, a palavra ganha uma letrinha no final.",skill:"plural"},
+   {prompt:"Quantas sílabas tem BO-NE-CA?",options:["2","3","4"],answer:"3",hint:"Bata uma palma para cada pedacinho da palavra.",skill:"sílabas"},
+   {prompt:"Leia: “Téo plantou uma semente. Regou todo dia. Nasceu uma flor amarela.” De que cor era a flor?",long:true,options:["amarela","vermelha","azul"],answer:"amarela",hint:"A resposta está no texto. Procure a palavra que vem logo depois de “flor”.",skill:"interpretação de texto"},
+   {prompt:"Complete: A menina ___ um livro.",visual:'<span class="em">👧📖</span>',options:["lê","voa","late"],answer:"lê",hint:"Pense no que a gente faz com um livro.",skill:"completar frases"},
+   {prompt:"Leia: “Bia levou o guarda-chuva porque o céu estava cinza.” Por que ela levou o guarda-chuva?",long:true,options:["Ia chover","Fazia sol","Era noite"],answer:"Ia chover",hint:"Quando o céu fica cinza, o que costuma acontecer?",skill:"interpretação de texto"},
+  ]},
+ cie:{
+  sorts:[
+   {prompt:"Onde vive cada animal?",bins:[["Água","🌊"],["Terra","🌳"]],items:[["Peixe","🐟",0],["Leão","🦁",1],["Polvo","🐙",0],["Cavalo","🐴",1],["Baleia","🐳",0]],hint:"Pense: esse animal consegue respirar debaixo d’água?",skill:"habitats"},
+   {prompt:"É vivo ou não vivo?",bins:[["Vivo","🌱"],["Não vivo","🪨"]],items:[["Árvore","🌳",0],["Pedra","🪨",1],["Girassol","🌻",0],["Carro","🚗",1],["Cachorro","🐶",0]],hint:"Seres vivos nascem, crescem e precisam de alimento.",skill:"seres vivos"},
+   {prompt:"Para qual lixeira vai?",bins:[["Reciclável","♻️"],["Orgânico","🍂"]],items:[["Lata","🥫",0],["Casca de banana","🍌",1],["Jornal","📰",0],["Maçã mordida","🍎",1],["Caixa","📦",0]],hint:"Orgânico é o que veio de planta ou animal e apodrece.",skill:"reciclagem"},
+  ],
+  ch:[
+   {prompt:"Do que a planta precisa para crescer?",visual:'<span class="em">🌱</span>',options:["Água e luz","Só escuro","Doces"],answer:"Água e luz",hint:"Lembre da plantinha na janela. O que ela recebe todo dia?",skill:"plantas"},
+   {prompt:"O gelo é a água no estado…",visual:'<span class="em">🧊</span>',options:["sólido","líquido","gasoso"],answer:"sólido",hint:"Dá para segurar o gelo na mão sem escorrer?",skill:"estados da água"},
+   {prompt:"Qual parte do corpo usamos para sentir cheiro?",options:[{e:"👃",v:"nariz"},{e:"👂",v:"orelha"},{e:"✋",v:"mão"}],answer:"nariz",hint:"Pense no que você faz quando sente o cheiro de bolo.",skill:"corpo humano"},
+   {prompt:"Qual destes é um inseto?",options:[{e:"🐝",v:"abelha"},{e:"🐦",v:"pássaro"},{e:"🐟",v:"peixe"}],answer:"abelha",hint:"Insetos têm 6 patinhas. Conte as patas de cada um.",skill:"insetos"},
+   {prompt:"Experiência: o que acontece com o gelo no sol?",visual:'<span class="em">🧊☀️</span>',options:["Derrete","Cresce","Fica mais duro"],answer:"Derrete",hint:"O sol esquenta. O que o calor faz com o gelo?",skill:"experiências"},
+  ]},
+ his:{
+  orders:[
+   {prompt:"Coloque do mais antigo para o mais novo",items:[["Chegada dos portugueses","⛵","1500"],["Independência do Brasil","📜","1822"],["Inauguração de Brasília","🏙️","1960"],["Primeiro celular no Brasil","📱","1990"]],hint:"Olhe as pistas: barcos vieram antes de prédios e celulares.",skill:"linha do tempo"},
+   {prompt:"Coloque em ordem: do mais novo ao mais velho",items:[["Bebê","👶",""],["Criança","🧒",""],["Adulto","🧑",""],["Idoso","🧓",""]],hint:"Pense em como você muda conforme os anos passam.",skill:"linha do tempo"},
+   {prompt:"Coloque o dia da Lia em ordem",items:[["Acordar","⏰",""],["Café da manhã","🥣",""],["Escola","🏫",""],["Dormir","🌙",""]],hint:"O que você faz logo que abre os olhos?",skill:"sequência de fatos"},
+  ],
+  ch:[
+   {prompt:"Quem já vivia no Brasil antes de 1500?",options:["Povos indígenas","Astronautas","Robôs"],answer:"Povos indígenas",hint:"Eram os primeiros moradores destas terras, muito antes dos navios chegarem.",skill:"povos indígenas"},
+   {prompt:"Antigamente, como as pessoas mandavam recados para longe?",options:[{e:"✉️",v:"carta"},{e:"📱",v:"celular"},{e:"💻",v:"computador"}],answer:"carta",hint:"Celular e computador são invenções recentes. O que existia antes?",skill:"antigamente"},
+   {prompt:"O que iluminava as casas antes da luz elétrica?",options:[{e:"🕯️",v:"vela"},{e:"💡",v:"lâmpada"},{e:"📺",v:"televisão"}],answer:"vela",hint:"Sem eletricidade, a luz precisava vir do fogo.",skill:"antigamente"},
+   {prompt:"No dia 7 de setembro comemoramos…",options:["Independência do Brasil","Natal","Carnaval"],answer:"Independência do Brasil",hint:"É um feriado com desfile e bandeira do Brasil.",skill:"datas importantes"},
+   {prompt:"Qual destes é uma fonte histórica?",options:[{e:"🖼️",v:"foto antiga"},{e:"🍦",v:"sorvete"},{e:"⚽",v:"bola nova"}],answer:"foto antiga",hint:"Fonte histórica é algo que guarda pistas do passado.",skill:"fontes históricas"},
+  ]},
+ geo:{
+  ch:[
+   {prompt:"Onde vive o camelo?",visual:'<span class="em">🐪</span>',options:[{e:"🏜️",v:"deserto"},{e:"🧊",v:"gelo"},{e:"🌳",v:"floresta"}],answer:"deserto",hint:"O camelo aguenta muito calor e fica dias sem beber água.",skill:"ambientes"},
+   {prompt:"Onde vive o pinguim?",visual:'<span class="em">🐧</span>',options:[{e:"🏜️",v:"deserto"},{e:"🧊",v:"gelo"},{e:"🌳",v:"floresta"}],answer:"gelo",hint:"O pinguim gosta de lugares bem, bem frios.",skill:"ambientes"},
+   {prompt:"No mapa, o que fica à DIREITA da escola?",visual:'<div class="gmap"><span>🌳</span><span>⛪</span><span>🌊</span><span>🏪</span><span class="mid">🏫</span><span>🏠</span><span>🌲</span><span>🛝</span><span>🏥</span></div>',options:[{e:"🏠",v:"casa"},{e:"🏪",v:"mercado"},{e:"⛪",v:"igreja"}],answer:"casa",hint:"Ache a escola no meio. Agora olhe para o lado da mão que você usa para escrever (se for destro).",skill:"mapas"},
+   {prompt:"No mapa, o que fica ACIMA da escola?",visual:'<div class="gmap"><span>🌳</span><span>⛪</span><span>🌊</span><span>🏪</span><span class="mid">🏫</span><span>🏠</span><span>🌲</span><span>🛝</span><span>🏥</span></div>',options:[{e:"⛪",v:"igreja"},{e:"🛝",v:"parquinho"},{e:"🏥",v:"hospital"}],answer:"igreja",hint:"Ache a escola. Acima é o quadradinho logo em cima dela.",skill:"mapas"},
+   {prompt:"Qual é a capital do Brasil?",options:["Brasília","Rio de Janeiro","São Paulo"],answer:"Brasília",hint:"O nome da capital parece com o nome do país.",skill:"capitais"},
+   {prompt:"O Sol nasce em qual direção?",visual:'<span class="em">🌅</span>',options:["Leste","Oeste","Sul"],answer:"Leste",hint:"Pense na rosa dos ventos: o Sol nasce do lado oposto ao Oeste.",skill:"pontos cardeais"},
+  ]},
+ ing:{
+  ch:[
+   {prompt:"Qual é o DOG?",options:[{e:"🐶",v:"dog"},{e:"🐱",v:"cat"},{e:"🐟",v:"fish"}],answer:"dog",hint:"Dog é um animal que faz “au au”.",skill:"animals"},
+   {prompt:"Toque na cor RED",options:[{sw:"#E5484D",v:"red"},{sw:"#2D7FF9",v:"blue"},{sw:"#FFC21A",v:"yellow"}],answer:"red",hint:"Red é a cor do morango e da maçã.",skill:"colors"},
+   {prompt:"THREE é qual número?",options:["3","5","8"],answer:"3",hint:"One, two, three… conte nos dedos em inglês.",skill:"numbers"},
+   {prompt:"HELLO quer dizer…",visual:'<span class="em">👋</span>',options:["Olá","Tchau","Obrigado"],answer:"Olá",hint:"É o que a gente fala quando encontra alguém.",skill:"greetings"},
+   {prompt:"Qual é a APPLE?",options:[{e:"🍎",v:"apple"},{e:"🍌",v:"banana"},{e:"🍇",v:"grape"}],answer:"apple",hint:"Apple começa com A, como uma fruta vermelha que começa com M em português.",skill:"fruits"},
+   {prompt:"Toque na cor BLUE",options:[{sw:"#FFC21A",v:"yellow"},{sw:"#1FB866",v:"green"},{sw:"#2D7FF9",v:"blue"}],answer:"blue",hint:"Blue é a cor do céu num dia de sol.",skill:"colors"},
+   {prompt:"Qual é o CAT?",options:[{e:"🐭",v:"mouse"},{e:"🐱",v:"cat"},{e:"🐶",v:"dog"}],answer:"cat",hint:"Cat é o bichinho que faz “miau”.",skill:"animals"},
+  ]},
+};
+
+/* ---------- loja ---------- */
+const ITEMS=[
+ {id:'curto',cat:'hair',name:'Curtinho',cost:0},{id:'cacheado',cat:'hair',name:'Cacheado',cost:0},{id:'longo',cat:'hair',name:'Longo',cost:0},{id:'coque',cat:'hair',name:'Coque',cost:40},{id:'moicano',cat:'hair',name:'Moicano',cost:60},
+ {id:'laranja',cat:'shirt',name:'Camiseta laranja',cost:0},{id:'azul',cat:'shirt',name:'Camiseta azul',cost:0},{id:'listrada',cat:'shirt',name:'Listrada',cost:50},{id:'macacao',cat:'shirt',name:'Macacão',cost:70},{id:'heroi',cat:'shirt',name:'Capa de herói',cost:120},
+ {id:'none',cat:'acc',name:'Nada',cost:0},{id:'redondos',cat:'acc',name:'Óculos redondos',cost:30},{id:'sol',cat:'acc',name:'Óculos de sol',cost:45},{id:'bone',cat:'acc',name:'Boné',cost:40},{id:'mago',cat:'acc',name:'Chapéu de mago',cost:100},{id:'coroa',cat:'acc',name:'Coroa',cost:150},
+ {id:'none',cat:'bag',name:'Nada',cost:0},{id:'mochila',cat:'bag',name:'Mochila azul',cost:35},{id:'foguete',cat:'bag',name:'Mochila foguete',cost:110},
+ {id:'none',cat:'pet',name:'Nenhum',cost:0},{id:'gato',cat:'pet',name:'Gatinho',cost:80},{id:'cao',cat:'pet',name:'Cachorrinho',cost:80},{id:'dragao',cat:'pet',name:'Dragãozinho',cost:200},
+];
+const CATS=[['hair','Cabelo'],['shirt','Roupa'],['acc','Acessório'],['bag','Mochila'],['pet','Pet']];
+const SKINS=['#F6D2B0','#E8B48A','#C68B59','#A0673E','#6E4426'];
+const HAIRC=['#3B2416','#1B1B1B','#8A4B22','#E3B04B','#D9542B','#6D4AE0'];
+const key=it=>it.cat+':'+it.id;
+
+/* ---------- conexão com a API ---------- */
+// No Android as chamadas passam pela ponte Java (EducaAndroid); no navegador vão direto para a API.
+const BRIDGE=window.EducaAndroid||null;
+let apiSeq=0;const apiWait={};
+window.__educaApi=(id,status,body)=>{const w=apiWait[id];if(!w)return;delete apiWait[id];let d=null;try{d=body?JSON.parse(body):null}catch(e){d={erro:body}}
+ if(status>=200&&status<300)w.res(d);else w.rej(new Error((d&&d.erro)||(status?'Erro '+status:'Sem conexão com o servidor do Educa+')))};
+function api(method,path,body){
+ if(BRIDGE)return new Promise((res,rej)=>{const id=String(++apiSeq);apiWait[id]={res,rej};BRIDGE.request(id,method,path,body==null?'':JSON.stringify(body))});
+ return fetch(path,{method,headers:{'Content-Type':'application/json'},body:body==null?undefined:JSON.stringify(body)})
+  .then(async r=>{const t=await r.text();let d=null;try{d=t?JSON.parse(t):null}catch(e){d={erro:t}}if(!r.ok)throw new Error((d&&d.erro)||('Erro '+r.status));return d},
+        ()=>{throw new Error('Sem conexão com o servidor do Educa+')});
+}
+const salvarQuieto=p=>p.catch(e=>toast('Não deu para salvar: '+e.message));
+const AVC=['#2F55D4','#FF7A1A','#1FB866','#8B5CF6','#E0533D','#EC4899','#0EA5B7','#B7791F'];
+
+/* ---------- estado (preenchido com os dados da API) ---------- */
+const S={role:null,user:null,screen:'login',p:null,stack:[],escola:'',hoje:'',meses:[],trilhas:{},levels:{},custom:[],students:[],turmas:[],profs:[],minhas:[],series:{},insights:[],
+ school:{anos:{}},kid:null,act:null,res:null,chat:[],chatQ:null,
+ ui:{shopCat:'acc',avCat:'hair',tTurma:null,tSubj:'mat',dStudent:null,cSubj:'mat',perfTurma:null,indSel:[],alunosFilt:'all',cAlunosTurma:'all',ano:4}};
+
+function setAno(a){S.ui.ano=a;S.levels=S.trilhas[String(a)]||{}}
+function hydrate(d){
+ S.user=d.usuario;S.role=d.usuario.perfil==='ALUNO'?'kid':d.usuario.perfil==='PROFESSOR'?'prof':'coord';
+ S.escola=d.escola;S.hoje=d.hoje;S.meses=d.meses;S.school.anos=d.anosDisciplina;
+ S.trilhas=d.trilhas||{};S.custom=d.custom||[];S.chat=[];S.chatQ=null;S.stack=[];
+ if(S.role==='kid'){
+  const k=d.kid;
+  S.kid={...k,name:k.nome,owned:new Set(k.owned),adapt:{},enabled:k.en,last:'mat'};
+  k.diffs.forEach(x=>{if(!x.resolved)S.kid.adapt[x.skill]=true});
+  setAno(k.ano);
+  Object.values(S.levels).forEach(L=>L.forEach(l=>{l.stars=k.stars[String(l.id)]||0}));
+  if(!S.kid.enabled.mat){const f=SUBJ.find(x=>S.kid.enabled[x.id]!==false);if(f)S.kid.last=f.id}
+  S.chat=k.chat.length?k.chat.map(m=>({f:m.f,x:esc(m.x)})):[{f:'t',x:'Oi, '+esc(k.nome)+'! Eu sou o Tico. Posso dar dicas e explicar de outro jeito. Eu não entrego a resposta: a gente descobre junto!'}];
+  return;
+ }
+ S.turmas=d.turmas;S.profs=d.profs;S.minhas=d.minhasTurmas;S.series=d.series;S.insights=d.insights;
+ S.students=d.alunos.map((a,i)=>({...a,color:AVC[i%AVC.length]}));
+ const mine=S.turmas.filter(t=>S.minhas.includes(t.id)),comAlunos=mine.filter(t=>t.n>0);
+ const pref=comAlunos.find(t=>t.ano===4)||comAlunos[0]||mine[0];
+ S.ui.tTurma=pref?pref.id:null;S.ui.perfTurma=pref?pref.id:null;S.ui.indSel=comAlunos.slice(0,4).map(t=>t.id);
+ setAno(pref?pref.ano:4);
+}
+
+/* ---------- consultas ---------- */
+const lv=s=>S.levels[s]||[];
+const isUnlocked=(s,i)=>i===0||lv(s)[i-1].stars>0||lv(s)[i].stars>0;
+const doneCount=s=>lv(s).filter(l=>l.stars>0).length;
+const starSum=s=>lv(s).reduce((a,l)=>a+l.stars,0);
+const curIdx=s=>{const L=lv(s);const i=L.findIndex(l=>l.stars===0);return i<0?L.length-1:i};
+const schoolAllows=(s,ano)=>(S.school.anos[s]||[]).includes(ano);
+const enabledSubj=()=>SUBJ.filter(s=>S.kid.enabled[s.id]!==false&&schoolAllows(s.id,S.kid.ano)&&lv(s.id).length>0);
+const regionsOf=s=>{const out=[];lv(s).forEach((l,i)=>{const r=out[out.length-1];if(r&&r.id===l.idRegiao)r.to=i+1;else out.push({id:l.idRegiao,name:l.regiao,from:i,to:i+1})});return out};
+const turmaName=id=>(S.turmas.find(t=>t.id===id)||{}).name||'—';
+const profName=id=>(S.profs.find(p=>p.id===id)||{}).name||'—';
+const initials=n=>String(n||'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+function masteredList(){const out=[];SUBJ.forEach(s=>lv(s.id).forEach(l=>{if(l.stars===3)out.push(l.title)}));return S.kid.mastered.concat(out)}
+const view=st=>st;
+const stSubs=v=>SUBJ.filter(s=>v.en[s.id]!==false&&schoolAllows(s.id,v.ano)&&v.prog[s.id]!=null).map(s=>s.id);
+const avgProg=v=>{const ss=stSubs(v);return ss.length?Math.round(ss.reduce((a,s)=>a+v.prog[s],0)/ss.length):0};
+function status(v){const a=avgProg(v);if(v.diff.length&&(v.acc<72||a<45))return['Precisa de apoio','warn'];if(a>=70&&v.acc>=82)return['Avançando','up'];return['Em dia','ok']}
+function turmaAgg(tid){
+ const st=S.students.filter(s=>s.turma===tid);
+ const t=S.turmas.find(x=>x.id===tid)||{ano:0};const subs={};
+ SUBJ.forEach(s=>{if(!schoolAllows(s.id,t.ano))return;const xs=st.filter(v=>v.en[s.id]!==false&&v.prog[s.id]!=null);if(xs.length)subs[s.id]=Math.round(xs.reduce((a,v)=>a+v.prog[s.id],0)/xs.length)});
+ const dc={};st.forEach(v=>v.diff.forEach(d=>dc[d]=(dc[d]||0)+1));
+ const ranked=Object.entries(dc).sort((a,b)=>b[1]-a[1]);
+ const vals=Object.values(subs);
+ const sc={ok:0,warn:0,up:0};st.forEach(v=>sc[status(v)[1]]++);
+ return {n:st.length,st,subs,avg:vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0,acc:st.length?Math.round(st.reduce((a,v)=>a+v.acc,0)/st.length):0,main:ranked[0]?ranked[0][0]:'—',ranked,active:st.filter(v=>v.days<=5).length,sc};
+}
+const series=tid=>S.series[tid]||[0,0,0,0,0];
+const myTurmas=()=>S.turmas.filter(t=>S.minhas.includes(t.id));
+const deltaMes=ids=>{const v=ids.map(series).filter(x=>x.length===5);return v.length?Math.round(v.reduce((a,x)=>a+x[4]-x[3],0)/v.length):0};
+const sortName=(a,b)=>a.name.localeCompare(b.name);
+
+/* ---------- desenhos ---------- */
+function ticoSVG(cls='tico'){return `<svg class="${cls}" viewBox="0 0 64 66" aria-hidden="true"><path d="M32 16V8" stroke="#1B2350" stroke-width="2.6" stroke-linecap="round"/><g transform="translate(24.5 -1.5) scale(.62)"><path d="${STAR_P}" fill="#FFC21A" stroke="#E58A00" stroke-width="1.6"/></g><ellipse cx="9" cy="42" rx="5" ry="8" fill="#1FA898" transform="rotate(20 9 42)"/><ellipse cx="55" cy="42" rx="5" ry="8" fill="#1FA898" transform="rotate(-20 55 42)"/><ellipse cx="22" cy="61" rx="7" ry="3.4" fill="#178F82"/><ellipse cx="42" cy="61" rx="7" ry="3.4" fill="#178F82"/><ellipse cx="32" cy="39" rx="24" ry="22.5" fill="#2BC4B4"/><ellipse cx="32" cy="47" rx="14" ry="10.5" fill="#C2F4EE"/><circle cx="24" cy="34" r="7.4" fill="#fff"/><circle cx="40" cy="34" r="7.4" fill="#fff"/><circle cx="25.6" cy="35" r="3.6" fill="#1B2350"/><circle cx="41.6" cy="35" r="3.6" fill="#1B2350"/><circle cx="26.6" cy="33.6" r="1.2" fill="#fff"/><circle cx="42.6" cy="33.6" r="1.2" fill="#fff"/><path d="M27 45 Q32 50 37 45" stroke="#1B2350" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="17" cy="42" r="3" fill="#FF9AB0" opacity=".6"/><circle cx="47" cy="42" r="3" fill="#FF9AB0" opacity=".6"/></svg>`}
+function islandSVG(id,cls='isl-svg'){
+ const c=SB[id].hex;
+ const palm='<g transform="translate(26 30)"><path d="M10 48 Q6 28 12 8" stroke="#9A6B3A" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M12 8 Q2 0 -8 8 Q2 6 12 10Z M12 8 Q24 -2 32 6 Q22 4 12 10Z M12 8 Q12 -6 4 -8 Q10 0 12 8Z" fill="#26A35A"/></g>';
+ const lm={
+  mat:`<g transform="translate(56 18)"><rect x="0" y="22" width="22" height="22" rx="5" fill="${c}"/><rect x="25" y="22" width="22" height="22" rx="5" fill="#FFC21A"/><rect x="12.5" y="0" width="22" height="22" rx="5" fill="#2D7FF9"/><g font-family="Baloo 2,Arial Rounded MT Bold,sans-serif" font-weight="800" font-size="17" fill="#fff" text-anchor="middle"><text x="11" y="39">1</text><text x="36" y="39">2</text><text x="23.5" y="17">+</text></g></g>`,
+  por:`<g transform="translate(52 22)"><path d="M28 8 Q15 2 2 6 L2 40 Q15 36 28 42Z" fill="#fff" stroke="${c}" stroke-width="3" stroke-linejoin="round"/><path d="M28 8 Q41 2 54 6 L54 40 Q41 36 28 42Z" fill="#fff" stroke="${c}" stroke-width="3" stroke-linejoin="round"/><path d="M8 15h14M8 21h14M8 27h10M34 15h14M34 21h14M34 27h10" stroke="${c}" stroke-width="2" opacity=".55"/><text x="28" y="-2" text-anchor="middle" font-family="Baloo 2,Arial Rounded MT Bold,sans-serif" font-weight="800" font-size="16" fill="${c}">Aa</text></g>`,
+  cie:`<g transform="translate(64 12)"><path d="M11 2h12v15l12 25a4 4 0 0 1-3.6 6H2.6A4 4 0 0 1-1 42l12-25z" fill="#fff" stroke="${c}" stroke-width="3" stroke-linejoin="round"/><path d="M4 34h26l3 7a3 3 0 0 1-2.8 4H3.8A3 3 0 0 1 1 41z" fill="${c}"/><circle cx="15" cy="27" r="2.6" fill="${c}"/><circle cx="21" cy="19" r="2" fill="${c}"/><circle cx="26" cy="-4" r="3" fill="none" stroke="${c}" stroke-width="2"/><circle cx="18" cy="-9" r="2" fill="none" stroke="${c}" stroke-width="2"/></g>`,
+  his:`<g transform="translate(55 14)"><path d="M0 16 L26 0 L52 16Z" fill="${c}"/><rect x="2" y="16" width="48" height="6" fill="#fff" stroke="${c}" stroke-width="2"/><rect x="6" y="22" width="8" height="22" fill="#fff" stroke="${c}" stroke-width="2"/><rect x="22" y="22" width="8" height="22" fill="#fff" stroke="${c}" stroke-width="2"/><rect x="38" y="22" width="8" height="22" fill="#fff" stroke="${c}" stroke-width="2"/><rect x="0" y="44" width="52" height="6" rx="2" fill="${c}"/></g>`,
+  geo:`<g><path d="M50 66 L72 26 L94 66Z" fill="${c}"/><path d="M78 66 L98 36 L118 66Z" fill="#7FB3FF"/><path d="M65 39 L72 26 L79 39 Q72 35 65 39Z" fill="#fff"/><path d="M72 26 V10" stroke="#1B2350" stroke-width="2.2"/><path d="M72 10 L85 14 L72 19Z" fill="#FFC21A"/></g>`,
+  ing:`<g transform="translate(56 14)"><path d="M14 33 L9 47 L27 33" fill="#fff" stroke="${c}" stroke-width="3" stroke-linejoin="round"/><rect x="0" y="0" width="54" height="35" rx="15" fill="#fff" stroke="${c}" stroke-width="3"/><text x="27" y="24" text-anchor="middle" font-family="Baloo 2,Arial Rounded MT Bold,sans-serif" font-weight="800" font-size="18" fill="${c}">Hi!</text></g>`,
+ };
+ return `<svg class="${cls}" viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="98" rx="76" ry="17" fill="#B6ECFF" opacity=".75"/><ellipse cx="80" cy="90" rx="66" ry="20" fill="#FFD88A"/><path d="M22 86 Q36 58 80 60 Q124 58 138 86 Q112 96 80 96 Q48 96 22 86Z" fill="#5FD38D"/><path d="M30 84 Q50 74 80 75 Q110 74 130 84" stroke="#4BC27C" stroke-width="3" fill="none" opacity=".7"/>${palm}${lm[id]}</svg>`;
+}
+let AVN=0;
+function avatarSVG(eq,cls='av'){
+ const sk=eq.skin,hc=eq.hairC,uid='avc'+(++AVN);
+ const shirt={laranja:'#FF8A2A',azul:'#3B82F6',listrada:'#FFFFFF',macacao:'#FFE08A',heroi:'#2563EB'}[eq.shirt]||'#FF8A2A';
+ let g='<ellipse cx="60" cy="132" rx="34" ry="5" fill="rgba(27,35,80,.14)"/>';
+ if(eq.shirt==='heroi')g+='<path d="M36 86 L84 86 L98 131 L22 131Z" fill="#E5484D"/>';
+ if(eq.bag==='mochila')g+='<rect x="26" y="88" width="68" height="38" rx="14" fill="#2F6BDB"/><rect x="25" y="104" width="9" height="15" rx="3" fill="#1E4FB0"/><rect x="86" y="104" width="9" height="15" rx="3" fill="#1E4FB0"/>';
+ if(eq.bag==='foguete')g+='<path d="M28 127 l-5 10 h11z M92 127 l-5 10 h11z" fill="#FF7A1A"/><rect x="22" y="84" width="76" height="45" rx="18" fill="#D9DEE8" stroke="#9AA3B8" stroke-width="2"/><circle cx="27" cy="100" r="3" fill="#E5484D"/><circle cx="93" cy="100" r="3" fill="#E5484D"/>';
+ if(eq.hair==='longo')g+=`<path d="M30 52 Q28 94 38 104 L82 104 Q92 94 90 52Z" fill="${hc}"/>`;
+ g+=`<rect x="53" y="74" width="14" height="13" fill="${sk}"/>`;
+ g+=`<clipPath id="${uid}"><path d="M34 131 Q34 88 60 85 Q86 88 86 131Z"/></clipPath><path d="M34 131 Q34 88 60 85 Q86 88 86 131Z" fill="${shirt}"/>`;
+ if(eq.shirt==='listrada')g+=`<g clip-path="url(#${uid})" stroke="#E5484D" stroke-width="5"><path d="M30 96h60M30 108h60M30 120h60"/></g>`;
+ if(eq.shirt==='macacao')g+=`<g clip-path="url(#${uid})"><rect x="30" y="104" width="60" height="30" fill="#2F6BDB"/><path d="M45 104 V87 M75 104 V87" stroke="#2F6BDB" stroke-width="5"/><circle cx="45" cy="104" r="2.6" fill="#FFC21A"/><circle cx="75" cy="104" r="2.6" fill="#FFC21A"/></g>`;
+ if(eq.shirt==='heroi')g+=`<g transform="translate(51 95) scale(.75)"><path d="${STAR_P}" fill="#FFC21A"/></g>`;
+ g+=`<circle cx="32" cy="123" r="6" fill="${sk}"/><circle cx="88" cy="123" r="6" fill="${sk}"/>`;
+ g+=`<circle cx="33" cy="55" r="6" fill="${sk}"/><circle cx="87" cy="55" r="6" fill="${sk}"/><circle cx="60" cy="52" r="28" fill="${sk}"/>`;
+ g+='<circle cx="50" cy="54" r="4" fill="#1B2350"/><circle cx="70" cy="54" r="4" fill="#1B2350"/><circle cx="51.4" cy="52.6" r="1.4" fill="#fff"/><circle cx="71.4" cy="52.6" r="1.4" fill="#fff"/><circle cx="42" cy="63" r="4.5" fill="#FF8FA3" opacity=".5"/><circle cx="78" cy="63" r="4.5" fill="#FF8FA3" opacity=".5"/><path d="M52 65 Q60 72 68 65" stroke="#1B2350" stroke-width="3" fill="none" stroke-linecap="round"/>';
+ const hairs={
+  curto:`<path d="M31 50 Q30 22 60 21 Q90 22 89 50 Q84 37 70 35 Q60 41 47 37 Q36 40 31 50Z" fill="${hc}"/>`,
+  cacheado:[[34,46,8],[38,34,9],[48,26,10],[60,23,10],[72,26,10],[82,34,9],[86,46,8]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${hc}"/>`).join(''),
+  longo:`<path d="M31 52 Q31 22 60 22 Q89 22 89 52 Q80 38 62 37 Q44 37 31 52Z" fill="${hc}"/>`,
+  coque:`<circle cx="60" cy="15" r="10" fill="${hc}"/><path d="M31 50 Q30 22 60 21 Q90 22 89 50 Q84 37 70 35 Q60 41 47 37 Q36 40 31 50Z" fill="${hc}"/>`,
+  moicano:`<path d="M53 36 Q50 8 60 4 Q70 8 67 36Z" fill="${hc}"/><path d="M32 47 Q35 33 53 30 V36 Q41 38 32 47Z M88 47 Q85 33 67 30 V36 Q79 38 88 47Z" fill="${hc}" opacity=".85"/>`,
+ };
+ g+=hairs[eq.hair]||'';
+ const accs={
+  redondos:'<g fill="rgba(255,255,255,.3)" stroke="#1B2350" stroke-width="2.5"><circle cx="50" cy="54" r="8"/><circle cx="70" cy="54" r="8"/></g><path d="M58 54h4M42 53l-8-2M78 53l8-2" stroke="#1B2350" stroke-width="2.5" fill="none"/>',
+  sol:'<g fill="#1B2350"><rect x="40" y="48" width="18" height="12" rx="5"/><rect x="62" y="48" width="18" height="12" rx="5"/><rect x="56" y="51" width="8" height="3"/></g>',
+  bone:'<path d="M31 44 Q31 19 60 19 Q89 19 89 44Z" fill="#E5484D"/><path d="M84 42 Q100 40 108 46 Q96 50 80 46Z" fill="#B91C1C"/><circle cx="60" cy="20" r="3" fill="#B91C1C"/>',
+  mago:`<path d="M36 34 L64 -12 L84 34Z" fill="#6D28D9"/><rect x="28" y="30" width="64" height="9" rx="4.5" fill="#4C1D95"/><g transform="translate(58 3) scale(.5)"><path d="${STAR_P}" fill="#FFC21A"/></g>`,
+  coroa:'<path d="M38 30 L41 10 L51 22 L60 6 L69 22 L79 10 L82 30Z" fill="#FFC21A" stroke="#E08600" stroke-width="2" stroke-linejoin="round"/><circle cx="60" cy="22" r="3" fill="#E5484D"/><circle cx="47" cy="25" r="2.2" fill="#2D7FF9"/><circle cx="73" cy="25" r="2.2" fill="#1FB866"/>',
+ };
+ g+=accs[eq.acc]||'';
+ const pets={
+  gato:'<path d="M3 8 L5 -4 L12 4Z M17 4 L24 -4 L26 8Z" fill="#F59E0B"/><circle cx="14" cy="11" r="11" fill="#F59E0B"/><circle cx="10" cy="10" r="1.7" fill="#1B2350"/><circle cx="18" cy="10" r="1.7" fill="#1B2350"/><path d="M12 14 q2 2 4 0" stroke="#1B2350" stroke-width="1.4" fill="none"/>',
+  cao:'<ellipse cx="4" cy="9" rx="4" ry="8" fill="#7C4A21"/><ellipse cx="24" cy="9" rx="4" ry="8" fill="#7C4A21"/><circle cx="14" cy="11" r="11" fill="#C08A55"/><circle cx="10" cy="9" r="1.7" fill="#1B2350"/><circle cx="18" cy="9" r="1.7" fill="#1B2350"/><ellipse cx="14" cy="15" rx="3" ry="2.2" fill="#1B2350"/>',
+  dragao:'<path d="M-3 4 L8 8 L2 17Z" fill="#16A34A"/><path d="M8 1 l3 -7 l3 7z M14 1 l3 -7 l3 7z" fill="#FFC21A"/><circle cx="14" cy="11" r="11" fill="#22C55E"/><circle cx="10" cy="9" r="2" fill="#1B2350"/><circle cx="18" cy="9" r="2" fill="#1B2350"/><path d="M10 15 q4 3 8 0" stroke="#14532D" stroke-width="1.6" fill="none"/>',
+ };
+ if(pets[eq.pet])g+=`<g transform="translate(92 108)">${pets[eq.pet]}</g>`;
+ return `<svg class="${cls}" viewBox="0 -14 124 152" aria-hidden="true">${g}</svg>`;
+}
+function chestSVG(){return `<svg class="chest" viewBox="0 0 120 100" aria-hidden="true"><rect x="14" y="44" width="92" height="48" rx="7" fill="#EA580C"/><rect x="14" y="60" width="92" height="7" fill="#FFC21A"/><rect x="52" y="54" width="16" height="20" rx="3" fill="#FFC21A" stroke="#B45309" stroke-width="2"/><g class="lid"><path d="M14 44 Q14 16 60 16 Q106 16 106 44Z" fill="#C2410C"/><rect x="14" y="38" width="92" height="7" fill="#FFC21A"/></g></svg>`}
+
+/* ---------- roteamento ---------- */
+const SCREENS={};
+function go(screen,p=null,opt={}){
+ if(opt.tab)S.stack=[];else if(!opt.replace&&S.screen)S.stack.push({screen:S.screen,p:S.p});
+ S.screen=screen;S.p=p;render(true);
+}
+function back(){const x=S.stack.pop();if(x){S.screen=x.screen;S.p=x.p;render(true)}}
+function render(reset){
+ const m=$('#main');const keep=!reset&&m?m.scrollTop:0;
+ app.innerHTML=SCREENS[S.screen]();
+ const m2=$('#main');if(m2)m2.scrollTop=keep;
+ SCREENS[S.screen].after&&SCREENS[S.screen].after(reset);
+}
+function openSheet(html){closeSheet();const d=document.createElement('div');d.className='scrim';d.id='scrim';d.innerHTML=`<div class="sheet pad" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div>`;app.appendChild(d);const f=d.querySelector('input,select,textarea');if(f)setTimeout(()=>f.focus(),280)}
+function closeSheet(){const s=$('#scrim');if(s)s.remove()}
+let toastT;
+function toast(msg,withStar){const old=app.querySelector('.toast');if(old)old.remove();const d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.innerHTML=(withStar?star():'')+`<span>${msg}</span>`;app.appendChild(d);clearTimeout(toastT);toastT=setTimeout(()=>d.remove(),3200)}
+
+/* ---------- login ---------- */
+SCREENS.login=()=>`
+<div class="login pad">
+ <div class="cloud" style="width:90px;height:26px;left:8%;top:9%"></div>
+ <div class="cloud" style="width:70px;height:20px;right:10%;top:20%"></div>
+ <div class="logo">Educa<span>+</span></div>
+ <div class="hero">${islandSVG('mat')}${ticoSVG()}</div>
+ <p class="tag">Vamos aprender brincando!</p>
+ <button class="gbtn" data-act="login"><span class="g"><i></i></span>Entrar com Google</button>
+ <small>Alunos, professores e coordenadores entram pelo mesmo botão. O Educa+ abre a área certa para cada um.</small>
+</div>`;
+SCREENS.carregando=()=>`<div class="login pad"><div class="loading">${ticoSVG()}<p class="tag">Abrindo o Educa+…</p></div></div>`;
+SCREENS.erro=()=>`<div class="login pad"><div class="loading">${ticoSVG()}</div><p class="tag">Não consegui falar com o servidor</p><small>${esc(S.p||'')}</small><button class="gbtn" data-act="retry">Tentar de novo</button><button class="linkbtn" style="color:#fff" data-act="logout">${BRIDGE?'Trocar de conta ou de servidor':'Voltar'}</button></div>`;
+let entrandoComo=null;
+function entrar(id){
+ entrandoComo=id;S.screen='carregando';S.stack=[];render(true);
+ api('GET','/api/bootstrap/'+id).then(d=>{hydrate(d);go(S.role==='kid'?'k-home':S.role==='prof'?'t-dash':'c-dash',null,{tab:true})})
+  .catch(e=>{S.screen='erro';S.p=e.message;render(true)});
+}
+function sair(){closeSheet();if(BRIDGE){BRIDGE.sair();return}S.role=null;S.stack=[];go('login',null,{tab:true})}
+
+/* ---------- área da criança ---------- */
+const KTABS=[['k-home','Mundo','map','#2D7FF9'],['k-avatar','Eu','user','#8B5CF6'],['k-loja','Loja','bag','#FF7A1A'],['k-prog','Progresso','chart','#1FB866'],['k-tico','Tico','chat','#2BC4B4']];
+const knav=active=>`<nav class="knav" aria-label="Menu">${KTABS.map(([sc,l,ic,c])=>`<button class="${sc===active?'on':''}" style="--k:${c}" data-go="${sc}" data-tab="1" ${sc===active?'aria-current="page"':''}><span class="bub">${icon(ic)}</span>${l}</button>`).join('')}</nav>`;
+const walletHTML=()=>`<span class="wallet" aria-label="${S.kid.wallet} estrelas">${star()}<span>${S.kid.wallet}</span></span>`;
+const kbar=(title)=>`<header class="ktop pad"><button class="round-btn" data-act="back" aria-label="Voltar">${icon('back')}</button><h1>${title}</h1>${walletHTML()}</header>`;
+
+SCREENS['k-home']=()=>{
+ const subs=enabledSubj();const rowH=196,top=34;
+ const pts=subs.map((s,i)=>({x:i%2?71:29,y:top+i*rowH+68,s}));
+ const H=top+subs.length*rowH+20;
+ let d='M200 0';let prev={x:50,y:0};
+ pts.forEach(p=>{const my=(prev.y+p.y)/2;d+=` C${prev.x*4} ${my} ${p.x*4} ${my} ${p.x*4} ${p.y}`;prev=p});
+ const lastP=pts.find(p=>p.s.id===S.kid.last)||pts[0];
+ const open=S.kid.diffs.find(d=>!d.resolved);
+ let mission='';
+ if(open){mission=`<button class="mission alert" data-act="reforco" data-skill="${esc(open.skill)}" style="--mc:#2F62E8">${ticoSVG()}<span><b>Treino especial de ${esc(open.skill)}</b><small>O Tico preparou desafios mais fáceis para você pegar o jeito.</small></span><span class="go">${icon('chev')}</span></button>`}
+ else if(pts.length){const s=lastP.s.id;const i=curIdx(s);mission=`<button class="mission" data-act="playDirect" data-s="${s}" data-i="${i}" style="--mc:${SB[s].hex}">${ticoSVG()}<span><b>Missão do dia</b><small>Termine o Nível ${i+1} na ${SB[s].island}: ${esc(lv(s)[i].title)}.</small></span><span class="go">${icon('chev')}</span></button>`}
+ return `
+ <header class="ktop pad"><span class="mini">${avatarSVG(S.kid.eq)}</span><span class="hi">Oi, ${S.kid.name}!<small>Para qual ilha vamos hoje?</small></span>${walletHTML()}</header>
+ <main id="main" class="scroll sea">
+  <div class="pad">${mission}</div>
+  <div style="position:relative;height:${H}px">
+   <svg class="route" viewBox="0 0 400 ${H}" preserveAspectRatio="none" style="height:${H}px"><path d="${d}" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="2 14" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity=".8"/></svg>
+   ${pts.map(p=>{const s=p.s,dc=doneCount(s.id),n=lv(s.id).length,sum=starSum(s.id),ratio=sum/(n*3);const shown=ratio>=.66?3:ratio>=.33?2:dc?1:0;
+     return `<button class="isl" style="left:${p.x}%;top:${p.y-72}px;--c:${s.hex}" data-go="k-ilha" data-p="${s.id}" aria-label="${s.island}, ${s.name}: ${dc} de ${n} níveis">${islandSVG(s.id)}<span class="plate"><b>${s.name}</b>${stars3(shown)}<small>${dc}/${n} níveis</small><span class="pbar"><i style="width:${pct(dc,n)}%"></i></span></span></button>`}).join('')}
+   ${lastP?`<div class="me-on-map" style="left:${lastP.x<50?lastP.x+28:lastP.x-28}%;top:${lastP.y-58}px">${avatarSVG(S.kid.eq)}<span>Você</span></div>`:''}
+   ${pts.length?'':`<div class="pad"><div class="empty-map">Nenhuma ilha aberta ainda. Peça para sua professora liberar uma disciplina.</div></div>`}
+  </div>
+ </main>${knav('k-home')}`;
+};
+
+SCREENS['k-ilha']=()=>{
+ const s=S.p,sb=SB[s],L=lv(s),dc=doneCount(s),sum=starSum(s),ci=curIdx(s);
+ const regs=regionsOf(s);
+ return `${kbar(sb.island)}
+ <main id="main" class="scroll" style="--c:${sb.hex};--soft:${sb.soft}">
+  <section class="scene"><p class="isub">${sb.name}</p><p class="iname">${sb.island}</p>${islandSVG(s)}${avatarSVG(S.kid.eq,'av me')}</section>
+  <div class="pad" style="display:flex;flex-direction:column;gap:14px;padding-block:0 24px">
+   <div class="statrow">
+    <div class="stat"><b>${dc}<small style="font-size:16px">/${L.length}</small></b><small>níveis concluídos</small><span class="pbar"><i style="width:${pct(dc,L.length)}%"></i></span></div>
+    <div class="stat"><b>${star()} ${sum}<small style="font-size:16px">/${L.length*3}</small></b><small>estrelas na ilha</small></div>
+   </div>
+   <button class="btn block" style="--b:${sb.hex}" data-go="k-niveis" data-p="${s}:${ci}">${dc===L.length?'Rever a trilha':`Continuar: Nível ${ci+1}`} ${icon('chev')}</button>
+   <h2 class="disp" style="font-size:21px;font-weight:800">Regiões da ilha</h2>
+   <div class="regions">${regs.map((r,k)=>{const rl=L.slice(r.from,r.to),rd=rl.filter(l=>l.stars>0).length,open=isUnlocked(s,r.from);const st=rd===rl.length?['Completa','background:var(--good-bg);color:#0C6237']:open?['Explorando','background:#FFF4CC;color:#8A5200']:['Trancada','background:var(--mist);color:var(--ink-3)'];
+    return `<button class="region ${open?'':'locked'}" data-go="k-niveis" data-p="${s}:${open?Math.min(r.to-1,Math.max(r.from,ci)):r.from}"><span class="rb">${open?k+1:icon('lock')}</span><span><b>${r.name}</b><small>Níveis ${r.from+1} a ${r.to} · ${rd}/${rl.length} feitos</small></span><span class="tagx" style="${st[1]}">${st[0]}</span></button>`}).join('')}</div>
+  </div>
+ </main>${knav('k-home')}`;
+};
+
+const NODEX=[50,74,50,26];
+SCREENS['k-niveis']=()=>{
+ const [s,fs]=String(S.p).split(':');const sb=SB[s],L=lv(s),ci=curIdx(s);const gap=124,top=96;
+ const H=top+L.length*gap+40;
+ const pos=L.map((l,i)=>({x:NODEX[i%4],y:top+i*gap}));
+ let d=`M200 40`;let prev={x:50,y:40};pos.forEach(p=>{const my=(prev.y+p.y)/2;d+=` C${prev.x*4} ${my} ${p.x*4} ${my} ${p.x*4} ${p.y}`;prev=p});
+ const regs=regionsOf(s);
+ return `${kbar(sb.name)}
+ <main id="main" class="scroll trail" style="--c:${sb.hex};--soft:${sb.soft}">
+  <div style="position:relative;height:${H}px">
+   <span class="startflag">INÍCIO</span>
+   <svg class="route" viewBox="0 0 400 ${H}" preserveAspectRatio="none" style="height:${H}px"><path d="${d}" fill="none" stroke="#F5E1B5" stroke-width="22" stroke-linecap="round" vector-effect="non-scaling-stroke"/><path d="${d}" fill="none" stroke="#E2C78C" stroke-width="3" stroke-dasharray="2 12" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
+   ${regs.map(r=>{if(!r.from)return '';const p=pos[r.from];const x=p.x>50?24:p.x<50?76:22;return `<span class="sign" style="left:${x}%;top:${p.y-gap/2-18}px">${r.name}</span>`}).join('')}
+   ${L.map((l,i)=>{const p=pos[i],open=isUnlocked(s,i),cur=i===ci&&l.stars===0;
+     const cls=!open?'locked':cur?'cur':'';
+     return `<button class="node ${cls}" style="left:${p.x}%;top:${p.y}px" data-act="${open?'lvl':'lockedLvl'}" data-s="${s}" data-i="${i}" id="node${i}" aria-label="Nível ${i+1}: ${esc(l.title)}${open?'':' (trancado)'}">${open?i+1:icon('lock')}${l.stars?stars3(l.stars):''}${cur?avatarSVG(S.kid.eq,'av me'):''}</button>`}).join('')}
+  </div>
+ </main>${knav('k-home')}`;
+};
+SCREENS['k-niveis'].after=()=>{const fs=+String(S.p).split(':')[1]||0;const n=$('#node'+fs),m=$('#main');if(n&&m)m.scrollTop=Math.max(0,n.offsetTop-m.clientHeight/2+40)};
+
+function levelSheet(s,i){
+ const l=lv(s)[i],sb=SB[s];const dots=[1,2,3].map(k=>`<span style="display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:3px;background:${k<=l.diff?sb.hex:'#E1E7F2'}"></span>`).join('');
+ const nCustom=S.custom.filter(c=>c.idAtividade===l.id).length;
+ openSheet(`<div class="col" style="--c:${sb.hex}">
+  <div class="row"><span class="node" style="position:static;transform:none;width:64px;height:64px;font-size:28px;flex:none">${i+1}</span><div class="grow"><p style="font-weight:800;color:${sb.hex};font-size:13px;letter-spacing:.08em;text-transform:uppercase">Nível ${i+1} · ${sb.name}</p><h2>${esc(l.title)}</h2></div></div>
+  <div class="row" style="justify-content:space-between;font-weight:800"><span>${l.stars?`Seu recorde ${stars3(l.stars)}`:'Ainda não jogado'}</span><span>${dots}</span></div>
+  <p>5 desafios rápidos${nCustom?' (com perguntas da sua professora)':''}. Se ficar difícil, o Tico ajuda.</p>
+  <button class="btn block" style="--b:${sb.hex}" data-act="play" data-s="${s}" data-i="${i}">${l.stars?'Jogar de novo':'Jogar!'}</button>
+ </div>`);
+}
+
+/* ---------- motor de minijogos ---------- */
+function opts3(ans,cands){const set=new Set([ans]);for(const c of cands){if(c>=0&&!set.has(c))set.add(c);if(set.size===3)break}let k=1;while(set.size<3){if(!set.has(ans+k))set.add(ans+k);k++}return shuffle([...set]).map(v=>({l:String(v),v:String(v)}))}
+const CNT=[['🐞','joaninhas'],['🐠','peixinhos'],['🎈','balões'],['🐥','pintinhos'],['🍎','maçãs']];
+function genMat(k,d){
+ const R={kind:'choice',k,skill:MATK[k]};
+ if(k==='contar'){const [e,nm]=pick(CNT);const n=d<=1?ri(3,8):ri(8,15);Object.assign(R,{prompt:`Quantos ${nm} você vê?`,visual:Array.from({length:n},(_,j)=>`<span class="it" style="animation-delay:${j*40}ms">${e}</span>`).join(''),options:opts3(n,[n+1,n-1,n+2]),answer:String(n),hint:'Toque em cada um com o dedo e conte bem devagar: 1, 2, 3…'})}
+ else if(k==='soma'){const a=d<=1?ri(1,5):ri(3,8),b=d<=1?ri(1,4):ri(2,7);const g=n=>`<span class="grp">${'🍓'.repeat(n)}</span>`;Object.assign(R,{prompt:`Quantos morangos ao todo?`,visual:`${g(a)}<span class="op">+</span>${g(b)}`,options:opts3(a+b,[a+b+1,a+b-1,a+b+2]),answer:String(a+b),hint:'Conte o primeiro grupo e continue contando o segundo, sem voltar ao zero.'})}
+ else if(k==='comparar'){let a,b;do{a=d<=1?ri(1,20):ri(20,99);b=d<=1?ri(1,20):ri(20,99)}while(a===b);Object.assign(R,{prompt:'Qual número é o MAIOR?',visual:'',options:[{l:String(a),v:String(a)},{l:String(b),v:String(b)}],answer:String(Math.max(a,b)),hint:d<=1?'Conte: o maior é o que aparece depois.':'Olhe primeiro as dezenas: quem tem mais dezenas é maior.'})}
+ else if(k==='formas'){const SH=[['círculo','<circle cx="50" cy="50" r="40"/>','Passe o dedo pela borda. Ela tem algum cantinho?'],['quadrado','<rect x="12" y="12" width="76" height="76" rx="4"/>','Conte os lados. Eles têm o mesmo tamanho?'],['triângulo','<path d="M50 8 L92 88 L8 88Z"/>','Conte os lados com o dedo. Quantos são?'],['retângulo','<rect x="4" y="24" width="92" height="52" rx="4"/>','Conte os lados. Dois são compridos e dois são curtos?']];const sh=pick(SH);const others=shuffle(SH.filter(x=>x!==sh)).slice(0,2);Object.assign(R,{prompt:'Que forma é essa?',visual:`<svg class="shape" viewBox="0 0 100 100" fill="#FF7A1A" stroke="#C65200" stroke-width="3">${sh[1]}</svg>`,options:shuffle([sh,...others]).map(x=>({l:x[0],v:x[0]})),answer:sh[0],hint:sh[2]})}
+ else if(k==='sequencia'){const st=d<=1?pick([1,2]):pick([2,5,10]);const s0=ri(1,d<=1?6:20);const seq=[s0,s0+st,s0+2*st];const ans=s0+3*st;Object.assign(R,{prompt:'Qual número vem depois?',visual:`<div class="seq">${seq.map(n=>`<span>${n}</span>`).join('')}<span class="q">?</span></div>`,options:opts3(ans,[ans+st,ans-1,ans+1]),answer:String(ans),hint:'Quanto aumenta de um número para o próximo? Some isso ao último.'})}
+ else if(k==='problema'){const nm=pick(['Lia','Téo','Bia','Davi']),it=pick(['figurinhas','bolinhas de gude','lápis de cor']);const a=d<=1?ri(2,6):ri(5,12),b=d<=1?ri(1,4):ri(3,8);Object.assign(R,{prompt:`${nm} tem ${a} ${it} e ganhou mais ${b}. Quantas tem agora?`,long:true,visual:'<span class="em">🎁</span>',options:opts3(a+b,[a+b+1,a+b-1,Math.abs(a-b)]),answer:String(a+b),hint:'Ganhar é juntar. Junte as duas quantidades.'})}
+ else if(k==='soma2'){const a=ri(1,5)*10+(d>=3?ri(1,5):0),b=ri(1,4)*10;Object.assign(R,{prompt:'Quanto dá?',visual:`<span class="eq">${a} + ${b}</span>`,options:opts3(a+b,[a+b+10,a+b-10,a+b+1]),answer:String(a+b),hint:'Some as dezenas primeiro. Depois as unidades.'})}
+ else if(k==='subtracao'){const a=d<=1?ri(4,6):d===2?ri(6,9):ri(9,12);const b=d<=1?ri(1,2):d===2?ri(2,4):ri(3,6);
+  Object.assign(R,{a,b,prompt:`Você tem ${a} maçãs e dá ${b} para seu amigo. Quantas ficam com você?`,long:true,options:opts3(a-b,[a-b+1,a-b-1,a+b]),answer:String(a-b),hint:`Vamos tentar juntos! Separe ${b} maçãs para o amigo. Quantas sobraram com você?`})}
+ else if(k==='multi'){const a=ri(2,d<=1?3:5),b=ri(2,d<=1?3:4);Object.assign(R,{prompt:`${a} pratos com ${b} biscoitos cada. Quantos biscoitos ao todo?`,long:true,visual:`<div class="plates">${Array.from({length:a},()=>`<span class="grp">${'🍪'.repeat(b)}</span>`).join('')}</div>`,options:opts3(a*b,[a+b,a*b+b,a*b-1]),answer:String(a*b),hint:`Some os pratos um por um: ${Array(a).fill(b).join(' + ')}.`})}
+ else if(k==='fracao'){const n=d<=1?pick([2,4]):pick([3,4,6]);const kk=ri(1,n-1);const opts=[`${kk}/${n}`];[`${n-kk}/${n}`,`${n}/${kk}`,`${kk}/${n+1}`,`${kk+1}/${n}`].forEach(o=>{if(!opts.includes(o)&&opts.length<3)opts.push(o)});Object.assign(R,{prompt:'Que fração da pizza está pintada?',visual:`<div class="pizza" style="--n:${n};--k:${kk/n*360}deg" role="img" aria-label="Pizza com ${n} fatias"></div>`,options:shuffle(opts).map(o=>({l:o,v:o})),answer:`${kk}/${n}`,hint:'Embaixo vai o número de fatias da pizza toda. Em cima, as fatias pintadas.'})}
+ return R;
+}
+function choiceFromBank(o){return {kind:'choice',skill:o.skill,prompt:o.prompt,long:o.long,visual:o.visual||'',options:shuffle(o.options.map(x=>typeof x==='string'?{l:x,v:x}:{l:x.l||'',e:x.e,sw:x.sw,v:x.v})),answer:o.answer,hint:o.hint}}
+function bankRounds(s,i){
+ const B=BANK[s];const r=mulberry(i*31+s.charCodeAt(0)+Date.now()%997);const ch=k=>choiceFromBank(B.ch[(i*3+k)%B.ch.length]);
+ if(s==='por'){const w=k=>{const [word,pic]=B.words[(i*2+k)%B.words.length];const extra='AEIOULMRST'.split('').filter(x=>!word.includes(x));const tiles=shuffle(word.split('').concat(pick(extra,r)),r);return {kind:'word',skill:'formar palavras',word,pic,tiles,hint:'Fale o nome do desenho bem devagar. Qual letra faz cada som?'}};return [w(0),ch(0),w(1),ch(1),ch(2)]}
+ if(s==='cie'){const so=B.sorts[i%B.sorts.length];return [ch(0),{kind:'sort',skill:so.skill,prompt:so.prompt,bins:so.bins,items:shuffle(so.items,r),hint:so.hint},ch(1),ch(2),ch(3)]}
+ if(s==='his'){const o=B.orders[i%B.orders.length];return [{kind:'order',skill:o.skill,prompt:o.prompt,items:o.items,shuffled:shuffle(o.items.map((_,k)=>k),r),hint:o.hint},ch(0),ch(1),ch(2),ch(3)]}
+ return [0,1,2,3,4].map(ch);
+}
+function customRounds(s,i){const l=lv(s)[i];if(!l)return [];return S.custom.filter(c=>c.idAtividade===l.id&&c.status!=='Recusada').map(c=>({kind:'choice',custom:true,idQuestao:c.id,skill:l.habilidade||SB[s].name.toLowerCase(),prompt:c.prompt,long:c.prompt.length>48,visual:'',options:shuffle(c.options.filter(Boolean).map(o=>({l:o,v:o}))),answer:c.options[c.answer],hint:c.hint||'Leia de novo com calma. O que a pergunta quer saber?'}))}
+function buildRounds(s,i){
+ const L=lv(s)[i];let rounds;
+ if(s==='mat'){const k=L.kind||'soma';const d=S.kid.adapt[MATK[k]]?Math.max(0,L.diff-1):L.diff;rounds=Array.from({length:5},()=>genMat(k,d))}
+ else rounds=bankRounds(s,i);
+ const cus=customRounds(s,i);
+ return cus.concat(rounds).slice(0,Math.max(5,cus.length));
+}
+function startAct(s,i,opt={}){
+ const rounds=opt.rounds||buildRounds(s,i);
+ if(['k-res','k-rew'].includes(S.screen)){S.stack=[{screen:'k-home',p:null},{screen:'k-ilha',p:s},{screen:'k-niveis',p:s+':'+i}];S.screen=null}
+ S.act={s,i,respostas:[],reforco:!!opt.reforco,skillR:opt.skill,title:opt.title||lv(s)[i].title,rounds,r:0,errors:0,first:0,hints:0,skillErr:{},start:Date.now(),sub:{},rErr:0,msg:{t:'idle',x:'Toque na resposta certa. Se quiser, peça uma dica!'},locked:false};
+ go('k-ativ',null,{replace:false});
+}
+const POS=['Isso aí!','Mandou bem!','Uau, acertou!','Perfeito!','Você é fera!','Arrasou!'];
+SCREENS['k-ativ']=()=>{
+ const A=S.act,sb=SB[A.s];
+ return `<div class="act" style="--c:${sb.hex};--soft:${sb.soft};--oc:${sb.oc}">
+  <div class="act-top pad"><button class="round-btn" data-act="quit" aria-label="Sair do nível">${icon('close')}</button><div class="dots" id="dots" aria-label="Progresso do nível">${dotsHTML()}</div><button class="hintbtn" data-act="hint" aria-label="Pedir dica ao Tico">${ticoSVG()}Dica</button></div>
+  <div class="act-body pad" id="actBody">${roundHTML()}</div>
+  <div class="act-foot pad" id="actFoot" aria-live="polite">${bubbleHTML()}</div>
+ </div>`;
+};
+function dotsHTML(){const A=S.act;return A.rounds.map((_,k)=>`<i class="${k<A.r?'done':k===A.r?'cur':''}"></i>`).join('')}
+function bubbleHTML(){const m=S.act.msg;const ai=m.t==='adapt'?`<span class="ai">${icon('spark')} IA do Educa+</span>`:'';return `<div class="bubble">${ticoSVG()}<div class="say ${m.t}">${ai}${m.h?`<b>${m.h}</b>`:''}${m.x}</div></div>`}
+function roundHTML(){
+ const A=S.act,R=A.rounds[A.r],sub=A.sub;
+ if(R.kind==='choice'){
+  const opts=R.options;const short=opts.every(o=>(o.l||'').length<=5&&!o.e&&!o.sw);const emo=opts.every(o=>o.e||o.sw);
+  const cols=emo?opts.length:short?Math.min(opts.length,3):1;
+  let vis=R.visual||'';
+  if(R.k==='subtracao'){const show=sub.scaffold;vis=`<div class="apples">${Array.from({length:R.a},(_,j)=>`<span class="it ${show&&j>=R.a-R.b?'gone':''}" style="animation-delay:${j*35}ms">🍎</span>`).join('')}</div>${show?`<div class="friendtag">As ${R.b} apagadinhas foram para o amigo 🧒</div>`:''}`}
+  return `<div class="qcard">${R.custom?'<p style="font-size:12px;font-weight:900;color:var(--c);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">Pergunta da professora</p>':''}<p class="prompt ${R.long?'long':''}">${esc(R.prompt)}</p><div class="visual">${vis}</div></div>
+  <div class="opts" style="--cols:${cols}">${opts.map((o,j)=>{const no=sub.no&&sub.no.has(j),ok=sub.ok===j;const cls=o.sw?'sw':o.e?'emo':short?'':'txt';
+   return `<button class="opt ${cls} ${no?'no':''} ${ok?'right':''} ${sub.shake===j?'shake':''}" data-act="pick" data-j="${j}" aria-label="${esc(o.l||o.v)}">${o.sw?`<i style="background:${o.sw}"></i>`:o.e?o.e:esc(o.l)}</button>`}).join('')}</div>`;
+ }
+ if(R.kind==='word'){
+  const f=sub.filled||[];
+  return `<div class="qcard"><p class="prompt">Forme a palavra</p><div class="visual"><span class="em" style="font-size:72px">${R.pic}</span></div><div class="slots">${R.word.split('').map((ch,k)=>`<span class="slot ${k<f.length?'f':''}">${k<f.length?ch:''}</span>`).join('')}</div></div>
+  <div class="tiles">${R.tiles.map((t,k)=>`<button class="tile ${f.includes(k)?'used':''} ${sub.shake===k?'shake':''}" data-act="tile" data-k="${k}" aria-label="Letra ${t}">${t}</button>`).join('')}</div>`;
+ }
+ if(R.kind==='sort'){
+  const idx=sub.idx||0,inBin=sub.inBin||[[],[]];const it=R.items[idx];
+  return `<div class="qcard"><p class="prompt">${esc(R.prompt)}</p>${it?`<div class="sort-item"><span class="em">${it[1]}</span><b>${esc(it[0])}</b></div>`:''}<p style="font-weight:800;color:var(--ink-2);margin-top:8px;font-size:14px">${idx+1>R.items.length?R.items.length:idx+1} de ${R.items.length}</p></div>
+  <div class="bins">${R.bins.map((b,k)=>`<button class="bin ${sub.shake===k?'shake':''}" data-act="bin" data-k="${k}"><span class="bh">${b[1]}</span><b>${esc(b[0])}</b><span class="got">${inBin[k].map(x=>x[1]).join('')}</span></button>`).join('')}</div>`;
+ }
+ if(R.kind==='order'){
+  const placed=sub.placed||[];
+  return `<div class="qcard"><p class="prompt">${esc(R.prompt)}</p><div class="tl">${R.items.map((it,k)=>k<placed.length?`<div class="tl-row f"><span class="n">${k+1}</span><span class="em">${it[1]}</span><span>${esc(it[0])}</span>${it[2]?`<b>${it[2]}</b>`:''}</div>`:`<div class="tl-row"><span class="n">${k+1}</span></div>`).join('')}</div></div>
+  <div class="cards-ord">${R.shuffled.map(k=>`<button class="card-ord ${placed.includes(k)?'used':''} ${sub.shake===k?'shake':''}" data-act="ord" data-k="${k}"><span class="em">${R.items[k][1]}</span>${esc(R.items[k][0])}</button>`).join('')}</div>`;
+ }
+ return '';
+}
+function renderAct(){const b=$('#actBody'),f=$('#actFoot'),d=$('#dots');if(!b)return;b.innerHTML=roundHTML();f.innerHTML=bubbleHTML();d.innerHTML=dotsHTML();S.act.sub.shake=null}
+function addSkill(sk,ok){const t=S.kid.skills[sk]||(S.kid.skills[sk]=[0,0]);t[ok?0:1]++}
+function correctStep(){const A=S.act;A.msg={t:'good',h:pick(['Isso!','Boa!','Certo!']),x:'Continue assim.'}}
+function correct(){
+ const A=S.act,R=A.rounds[A.r];A.locked=true;if(A.rErr===0)A.first++;S.kid.answers.right++;addSkill(R.skill,true);if(R.custom)A.respostas.push({idQuestao:R.idQuestao,texto:R.answer,correta:true,tentativas:A.rErr+1});
+ A.msg={t:'good',h:pick(POS),x:A.rErr?'Você não desistiu e chegou lá!':'Acertou de primeira!'};
+ renderAct();
+ setTimeout(()=>{A.r++;A.rErr=0;A.sub={};A.locked=false;
+  if(A.r>=A.rounds.length){finishAct();return}
+  A.msg={t:'idle',x:pick(['Próximo desafio!','Vamos para o próximo!','Mais um!'])};renderAct();},1000);
+}
+function wrong(){
+ const A=S.act,R=A.rounds[A.r];A.errors++;A.rErr++;S.kid.answers.wrong++;addSkill(R.skill,false);
+ const sk=R.skill;A.skillErr[sk]=(A.skillErr[sk]||0)+1;
+ A.sub.scaffold=true;
+ if(A.skillErr[sk]>=2&&!S.kid.adapt[sk]){
+  S.kid.adapt[sk]=true;
+  const ex=S.kid.diffs.find(d=>d.skill===sk&&!d.resolved);if(ex)ex.n+=A.skillErr[sk];else S.kid.diffs.push({skill:sk,subj:A.s,n:A.skillErr[sk],resolved:false});salvarQuieto(api('POST',`/api/alunos/${S.kid.id}/dificuldades`,{disciplina:A.s,habilidade:sk,erros:A.skillErr[sk]}));
+  if(A.s==='mat'){for(let j=A.r+1;j<A.rounds.length;j++){const x=A.rounds[j];if(x.k&&x.skill===sk&&!x.custom)A.rounds[j]=genMat(x.k,0)}}
+  A.msg={t:'adapt',h:'Percebi uma coisa',x:`${cap(sk)} está um pouquinho difícil hoje. Vou deixar os próximos desafios mais fáceis. ${R.hint}`};
+ } else if(R.kind==='choice'&&A.rErr>=2){
+  const free=R.options.map((o,j)=>j).filter(j=>R.options[j].v!==R.answer&&!(A.sub.no&&A.sub.no.has(j)));
+  if(free.length>1){A.sub.no.add(free[0]);A.msg={t:'try',h:'Vou te ajudar',x:'Tirei uma opção. Agora ficou mais fácil! '+R.hint}}
+  else A.msg={t:'try',h:'Quase!',x:'Vamos tentar de outro jeito? '+R.hint};
+ } else A.msg={t:'try',h:'Quase!',x:'Vamos tentar de outro jeito? '+R.hint};
+ renderAct();
+}
+function finishAct(){
+ const A=S.act;const stars=A.errors===0?3:A.errors<=2?2:1;const earned=stars*10;
+ const L=lv(A.s);let unlocked=null;const resolved=A.reforco&&A.errors<=1;
+ const nivel=A.reforco?(L.find(l=>l.habilidade===A.skillR)||L[curIdx(A.s)]):L[A.i];
+ if(A.reforco){if(resolved){const d=S.kid.diffs.find(x=>x.skill===A.skillR&&!x.resolved);if(d){d.resolved=true;S.kid.adapt[A.skillR]=false;S.kid.mastered.unshift(A.skillR)}}}
+ else{const l=L[A.i];if(l.stars===0&&A.i+1<L.length&&L[A.i+1].stars===0)unlocked=A.i+1;l.stars=Math.max(l.stars,stars)}
+ const segs=Math.round((Date.now()-A.start)/1000);
+ const before=S.kid.wallet;S.kid.wallet+=earned;S.kid.earned+=earned;S.kid.last=A.s;S.kid.min+=Math.max(1,Math.round(segs/60));
+ if(A.errors>0)S.kid.persist=true;
+ S.res={s:A.s,i:A.i,stars,earned,before,after:S.kid.wallet,first:A.first,total:A.rounds.length,secs:segs,unlocked,reforco:A.reforco,skill:A.skillR,resolved,title:A.title};
+ if(nivel)api('POST',`/api/alunos/${S.kid.id}/partidas`,{idAtividade:nivel.id,modo:A.reforco?'REFORCO':'TRILHA',estrelas:stars,acertos:A.first,erros:A.errors,dicas:A.hints,percentual:Math.round(A.first/A.rounds.length*100),segundos:segs,respostas:A.respostas})
+  .then(r=>{S.kid.wallet=r.saldo;S.res.after=r.saldo}).catch(e=>toast('As estrelas não foram salvas: '+e.message));
+ if(resolved)salvarQuieto(api('POST',`/api/alunos/${S.kid.id}/dificuldades/resolver`,{habilidade:A.skillR}));
+ go('k-res',null,{replace:true});
+}
+function confetti(){const c=['#FF7A1A','#2D7FF9','#1FB866','#EC4899','#8B5CF6','#FFC21A'];return `<div class="conf" aria-hidden="true">${Array.from({length:36},(_,i)=>`<i style="left:${Math.random()*100}%;background:${c[i%6]};animation-duration:${1.8+Math.random()*1.6}s;animation-delay:${Math.random()*.6}s;transform:rotate(${Math.random()*180}deg)"></i>`).join('')}</div>`}
+SCREENS['k-res']=()=>{
+ const r=S.res;const mm=Math.floor(r.secs/60),ss=String(r.secs%60).padStart(2,'0');
+ const head=r.stars===3?'NÍVEL CONCLUÍDO!':r.stars===2?'MUITO BEM!':'VOCÊ CONSEGUIU!';
+ const line=r.stars===3?'Uau! Você acertou tudo de primeira. Que cabeça boa!':r.stars===2?'Quase perfeito! Você está pegando o jeito.':'Você não desistiu, e isso é o mais importante. Bora treinar mais?';
+ return `<main id="main" class="scroll"><div class="res pad">${confetti()}
+  <p style="font-weight:900;color:#8A4A00;letter-spacing:.1em;font-size:13px;text-transform:uppercase">${r.reforco?'Treino especial':`${SB[r.s].name} · Nível ${r.i+1}`}</p>
+  <h1>${head}</h1>
+  <div class="bigstars" aria-label="${r.stars} de 3 estrelas">${[0,1,2].map(k=>star(k<r.stars?'on':'off')).join('')}</div>
+  ${avatarSVG(S.kid.eq)}
+  <div class="chips-res"><span>${r.first} de ${r.total} de primeira</span><span>Tempo ${mm}:${ss}</span></div>
+  <div class="bubble">${ticoSVG()}<div class="say">${r.resolved?`<b>Você dominou ${esc(r.skill)}!</b>Vou avisar sua professora que você mandou bem.`:line}</div></div>
+  <button class="btn block" style="--b:#2F62E8;--bs:#1C3FA8;max-width:340px" data-go="k-rew" data-p="x">Pegar recompensa ${star()}</button>
+ </div></main>`;
+};
+SCREENS['k-rew']=()=>{
+ const r=S.res;
+ const afford=ITEMS.filter(it=>it.cost>0&&!S.kid.owned.has(key(it))&&it.cost<=S.kid.wallet).sort((a,b)=>b.cost-a.cost)[0];
+ const next=afford||ITEMS.filter(it=>it.cost>0&&!S.kid.owned.has(key(it))).sort((a,b)=>a.cost-b.cost)[0];
+ const L=lv(r.s);const hasNext=!r.reforco&&r.i+1<L.length;
+ return `<main id="main" class="scroll"><div class="res rew pad">${confetti()}
+  <h1>RECOMPENSA!</h1>
+  <div class="chestwrap">${chestSVG()}<div class="burst">${[[-70,-60],[70,-55],[-40,-90],[45,-95],[0,-110],[-90,-20],[90,-15]].map(([x,y])=>`<svg class="st on" style="--x:${x}px;--y:${y}px" viewBox="0 0 24 24" aria-hidden="true"><path d="${STAR_P}"/></svg>`).join('')}</div></div>
+  <p class="plus">+${r.earned} estrelas</p>
+  <span class="wallet" style="font-size:26px;padding:6px 16px 6px 10px">${star()}<span id="wcount">${r.before}</span></span>
+  ${r.unlocked!=null?`<div class="unlock">${icon('lock')} Nível ${r.unlocked+1} desbloqueado: ${esc(L[r.unlocked].title)}</div>`:''}
+  ${next?`<button class="suggest" data-act="toShop" data-cat="${next.cat}">${avatarSVG({...S.kid.eq,[next.cat]:next.id})}<span><b>${afford?`Você já pode comprar: ${esc(next.name)}!`:`Faltam ${next.cost-S.kid.wallet} estrelas para ${esc(next.name)}`}</b><small>${next.cost} estrelas na loja</small></span></button>`:''}
+  <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:340px">
+   ${hasNext&&isUnlocked(r.s,r.i+1)?`<button class="btn block" style="--b:${SB[r.s].hex}" data-act="play" data-s="${r.s}" data-i="${r.i+1}">Próximo nível ${icon('chev')}</button>`:''}
+   <button class="btn block ghost" data-act="toIsland">Voltar para a ilha</button>
+  </div>
+ </div></main>`;
+};
+SCREENS['k-rew'].after=()=>{const el=$('#wcount');if(!el)return;const a=S.res.before,b=S.res.after;const t0=performance.now()+700;const tick=t=>{const k=Math.max(0,Math.min(1,(t-t0)/900));el.textContent=Math.round(a+(b-a)*k);if(k<1)requestAnimationFrame(tick)};requestAnimationFrame(tick)};
+
+/* ---------- personagem e loja ---------- */
+SCREENS['k-avatar']=()=>{
+ const cat=S.ui.avCat;
+ let grid='';
+ if(cat==='cores'){
+  grid=`<div style="padding-block:10px 20px"><h2 class="disp" style="font-size:19px;font-weight:800">Pele</h2><div class="swatches">${SKINS.map(c=>`<button class="swatch ${S.kid.eq.skin===c?'on':''}" style="background:${c}" data-act="setColor" data-k="skin" data-c="${c}" aria-label="Tom de pele"></button>`).join('')}</div><h2 class="disp" style="font-size:19px;font-weight:800;margin-top:10px">Cor do cabelo</h2><div class="swatches">${HAIRC.map(c=>`<button class="swatch ${S.kid.eq.hairC===c?'on':''}" style="background:${c}" data-act="setColor" data-k="hairC" data-c="${c}" aria-label="Cor do cabelo"></button>`).join('')}</div></div>`;
+ } else {
+  grid=`<div class="igrid">${ITEMS.filter(it=>it.cat===cat).map(it=>{const own=S.kid.owned.has(key(it)),eq=S.kid.eq[cat]===it.id;
+   return `<button class="item ${eq?'eq':''} ${own?'':'locked'}" data-act="${own?'equip':'toShop'}" data-cat="${cat}" data-id="${it.id}">${eq?`<span class="badge">${icon('check')}</span>`:own?'':`<span class="lockic">${icon('lock')}</span>`}${avatarSVG({...S.kid.eq,[cat]:it.id})}<b>${esc(it.name)}</b>${own?`<span class="own">${eq?'Usando':'Seu'}</span>`:`<span class="price">${star()}${it.cost}</span>`}</button>`}).join('')}</div>`;
+ }
+ return `<header class="ktop pad"><h1>Meu personagem</h1>${walletHTML()}</header>
+ <main id="main" class="scroll">
+  <section class="stage">${avatarSVG(S.kid.eq,'av'+(S.ui.avPop?' pop':''))}<p class="nm">${S.kid.name}</p></section>
+  <div class="pad"><div class="ktabs" role="tablist">${CATS.concat([['cores','Cores']]).map(([c,l])=>`<button class="ktab ${c===cat?'on':''}" data-act="avcat" data-cat="${c}" role="tab" aria-selected="${c===cat}">${l}</button>`).join('')}</div>${grid}</div>
+ </main>${knav('k-avatar')}`;
+};
+SCREENS['k-avatar'].after=()=>{S.ui.avPop=false};
+SCREENS['k-loja']=()=>{
+ const cat=S.ui.shopCat;
+ return `<header class="ktop pad"><h1>Loja de estrelas</h1></header>
+ <main id="main" class="scroll">
+  <section class="shophead pad"><div><small>Você tem</small><span class="big">${star()}${S.kid.wallet}</span><small>Ganhe mais estrelas jogando nas ilhas.</small></div>${avatarSVG(S.kid.eq)}</section>
+  <div class="pad"><div class="ktabs" role="tablist">${CATS.map(([c,l])=>`<button class="ktab ${c===cat?'on':''}" data-act="shopcat" data-cat="${c}" role="tab" aria-selected="${c===cat}">${l}</button>`).join('')}</div>
+  <div class="igrid">${ITEMS.filter(it=>it.cat===cat&&it.cost>0).map(it=>{const own=S.kid.owned.has(key(it));const can=S.kid.wallet>=it.cost;
+   return `<button class="item ${own?'eq':''}" data-act="${own?'equip':'buyAsk'}" data-cat="${cat}" data-id="${it.id}">${own?`<span class="badge">${icon('check')}</span>`:''}${avatarSVG({...S.kid.eq,[cat]:it.id})}<b>${esc(it.name)}</b>${own?'<span class="own">Já é seu</span>':can?`<span class="price">${star()}${it.cost}</span>`:`<span class="short">Faltam ${it.cost-S.kid.wallet} ${star('on')}</span>`}</button>`}).join('')}</div></div>
+ </main>${knav('k-loja')}`;
+};
+
+/* ---------- progresso ---------- */
+function badges(){const done=SUBJ.reduce((a,s)=>a+doneCount(s.id),0);const three=SUBJ.reduce((a,s)=>a+lv(s.id).filter(l=>l.stars===3).length,0);
+ return [{n:'Explorador',d:'Concluir 10 níveis',ok:done>=10,e:'🧭'},{n:'Mestre dos números',d:'7 níveis de Matemática',ok:doneCount('mat')>=7,e:'🔢'},{n:'Leitor curioso',d:'5 níveis de Português',ok:doneCount('por')>=5,e:'📚'},{n:'Estrela tripla',d:'15 níveis com 3 estrelas',ok:three>=15,e:'🌟'},{n:'Persistente',d:'Terminar um nível depois de errar',ok:S.kid.persist,e:'💪'},{n:'Estiloso',d:'Comprar 3 itens na loja',ok:S.kid.buys>=3,e:'🎩'}]}
+SCREENS['k-prog']=()=>{
+ const subs=enabledSubj();const done=subs.reduce((a,s)=>a+doneCount(s.id),0),tot=subs.reduce((a,s)=>a+lv(s.id).length,0);
+ const dom=masteredList().slice(0,10),train=S.kid.diffs.filter(d=>!d.resolved);
+ return `<header class="ktop pad"><h1>Meu progresso</h1>${walletHTML()}</header>
+ <main id="main" class="scroll"><div class="kp-sec pad">
+  <div class="bigcounts"><div class="bigc" style="background:#FFB020"><b>${star()}${S.kid.earned}</b><small>estrelas conquistadas</small></div><div class="bigc" style="background:#2F62E8"><b>${done}<small style="font-size:18px;opacity:.8">/${tot}</small></b><small>níveis concluídos</small></div></div>
+  <h2>Minhas ilhas</h2>
+  ${subs.map(s=>{const L=lv(s.id);return `<button class="irow" style="--c:${s.hex};text-align:left" data-go="k-ilha" data-p="${s.id}">${islandSVG(s.id)}<span class="grow"><b>${s.name}</b><span class="chunky">${L.map(l=>`<i class="${l.stars?'on':''}"></i>`).join('')}</span></span><span class="sc">${star()}${starSum(s.id)}</span></button>`}).join('')}
+  <h2>Conquistas</h2>
+  <div class="badges">${badges().map(b=>`<div class="bdg ${b.ok?'':'off'}"><span class="e">${b.e}</span><b>${b.n}</b><small>${b.d}</small></div>`).join('')}</div>
+  <h2>Eu já domino</h2>
+  <div class="kchips">${dom.length?dom.map(t=>`<span class="kchip green">${icon('check')}${esc(t)}</span>`).join(''):'<span class="kchip">Jogue para descobrir!</span>'}</div>
+  ${train.length?`<h2>Treinando com o Tico</h2><div class="kchips">${train.map(d=>`<button class="kchip blue" data-act="reforco" data-skill="${esc(d.skill)}">${ticoSVG('tico-sm')}${esc(cap(d.skill))}</button>`).join('')}</div>`:''}
+  <button class="linkbtn" data-act="logout">Sair do Educa+</button>
+ </div></main>${knav('k-prog')}`;
+};
+
+/* ---------- Tico (assistente IA) ---------- */
+const TIPS={
+ 'subtração':{ns:['Vamos tentar juntos! Se você tem 8 maçãs e dá 3 para seu amigo, quantas ainda ficam com você?','5','Quase! Mostre 8 dedos e abaixe 3. Quantos ficaram em pé?'],dica:'Subtrair é tirar. Comece com tudo e vá tirando um por um.',outro:'Pense numa fila de números: 8, 7, 6… Volte 3 pulinhos a partir do 8. Onde você parou?'},
+ 'multiplicação':{ns:['Vamos tentar juntos! São 3 pratos com 2 biscoitos em cada. Quantos biscoitos ao todo?','6','Quase! Conte prato por prato: 2, mais 2, mais 2…'],dica:'Multiplicar é juntar grupos iguais. Some o mesmo número várias vezes.',outro:'Desenhe as caixinhas e coloque bolinhas dentro de cada uma. Depois conte tudo.'},
+ 'frações':{ns:['Vamos tentar juntos! Uma pizza tem 4 fatias e você come 1. Que fração você comeu? Escreva assim: 1/4, 2/4…','1/4','Quase! Embaixo vai o total de fatias. Em cima, quantas você comeu.'],dica:'O número de baixo conta as partes da pizza toda. O de cima conta as partes pintadas.',outro:'Pegue uma folha, dobre ao meio e depois ao meio de novo. Cada pedaço é um quarto!'},
+ 'geral':{ns:['Vamos tentar juntos! Você tem 5 balões e ganha mais 2. Quantos balões agora?','7','Quase! Conte a partir do 5: 6, 7…'],dica:'Leia a pergunta duas vezes e tente desenhar o que ela conta.',outro:'Que tal explicar o problema com seus brinquedos? Pegue objetos e conte com eles.'},
+};
+function tipKey(){const d=S.kid.diffs.find(x=>!x.resolved);return d&&TIPS[d.skill]?d.skill:'geral'}
+SCREENS['k-tico']=()=>{
+ const d=S.kid.diffs.find(x=>!x.resolved);
+ return `<header class="tico-head pad">${ticoSVG()}<div><b>Tico</b><small>Seu ajudante. Ele dá pistas, não respostas.</small></div></header>
+ <main id="main" class="scroll"><div class="chat pad">${S.chat.map(m=>`<div class="msg ${m.f}">${m.x}${m.btn||''}</div>`).join('')}</div></main>
+ <div class="pad" style="background:var(--sky)"><div class="qchips">${['Não sei','Me dá uma dica','Explica de outro jeito','Quero treinar'].map(q=>`<button class="qchip" data-act="ask" data-q="${q}">${q}</button>`).join('')}</div></div>
+ <form class="chatbar pad" id="chatForm"><label class="vh" for="chatIn">Escreva para o Tico</label><input id="chatIn" autocomplete="off" placeholder="${d?'Escreva sua resposta ou dúvida':'Pergunte algo ao Tico'}"><button type="submit" aria-label="Enviar">${icon('send')}</button></form>
+ ${knav('k-tico')}`;
+};
+SCREENS['k-tico'].after=()=>{const m=$('#main');if(m)m.scrollTop=m.scrollHeight};
+function ticoReply(q){
+ const k=tipKey(),T=TIPS[k],d=S.kid.diffs.find(x=>!x.resolved);
+ const say=x=>{S.chat.push({f:'t',x});salvarQuieto(api('POST',`/api/alunos/${S.kid.id}/mensagens`,{autor:'TUTOR',texto:x}))};
+ const norm=q.trim().toLowerCase();
+ if(S.chatQ&&norm){const ok=norm.replace(/\s/g,'')===S.chatQ.a;if(ok){say(`Isso! ${pick(['Você pensou certinho!','Viu como você consegue?','Mandou muito bem!'])} Quer fazer um treino rápido para ganhar estrelas?`);S.chat[S.chat.length-1].btn=`<br><button class="btn sm" style="--b:var(--tico)" data-act="reforco" data-skill="${esc(d?d.skill:'subtração')}">Começar treino</button>`;S.chatQ=null}else if(/^\d+(\/\d+)?$/.test(norm.replace(/\s/g,''))){say(S.chatQ.r)}else{S.chatQ=null;ticoReply(q)}return}
+ if(norm==='não sei'){say((d?`Vi que ${d.skill} está difícil. `:'')+T.ns[0]);S.chatQ={a:T.ns[1],r:T.ns[2]};return}
+ if(norm==='me dá uma dica'){say(T.dica);return}
+ if(norm==='explica de outro jeito'){say(T.outro);return}
+ if(norm==='quero treinar'){say(d?`Boa! Preparei um treino mais fácil de ${d.skill}.`:'Boa! Vou montar um treino rápido de números para você.');S.chat[S.chat.length-1].btn=`<br><button class="btn sm" style="--b:var(--tico)" data-act="reforco" data-skill="${esc(d?d.skill:'adição')}">Começar treino</button>`;return}
+ if(/resposta|fala logo|me diz/.test(norm)){say('Eu não vou te dar a resposta, mas te ajudo a chegar lá! Toque em “Me dá uma dica”.');return}
+ say(pick(['Boa pergunta! Me conta: qual parte você não entendeu?','Hum, vamos pensar juntos. Você pode desenhar o problema?','Que legal! Quer que eu explique de outro jeito?']));
+}
+
+/* ---------- área adulta (comum) ---------- */
+const TNAV=[['t-dash','Painel','home'],['t-turmas','Turmas','users'],['t-cont','Conteúdos','book'],['t-desemp','Desempenho','chart'],['t-ins','Insights IA','spark']];
+const CNAV=[['c-dash','Painel','home'],['c-profs','Professores','users'],['c-turmas','Turmas','school'],['c-ind','Indicadores','chart'],['c-ins','Insights IA','spark']];
+function shell(title,body,tab,kicker=''){
+ const nav=S.role==='prof'?TNAV:CNAV;
+ return `<div class="tshell"><header class="thead pad">${S.stack.length?`<button class="round-btn sm" data-act="back" aria-label="Voltar">${icon('back')}</button>`:''}<div class="tt">${kicker?`<small>${kicker}</small>`:''}<h1>${title}</h1></div><button class="me-btn" data-act="menu" aria-label="Conta">${initials(S.user.nome)}</button></header>
+ <main id="main" class="scroll"><div class="sec pad">${body}</div></main>
+ <nav class="tnav" aria-label="Menu">${nav.map(([sc,l,ic])=>`<button class="${sc===tab?'on':''}" data-go="${sc}" data-tab="1" ${sc===tab?'aria-current="page"':''}><span class="bub">${icon(ic)}</span>${l}</button>`).join('')}</nav></div>`;
+}
+const avaHTML=v=>v.eq?`<span class="ava k">${avatarSVG(v.eq)}</span>`:`<span class="ava" style="background:${v.color}">${initials(v.name)}</span>`;
+const subjIc=s=>`<span class="subj-ic" style="--soft:${SB[s].soft}">${islandSVG(s)}</span>`;
+const smIc=n=>icon(n).replace('class="ic ','class="ic tico-sm ');
+function studentLi(v,to){const st=status(v);const a=avgProg(v);return `<button class="li" data-go="${to}" data-p="${v.id}" data-name="${esc(v.name.toLowerCase())}" data-st="${st[1]}">${avaHTML(v)}<span class="grow"><b>${esc(v.name)}</b><small>${a}% de progresso · ${v.acc}% de acertos${v.diff.length?' · '+esc(v.diff[0]):''}</small><div class="bar" style="margin-top:6px;--c:#2F55D4"><i style="width:${a}%"></i></div></span><span class="pill ${st[1]}">${st[0]}</span></button>`}
+const INS_TIPO={DIFICULDADE:['Dificuldade','warn','info'],AVANCO:['Avanço','up','trend'],ATENCAO:['Atenção','gray','users'],RECOMENDACAO:['Recomendação','up','spark']};
+function toCard(i){
+ const [tag,cls,ic]=INS_TIPO[i.tipo]||['IA','up','spark'];const feito='aplicar:Marcado como feito.';
+ let acts;
+ if(i.publico==='PROFESSOR'){
+  if(i.idAluno)acts=[['Ver perfil','go:t-aluno:'+i.idAluno]];
+  else if(i.tipo==='ATENCAO')acts=[['Ver alunos','go:t-alunos:'+i.idTurma]];
+  else acts=[['Marcar como feito',i.tipo==='DIFICULDADE'?'aplicar:Marcado como feito. Quem tem essa dificuldade já vê o treino especial no mapa.':feito]];
+ }else{
+  if(i.tipo==='AVANCO')acts=[['Ver indicadores','go:c-ind:']];
+  else if(i.tipo==='ATENCAO')acts=[['Ver alunos','go:c-alunos:']];
+  else if(i.tipo==='RECOMENDACAO')acts=/revis/.test(i.titulo)?[['Revisar agora','go:c-cont:']]:[['Ver disciplinas','go:c-disc:']];
+  else acts=[['Marcar como feito',feito]];
+ }
+ return {id:i.id,tag:i.idAluno?'Aluno':tag,cls:i.idAluno&&i.tipo==='DIFICULDADE'?'live':cls,ic,title:i.titulo,text:i.texto,acts,situacao:i.situacao};
+}
+function insightCard(x){
+ if(x.situacao==='DISPENSADO')return '';
+ const done=x.situacao==='APLICADO';
+ return `<div class="card ins"><div class="tagrow">${icon(x.ic||'spark')}<span class="pill ${x.cls}">${x.tag}</span></div><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p><div class="acts">${done?`<span class="pill ok">${smIc('check')} Feito</span>`:x.acts.map(([l,a],k)=>`<button class="abtn ${k?'light':''}" data-act="insAct" data-a="${esc(a)}" data-id="${x.id}">${l}</button>`).join('')+`<button class="abtn light" data-act="dismiss" data-id="${x.id}">Dispensar</button>`}</div></div>`;
+}
+const insightsHTML=()=>S.insights.filter(i=>i.situacao!=='DISPENSADO').map(toCard).map(insightCard).join('')||'<p class="card">Nenhum insight novo por enquanto.</p>';
+const anosComTrilha=()=>Object.keys(S.trilhas).map(Number).sort((a,b)=>a-b);
+const anoChips=()=>`<div class="tchips">${anosComTrilha().map(a=>`<button class="chip ${a===S.ui.ano?'on':''}" data-act="setAno" data-a="${a}">${a}º ano</button>`).join('')}</div>`;
+
+/* ---------- professor ---------- */
+SCREENS['t-dash']=()=>{
+ const ts=myTurmas();const aggs=ts.map(t=>({t,a:turmaAgg(t.id)}));const com=aggs.filter(x=>x.a.n);
+ const n=aggs.reduce((x,y)=>x+y.a.n,0),act=aggs.reduce((x,y)=>x+y.a.active,0),avg=com.length?Math.round(com.reduce((x,y)=>x+y.a.avg,0)/com.length):0;
+ const dm=deltaMes(ts.map(t=>t.id));const ins=S.insights.find(i=>i.situacao!=='DISPENSADO');
+ return shell('Painel',`
+  <div class="card hello"><div><b>Olá, ${esc(S.user.nome.split(' ')[0])}!</b><small>${esc(S.hoje)}</small></div>${ticoSVG()}</div>
+  <div class="kpis"><div class="kpi"><b>${ts.length}</b><small>turmas</small></div><div class="kpi"><b>${n}</b><small>alunos</small></div><div class="kpi"><b>${act}</b><small>ativos nos últimos 5 dias</small></div><div class="kpi"><b>${avg}%</b><small>progresso médio</small>${dm>0?`<span class="delta">+${dm} pontos no mês</span>`:''}</div></div>
+  <h2 class="h2">Insight da IA <button class="more" data-go="t-ins" data-tab="1">Ver todos</button></h2>
+  ${ins?insightCard(toCard(ins)):'<p class="card">Nenhum insight novo.</p>'}
+  <h2 class="h2">Suas turmas</h2>
+  ${aggs.length?aggs.map(({t,a})=>`<button class="card tap" data-go="t-alunos" data-p="${t.id}"><div class="row"><div class="grow"><b class="disp" style="font-size:20px">${esc(t.name)}</b><small style="display:block;color:var(--ink-2);font-weight:700">${a.n} alunos · principal dificuldade: ${esc(a.main)}</small></div>${a.sc.warn?`<span class="pill warn">${a.sc.warn} precisam de apoio</span>`:''}</div><div class="row" style="margin-top:10px"><div class="bar grow"><i style="width:${a.avg}%"></i></div><b style="font-variant-numeric:tabular-nums">${a.avg}%</b></div></button>`).join(''):'<p class="card">Você ainda não tem turmas. A coordenação vincula as turmas a você.</p>'}
+  <h2 class="h2">Ações rápidas</h2>
+  <div class="qa"><button data-go="t-editor" data-p="mat:7"><span class="qi" style="background:#FF7A1A">${icon('plus')}</span>Criar atividade</button><button data-go="t-disc" data-p=""><span class="qi" style="background:#1FB866">${icon('toggle')}</span>Disciplinas por aluno</button><button data-act="addStudent" data-t="${S.ui.tTurma||''}"><span class="qi" style="background:#8B5CF6">${icon('users')}</span>Adicionar aluno</button></div>
+ `,'t-dash','Área do professor');
+};
+SCREENS['t-turmas']=()=>shell('Minhas turmas',myTurmas().map(t=>{const a=turmaAgg(t.id);return `<button class="card tap" data-go="t-alunos" data-p="${t.id}"><div class="row"><div class="grow"><b class="disp" style="font-size:22px">${esc(t.name)}</b><small style="display:block;color:var(--ink-2);font-weight:700">${a.n} alunos · ${a.acc}% de acertos</small></div><span class="pill ok">${a.sc.up} avançando</span></div><div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">${Object.entries(a.subs).map(([s,v])=>`<div class="subrow" style="--c:${SB[s].hex}"><span><i class="dotc"></i>${SB[s].name}</span><div class="bar"><i style="width:${v}%"></i></div><b>${v}%</b></div>`).join('')}</div><p style="margin-top:10px;font-weight:700;font-size:14px;color:var(--ink-2)">Principal dificuldade: <b style="color:var(--ink)">${esc(a.main)}</b></p></button>`}).join('')||'<p class="card">Nenhuma turma vinculada a você.</p>','t-turmas','Área do professor');
+function alunosScreen(tid,to,tab,role){
+ const t=S.turmas.find(x=>x.id===tid)||{name:'Turma'};const a=turmaAgg(tid);const f=S.ui.alunosFilt;
+ const list=a.st.slice().sort(sortName);
+ return shell(esc(t.name),`
+  <div class="row"><div class="searchbox grow">${icon('search')}<input class="inp" id="q" type="search" placeholder="Buscar aluno" aria-label="Buscar aluno"></div><button class="abtn" data-act="addStudent" data-t="${tid}">${smIc('plus')} Aluno</button></div>
+  <div class="tchips">${[['all','Todos',a.n],['warn','Precisam de apoio',a.sc.warn],['up','Avançando',a.sc.up],['ok','Em dia',a.sc.ok]].map(([k,l,c])=>`<button class="chip ${f===k?'on':''}" data-act="filt" data-f="${k}">${l} · ${c}</button>`).join('')}</div>
+  <div class="card list" id="slist">${list.map(v=>studentLi(v,to)).join('')||'<p style="font-weight:700;color:var(--ink-2)">Nenhum aluno nesta turma ainda.</p>'}</div>
+ `,tab,role==='coord'?'Turma':'Alunos da turma');
+}
+SCREENS['t-alunos']=()=>alunosScreen(S.p,'t-aluno','t-turmas');
+SCREENS['t-alunos'].after=()=>applyFilter();
+function applyFilter(){const q=($('#q')||{}).value||'';const f=S.ui.alunosFilt;document.querySelectorAll('#slist .li').forEach(el=>{const ok=(!q||el.dataset.name.includes(q.toLowerCase()))&&(f==='all'||el.dataset.st===f);el.classList.toggle('hide',!ok)})}
+SCREENS['t-aluno']=()=>{
+ const v=S.students.find(s=>s.id===S.p);const ctx=S.role==='coord'?'c-dash':'t-turmas';
+ if(!v)return shell('Aluno','<p class="card">Aluno não encontrado.</p>',ctx);
+ const s=status(v);const a=avgProg(v);const subs=SUBJ.filter(x=>schoolAllows(x.id,v.ano));
+ const rec=v.diff.length?`Reforço curto de ${v.diff[0]} (10 minutos por dia) com exemplos visuais, retomando o conteúdo anterior antes de avançar. O tutor já deixa os desafios mais fáceis quando percebe os erros.`:v.strong.length?`Liberar desafios extras de ${v.strong[0]}. Está pronto para um nível acima.`:'Seguir a trilha normal. Nenhum ajuste necessário agora.';
+ const quando=v.days===0?'jogou hoje':v.days>=99?'ainda não jogou':`última partida há ${v.days} dia${v.days>1?'s':''}`;
+ return shell(esc(v.name),`
+  <div class="card row"><span class="ava k" style="width:64px;height:64px">${avatarSVG(v.eq)}</span><div class="grow"><b class="disp" style="font-size:20px;line-height:1.1;display:block">${esc(v.name)}</b><small style="font-weight:700;color:var(--ink-2)">${esc(turmaName(v.turma))} · ${quando}</small><div style="margin-top:6px"><span class="pill ${s[1]}">${s[0]}</span></div></div></div>
+  <div class="kpis"><div class="kpi"><b>${a}%</b><small>progresso geral</small></div><div class="kpi"><b>${v.acc}%</b><small>de acertos</small></div><div class="kpi"><b>${v.min} min</b><small>jogando esta semana</small></div><div class="kpi"><b>${v.estrelas}</b><small>estrelas ganhas</small></div></div>
+  <h2 class="h2">Disciplinas <button class="more" data-go="t-disc" data-p="${v.id}">Configurar</button></h2>
+  <div class="card" style="display:flex;flex-direction:column;gap:10px">${subs.map(x=>v.en[x.id]!==false&&v.prog[x.id]!=null?`<div class="subrow" style="--c:${x.hex}"><span><i class="dotc"></i>${x.name}</span><div class="bar"><i style="width:${v.prog[x.id]}%"></i></div><b>${v.prog[x.id]}%</b></div>`:`<div class="subrow" style="--c:#C9D2E3"><span style="color:var(--ink-3)"><i class="dotc"></i>${x.name}</span><span class="pill gray" style="justify-self:start">desligada</span><b></b></div>`).join('')}</div>
+  <h2 class="h2">Conteúdos com dificuldade</h2>
+  <div class="kchips">${v.diff.length?v.diff.map(d=>`<span class="pill warn" style="font-size:14px;padding:6px 12px">${esc(d)}</span>`).join(''):'<span class="pill gray" style="font-size:14px;padding:6px 12px">Nenhuma dificuldade em aberto</span>'}</div>
+  <h2 class="h2">Conteúdos dominados</h2>
+  <div class="kchips" id="det-dom"><span class="pill gray" style="font-size:14px;padding:6px 12px">Carregando…</span></div>
+  <h2 class="h2">Erros e acertos por habilidade</h2>
+  <div class="card list" id="det-skills"><p style="font-weight:700;color:var(--ink-2)">Carregando…</p></div>
+  <div class="card ins" style="background:#EEF3FF;border-color:#D3DFFF"><div class="tagrow">${icon('spark')}<span class="pill up">Recomendação da IA</span></div><p style="color:#253D8E">${esc(rec)}</p></div>
+ `,ctx,'Perfil do aluno');
+};
+SCREENS['t-aluno'].after=()=>{const id=S.p;api('GET',`/api/alunos/${id}/detalhe`).then(d=>{
+ if(S.screen!=='t-aluno'||S.p!==id)return;const dom=$('#det-dom'),sk=$('#det-skills');const pl='font-size:14px;padding:6px 12px';
+ if(dom)dom.innerHTML=(d.dominados.length?d.dominados.map(x=>`<span class="pill ok" style="${pl}">${esc(x)}</span>`).join(''):`<span class="pill gray" style="${pl}">Ainda nenhum nível com 3 estrelas</span>`)+d.superadas.map(x=>`<span class="pill up" style="${pl}">superou ${esc(x)}</span>`).join('');
+ const rate=([,[r,w]])=>w/((r+w)||1);
+ const rows=Object.entries(d.skills).sort((x,y)=>rate(y)-rate(x)).slice(0,8);
+ if(sk)sk.innerHTML=rows.length?rows.map(([k,[r,w]])=>`<div class="li"><span class="grow"><b>${esc(cap(k))}</b><small>${r} acertos de primeira · ${w} erros</small></span><div style="width:110px" class="stack" aria-label="${pct(r,r+w)}% de acertos"><i style="width:${pct(r,r+w)}%;background:var(--good)"></i><i style="width:${100-pct(r,r+w)}%;background:#FFB37A"></i></div></div>`).join(''):'<p style="font-weight:700;color:var(--ink-2)">Ainda sem partidas.</p>';
+}).catch(e=>{const sk=$('#det-skills');if(sk)sk.innerHTML=`<p style="font-weight:700;color:var(--ink-2)">${esc(e.message)}</p>`})};
+SCREENS['t-disc']=()=>{
+ const pre=S.p&&S.students.find(s=>s.id===S.p);
+ if(pre){S.ui.tTurma=pre.turma;S.ui.dStudent=pre.id;S.p=null}
+ const tab=S.role==='coord'?'c-dash':'t-turmas';
+ const turmas=(S.role==='coord'?S.turmas:myTurmas()).filter(t=>S.students.some(s=>s.turma===t.id));
+ if(!turmas.length)return shell('Disciplinas por aluno','<p class="card">Nenhuma turma com alunos ainda.</p>',tab,'Configuração');
+ if(!turmas.some(t=>t.id===S.ui.tTurma))S.ui.tTurma=turmas[0].id;
+ const sts=S.students.filter(s=>s.turma===S.ui.tTurma).sort(sortName);
+ if(!sts.some(s=>s.id===S.ui.dStudent))S.ui.dStudent=sts[0].id;
+ const v=S.students.find(s=>s.id===S.ui.dStudent);
+ return shell('Disciplinas por aluno',`
+  <div class="note">${icon('info')}<span>Cada aluno só vê no mapa as ilhas ligadas aqui. Vale a partir da próxima vez que ele abrir o app.</span></div>
+  <div class="tchips">${turmas.map(t=>`<button class="chip ${t.id===S.ui.tTurma?'on':''}" data-act="tTurma" data-t="${t.id}">${esc(t.name)}</button>`).join('')}</div>
+  <label class="field"><span>Aluno</span><select id="dStu">${sts.map(s=>`<option value="${s.id}" ${s.id===S.ui.dStudent?'selected':''}>${esc(s.name)}</option>`).join('')}</select></label>
+  <div class="card list">${SUBJ.map(x=>{const allowed=schoolAllows(x.id,v.ano);const on=v.en[x.id]!==false&&allowed;return `<div class="li">${subjIc(x.id)}<span class="grow"><b>${x.name}</b><small>${allowed?(on?`${x.island} aparece no mapa`:'Escondida do mapa'):`A escola não oferece no ${v.ano}º ano`}</small></span>${allowed?`<button class="sw ${on?'on':''}" role="switch" aria-checked="${on}" aria-label="${x.name}" data-act="toggleSubj" data-s="${x.id}"></button>`:'<span class="pill gray">indisponível</span>'}</div>`}).join('')}</div>
+ `,tab,'Configuração');
+};
+SCREENS['t-cont']=()=>{
+ const s=S.ui.tSubj,sb=SB[s],L=lv(s);
+ return shell('Conteúdos',`
+  ${anoChips()}
+  <div class="tchips">${SUBJ.map(x=>`<button class="chip ${x.id===s?'on':''}" data-act="tSubj" data-s="${x.id}"><i class="dotc" style="--c:${x.hex};margin:0"></i>${x.name}</button>`).join('')}</div>
+  <div class="row" style="gap:8px"><button class="abtn grow" data-go="t-editor" data-p="${s}:${Math.max(0,curIdx(s))}" ${L.length?'':'disabled'}>${smIc('plus')} Nova atividade</button><button class="abtn light grow" data-act="newLvl">Novo nível</button></div>
+  <div class="card" style="--c:${sb.hex}"><div class="row" style="margin-bottom:6px">${subjIc(s)}<div class="grow"><b class="disp" style="font-size:18px">${sb.island} · ${S.ui.ano}º ano</b><small style="display:block;font-weight:700;color:var(--ink-2)">${L.length} níveis · ${TYPE_LABEL[s]}</small></div></div>
+  ${L.length?L.map((l,i)=>{const nc=S.custom.filter(c=>c.idAtividade===l.id&&c.status!=='Recusada').length;return `<div class="lvl-row"><span class="num">${i+1}</span><span class="grow"><b>${esc(l.title)}</b><small>${DIFF_LABEL[l.diff]} · ${esc(l.regiao)}${nc?` · ${nc} pergunta${nc>1?'s':''} de professores`:''}</small></span><button class="mini-btn" data-act="move" data-i="${i}" data-d="-1" aria-label="Subir" ${i===0?'disabled':''}>${icon('up')}</button><button class="mini-btn" data-act="move" data-i="${i}" data-d="1" aria-label="Descer" ${i===L.length-1?'disabled':''}>${icon('down')}</button><button class="mini-btn" data-act="editLvl" data-i="${i}" aria-label="Editar nível">${icon('edit')}</button></div>`}).join(''):`<p style="font-weight:700;color:var(--ink-2)">Ainda não há níveis nesta ilha para o ${S.ui.ano}º ano.</p>`}</div>
+  <div class="note">${icon('info')}<span>A ordem aqui é a ordem da trilha na ilha. Vale a partir da próxima vez que o aluno abrir o app.</span></div>
+ `,S.role==='coord'?'c-dash':'t-cont','Trilhas das ilhas');
+};
+SCREENS['t-editor']=()=>{
+ const [s0,l0]=String(S.p||'mat:7').split(':');const s=SB[s0]?s0:'mat';const L=lv(s);const li=Math.max(0,Math.min(+l0||0,L.length-1));
+ const ex=s==='mat'&&L[li]&&L[li].kind==='multi'?{p:'3 caixas com 4 lápis cada. Quantos lápis ao todo?',o:['12','7','10',''],h:'Desenhe as 3 caixas e conte os lápis de cada uma.'}:s==='mat'?{p:'Pedro tinha 9 balas e deu 4 para a irmã. Com quantas ficou?',o:['5','13','4',''],h:'Separe as balas que ele deu e conte as que sobraram.'}:{p:'Escreva aqui a pergunta para os alunos',o:['Resposta certa','Outra opção','Outra opção',''],h:'Uma pista que ajude sem dar a resposta.'};
+ return shell('Editor de atividade',`
+  <p class="pill gray" style="align-self:flex-start">Exemplo preenchido · edite à vontade</p>
+  <label class="field"><span>Disciplina</span><select id="ed-subj">${SUBJ.map(x=>`<option value="${x.id}" ${x.id===s?'selected':''}>${x.name}</option>`).join('')}</select></label>
+  <label class="field"><span>Nível da trilha (${S.ui.ano}º ano)</span><select id="ed-level">${L.map((l,i)=>`<option value="${i}" ${i===li?'selected':''}>Nível ${i+1}: ${esc(l.title)}</option>`).join('')}</select></label>
+  <div class="field"><span>Tipo</span><div class="seg" id="ed-type"><button class="on" data-act="edType" data-v="choice">Múltipla escolha</button><button data-act="edType" data-v="tf">Verdadeiro ou falso</button></div></div>
+  <label class="field"><span>Pergunta</span><textarea id="ed-prompt">${esc(ex.p)}</textarea></label>
+  <div class="field" id="ed-opts"><span>Opções (toque no ✓ para marcar a certa)</span>${ex.o.map((o,k)=>`<div class="optrow"><button class="radio ${k===0?'on':''}" data-act="edAns" data-k="${k}" aria-label="Marcar opção ${k+1} como certa">${icon('check')}</button><input type="text" class="inp" id="ed-o${k}" value="${esc(o)}" placeholder="Opção ${k+1}${k===3?' (opcional)':''}"></div>`).join('')}</div>
+  <label class="field"><span>Dica do Tico (sem entregar a resposta)</span><input type="text" id="ed-hint" value="${esc(ex.h)}"></label>
+  <div class="field"><span>Dificuldade</span><div class="seg" id="ed-diff">${['Fácil','Médio','Difícil'].map((d,k)=>`<button class="${k===1?'on':''}" data-act="edDiff" data-v="${k+1}">${d}</button>`).join('')}</div></div>
+  <h2 class="h2">Como o aluno vê</h2>
+  <div class="preview" id="ed-prev" style="--c:${SB[s].hex};--soft:${SB[s].soft};--oc:${SB[s].oc}"></div>
+  <button class="btn block" style="--b:#2F55D4;--bs:#1E3A9E" data-act="edSave">Salvar atividade</button>
+ `,S.role==='coord'?'c-dash':'t-cont','Conteúdos');
+};
+SCREENS['t-editor'].after=()=>{S.ed={ans:0,type:'choice',diff:2};edPreview()};
+function edVals(){const o=[0,1,2,3].map(k=>($('#ed-o'+k)||{}).value||'');return {subj:$('#ed-subj').value,level:+(($('#ed-level')||{}).value||0),prompt:$('#ed-prompt').value.trim(),options:S.ed.type==='tf'?['Verdadeiro','Falso']:o,hint:$('#ed-hint').value.trim()}}
+function edPreview(){const box=$('#ed-prev');if(!box)return;const v=edVals();const sb=SB[v.subj];box.style.setProperty('--c',sb.hex);box.style.setProperty('--soft',sb.soft);box.style.setProperty('--oc',sb.oc);
+ const opts=v.options.map((o,k)=>({o,k})).filter(x=>x.o.trim());
+ box.innerHTML=`<div class="qcard"><p style="font-size:11px;font-weight:900;color:var(--c);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">Pergunta da professora</p><p class="prompt">${esc(v.prompt||'Sua pergunta aparece aqui')}</p></div><div class="opts" style="--cols:${opts.every(x=>x.o.length<=5)?Math.min(opts.length,3):1}">${opts.map(x=>`<span class="opt txt ${x.k===S.ed.ans?'right':''}" style="display:grid;place-items:center">${esc(x.o)}</span>`).join('')}</div><div class="bubble">${ticoSVG()}<div class="say hint">${esc(v.hint||'Dica do Tico')}</div></div>`;
+}
+SCREENS['t-desemp']=()=>{
+ const ts=(S.role==='coord'?S.turmas:myTurmas()).filter(t=>t.n>0);
+ if(!ts.length)return shell('Desempenho','<p class="card">Ainda não há turmas com alunos.</p>',S.role==='coord'?'c-ind':'t-desemp','Acompanhamento');
+ if(!ts.some(t=>t.id===S.ui.perfTurma))S.ui.perfTurma=ts[0].id;
+ const tid=S.ui.perfTurma;const a=turmaAgg(tid);const tot=a.n||1;
+ return shell('Desempenho',`
+  <div class="tchips">${ts.map(t=>`<button class="chip ${t.id===tid?'on':''}" data-act="perfTurma" data-t="${t.id}">${esc(t.name)}</button>`).join('')}</div>
+  <div class="kpis"><div class="kpi"><b>${a.avg}%</b><small>progresso médio</small></div><div class="kpi"><b>${a.acc}%</b><small>taxa de acertos</small></div></div>
+  <h2 class="h2">Progresso por disciplina</h2>
+  <div class="card" style="display:flex;flex-direction:column;gap:12px">${Object.entries(a.subs).map(([s,v])=>`<div class="subrow" style="--c:${SB[s].hex}"><span><i class="dotc"></i>${SB[s].name}</span><div class="bar"><i style="width:${v}%"></i></div><b>${v}%</b></div>`).join('')}</div>
+  <h2 class="h2">Situação da turma</h2>
+  <div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="stack"><i style="width:${pct(a.sc.up,tot)}%;background:#2F55D4"></i><i style="width:${pct(a.sc.ok,tot)}%;background:#1FAE64"></i><i style="width:${100-pct(a.sc.up,tot)-pct(a.sc.ok,tot)}%;background:#FF9A3D"></i></div><div class="legend"><span><i style="background:#2F55D4"></i>Avançando · ${a.sc.up}</span><span><i style="background:#1FAE64"></i>Em dia · ${a.sc.ok}</span><span><i style="background:#FF9A3D"></i>Precisam de apoio · ${a.sc.warn}</span></div></div>
+  <h2 class="h2">Conteúdos com mais dificuldade</h2>
+  <div class="card list">${a.ranked.slice(0,5).map(([k,c])=>`<div class="li"><span class="grow"><b>${esc(cap(k))}</b><small>${c} alunos com dificuldade</small><div class="bar" style="margin-top:6px;--c:#FF9A3D"><i style="width:${pct(c,tot)}%"></i></div></span><b style="font-variant-numeric:tabular-nums">${pct(c,tot)}%</b></div>`).join('')||'<p style="font-weight:700;color:var(--ink-2)">Nenhuma dificuldade em aberto.</p>'}</div>
+  <h2 class="h2">Alunos</h2>
+  <button class="card tap row" data-go="${S.role==='coord'?'c-alunos':'t-alunos'}" data-p="${tid}"><span class="grow" style="font-weight:800">Ver os ${a.n} alunos do ${esc(turmaName(tid))}</span>${icon('chev')}</button>
+ `,S.role==='coord'?'c-ind':'t-desemp','Acompanhamento');
+};
+SCREENS['t-ins']=()=>shell('Insights da IA',`<div class="note">${icon('info')}<span>A IA aponta padrões nos erros e acertos das suas turmas. Quem decide o que fazer é você.</span></div>${insightsHTML()}`,'t-ins','Apoio pedagógico');
+
+/* ---------- coordenador ---------- */
+SCREENS['c-dash']=()=>{
+ const all=S.students;const aggs=S.turmas.map(t=>({t,a:turmaAgg(t.id)})).filter(x=>x.a.n);
+ const avg=aggs.length?Math.round(aggs.reduce((s,x)=>s+x.a.avg,0)/aggs.length):0;const dm=deltaMes(aggs.map(x=>x.t.id));
+ const dc={};all.forEach(v=>v.diff.forEach(d=>dc[d]=(dc[d]||0)+1));const top=Object.entries(dc).sort((a,b)=>b[1]-a[1]).slice(0,4);
+ const pend=S.custom.filter(c=>c.status==='Em revisão').length;
+ return shell(esc(S.escola),`
+  <div class="kpis"><div class="kpi"><b>${all.length}</b><small>alunos</small></div><div class="kpi"><b>${S.turmas.length}</b><small>turmas</small></div><div class="kpi"><b>${S.profs.length}</b><small>professores</small></div><div class="kpi"><b>${avg}%</b><small>progresso médio</small>${dm>0?`<span class="delta">+${dm} pontos no mês</span>`:''}</div></div>
+  <h2 class="h2">Dificuldades recorrentes</h2>
+  <div class="card list">${top.map(([k,c])=>`<div class="li"><span class="grow"><b>${esc(cap(k))}</b><small>${c} alunos em ${new Set(all.filter(v=>v.diff.includes(k)).map(v=>v.turma)).size} turmas</small><div class="bar" style="margin-top:6px;--c:#FF9A3D"><i style="width:${pct(c,top[0][1])}%"></i></div></span></div>`).join('')||'<p style="font-weight:700;color:var(--ink-2)">Nenhuma dificuldade em aberto.</p>'}</div>
+  <h2 class="h2">Gestão</h2>
+  <div class="qa"><button data-go="c-alunos" data-p=""><span class="qi" style="background:#8B5CF6">${icon('users')}</span>Alunos</button><button data-go="c-disc" data-p=""><span class="qi" style="background:#1FB866">${icon('toggle')}</span>Disciplinas</button><button data-go="c-cont" data-p="">${pend?`<span class="count">${pend}</span>`:''}<span class="qi" style="background:#FF7A1A">${icon('book')}</span>Conteúdos</button></div>
+  <h2 class="h2">Turmas <button class="more" data-go="c-turmas" data-tab="1">Ver todas</button></h2>
+  ${aggs.map(({t,a})=>`<button class="card tap" data-go="c-alunos" data-p="${t.id}"><div class="row"><b class="disp grow" style="font-size:20px">Turma ${esc(t.name)}</b><small style="font-weight:700;color:var(--ink-2)">${esc(profName(t.prof))}</small></div><div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">${['mat','por','cie'].filter(s=>a.subs[s]!=null).map(s=>`<div class="subrow" style="--c:${SB[s].hex}"><span><i class="dotc"></i>${SB[s].name}</span><div class="bar"><i style="width:${a.subs[s]}%"></i></div><b>${a.subs[s]}%</b></div>`).join('')}</div><p style="margin-top:10px;font-weight:700;font-size:14px;color:var(--ink-2)">Principal dificuldade: <b style="color:var(--ink)">${esc(a.main)}</b></p></button>`).join('')}
+ `,'c-dash','Coordenação');
+};
+SCREENS['c-profs']=()=>shell('Professores',`
+ <button class="abtn" style="align-self:flex-start" data-act="invite">${smIc('plus')} Convidar professor</button>
+ <div class="card list">${S.profs.map((p,k)=>{const n=S.students.filter(s=>p.turmas.includes(s.turma)).length;return `<div class="li"><span class="ava" style="background:${AVC[k%AVC.length]}">${initials(p.name)}</span><span class="grow"><b>${esc(p.name)}</b><small>${esc(p.area)} · ${p.turmas.length?p.turmas.map(turmaName).join(', '):'sem turma ainda'}${n?` · ${n} alunos`:''}</small><small style="word-break:break-all">${esc(p.email)}</small></span><span class="pill ${/hoje/.test(p.last)?'ok':p.last==='Convite enviado'?'up':'gray'}">${esc(p.last)}</span></div>`}).join('')}</div>
+`,'c-profs','Gestão');
+SCREENS['c-turmas']=()=>shell('Turmas',`
+ <button class="abtn" style="align-self:flex-start" data-act="newTurma">${smIc('plus')} Nova turma</button>
+ ${S.turmas.map(t=>{const a=turmaAgg(t.id);return `<button class="card tap" data-go="c-alunos" data-p="${t.id}"><div class="row"><div class="grow"><b class="disp" style="font-size:20px">${esc(t.name)}</b><small style="display:block;font-weight:700;color:var(--ink-2)">${esc(profName(t.prof))} · ${a.n} alunos</small></div>${a.n?`<b style="font-variant-numeric:tabular-nums">${a.avg}%</b>`:'<span class="pill up">Nova</span>'}</div>${a.n?`<div class="bar" style="margin-top:10px"><i style="width:${a.avg}%"></i></div>`:'<p style="margin-top:8px;color:var(--ink-2);font-weight:600;font-size:14px">Sem alunos ainda. O professor adiciona pelo app.</p>'}</button>`}).join('')}
+`,'c-turmas','Gestão');
+SCREENS['c-alunos']=()=>{
+ if(S.p!=null&&S.p!==''){S.ui.cAlunosTurma=S.p;S.p=''}
+ const f=S.ui.cAlunosTurma;const list=S.students.filter(s=>f==='all'||s.turma===f).sort(sortName);
+ return shell('Alunos',`
+  <div class="searchbox">${icon('search')}<input class="inp" id="q" type="search" placeholder="Buscar em toda a escola" aria-label="Buscar aluno"></div>
+  <div class="tchips">${[['all','Todas']].concat(S.turmas.map(t=>[t.id,t.name])).map(([k,l])=>`<button class="chip ${f===k?'on':''}" data-act="cTurma" data-t="${k}">${esc(l)}</button>`).join('')}</div>
+  <p style="font-weight:700;color:var(--ink-2);font-size:14px">${list.length} alunos</p>
+  <div class="card list" id="slist">${list.map(v=>studentLi(v,'t-aluno')).join('')}</div>
+ `,'c-dash','Gestão');
+};
+SCREENS['c-alunos'].after=()=>{S.ui.alunosFilt='all';applyFilter()};
+SCREENS['c-disc']=()=>shell('Disciplinas da escola',`
+ <div class="note">${icon('info')}<span>Aqui você define em quais anos cada ilha existe. Dentro disso, cada professor liga ou desliga por aluno.</span></div>
+ ${SUBJ.map(x=>{const anos=S.school.anos[x.id]||[];return `<div class="card"><div class="row">${subjIc(x.id)}<span class="grow"><b style="font-weight:800">${x.name}</b><small style="display:block;color:var(--ink-2);font-weight:600">${x.island}</small></span><button class="sw ${anos.length?'on':''}" role="switch" aria-checked="${!!anos.length}" aria-label="${x.name} na escola" data-act="schoolSubj" data-s="${x.id}"></button></div><div class="tchips" style="margin-top:10px">${[1,2,3,4,5].map(a=>`<button class="chip ${anos.includes(a)?'on':''}" data-act="schoolAno" data-s="${x.id}" data-a="${a}">${a}º ano</button>`).join('')}</div></div>`}).join('')}
+`,'c-dash','Configuração');
+SCREENS['c-cont']=()=>{
+ const s=S.ui.cSubj;const pend=S.custom.filter(c=>c.status==='Em revisão');
+ const nivelDe=c=>{const L=(S.trilhas[String(c.ano)]||{})[c.subj]||[];const i=L.findIndex(l=>l.id===c.idAtividade);return i>=0?`Nível ${i+1}: ${L[i].title}`:'Nível da trilha'};
+ return shell('Conteúdos',`
+  <h2 class="h2">Aguardando revisão</h2>
+  ${pend.length?pend.map(c=>`<div class="card ins"><div class="tagrow"><span class="pill" style="background:${SB[c.subj].soft};color:${SB[c.subj].hex}">${SB[c.subj].name} · ${c.ano}º ano</span><span class="pill gray">${esc(c.author)}</span></div><p style="font-weight:800;font-size:13px">${esc(nivelDe(c))}</p><h3>${esc(c.prompt)}</h3><p>Opções: ${c.options.filter(Boolean).map((o,k)=>k===c.answer?`<b style="color:var(--good-dk)">${esc(o)} ✓</b>`:esc(o)).join(' · ')}</p><p>Dica: ${esc(c.hint||'—')}</p><div class="acts"><button class="abtn green" data-act="approve" data-id="${c.id}">Aprovar para a escola</button><button class="abtn light" data-act="reject" data-id="${c.id}">Pedir ajuste</button></div></div>`).join(''):'<p class="card" style="font-weight:700;color:var(--ink-2)">Nada para revisar agora.</p>'}
+  <h2 class="h2">Trilhas publicadas</h2>
+  ${anoChips()}
+  <div class="tchips">${SUBJ.map(x=>`<button class="chip ${x.id===s?'on':''}" data-act="cSubj" data-s="${x.id}">${x.name}</button>`).join('')}</div>
+  <div class="card" style="--c:${SB[s].hex}">${lv(s).length?lv(s).map((l,i)=>{const nc=S.custom.filter(c=>c.idAtividade===l.id&&c.status==='Publicado').length;return `<div class="lvl-row"><span class="num">${i+1}</span><span class="grow"><b>${esc(l.title)}</b><small>${esc(l.regiao)}${l.habilidade?' · '+esc(l.habilidade):''}${nc?` · ${nc} de professores`:''}</small></span><span class="pill gray">${DIFF_LABEL[l.diff]}</span></div>`}).join(''):`<p style="font-weight:700;color:var(--ink-2)">Sem níveis para o ${S.ui.ano}º ano.</p>`}</div>
+  <button class="abtn light" style="align-self:flex-start" data-act="openTCont">Editar trilha de ${SB[s].name}</button>
+ `,'c-dash','Gestão');
+};
+function lineChart(ids){
+ const W=340,H=210,x0=36,x1=326,y0=180,y1=14;const months=S.meses;const cols=['#2F55D4','#FF7A1A','#1FAE64','#8B5CF6','#E0533D','#EC4899','#0EA5B7','#B7791F'];
+ const X=i=>x0+(x1-x0)*i/4,Y=v=>y0-(y0-y1)*v/100;
+ let g='';[0,25,50,75,100].forEach(v=>{g+=`<line x1="${x0}" x2="${x1}" y1="${Y(v)}" y2="${Y(v)}" stroke="#E3E9F4" stroke-width="1"/><text x="${x0-8}" y="${Y(v)+4}" text-anchor="end">${v}%</text>`});
+ months.forEach((m,i)=>g+=`<text x="${X(i)}" y="${H-8}" text-anchor="middle">${m}</text>`);
+ const leg=[];
+ ids.forEach(id=>{const k=S.turmas.findIndex(t=>t.id===id);const c=cols[k%cols.length];const s=series(id);g+=`<polyline points="${s.map((v,i)=>`${X(i)},${Y(v)}`).join(' ')}" fill="none" stroke="${c}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;s.forEach((v,i)=>g+=`<circle cx="${X(i)}" cy="${Y(v)}" r="${i===4?5:3}" fill="${i===4?c:'#fff'}" stroke="${c}" stroke-width="2"/>`);leg.push(`<span><i style="background:${c}"></i>${esc(turmaName(id))} · ${s[4]}%</span>`)});
+ return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Progresso médio por mês">${g}</svg><div class="legend">${leg.join('')}</div>`;
+}
+SCREENS['c-ind']=()=>{
+ const all=S.students;const sel=S.ui.indSel;const com=S.turmas.filter(t=>turmaAgg(t.id).n);
+ const bySub=SUBJ.map(s=>{const xs=all.filter(v=>v.prog[s.id]!=null&&v.en[s.id]!==false&&schoolAllows(s.id,v.ano));return [s,xs.length?Math.round(xs.reduce((a,v)=>a+v.prog[s.id],0)/xs.length):0]}).filter(x=>x[1]||schoolAllows(x[0].id,4));
+ const eng=com.map(t=>{const a=turmaAgg(t.id);return [t,Math.round(a.st.reduce((x,v)=>x+v.min,0)/a.n)]});const maxE=Math.max(1,...eng.map(e=>e[1]));
+ return shell('Indicadores',`
+  <div class="kpis"><div class="kpi"><b>${pct(all.filter(v=>v.days<=5).length,all.length)}%</b><small>alunos ativos nos últimos 5 dias</small></div><div class="kpi"><b>${all.length?Math.round(all.reduce((a,v)=>a+v.acc,0)/all.length):0}%</b><small>acertos na escola</small></div></div>
+  <h2 class="h2">Evolução do progresso</h2>
+  <div class="tchips">${com.map(t=>`<button class="chip ${sel.includes(t.id)?'on':''}" data-act="indSel" data-t="${t.id}">${esc(t.name)}</button>`).join('')}</div>
+  <div class="card">${sel.length?lineChart(sel):'<p style="font-weight:700;color:var(--ink-2)">Escolha uma turma acima.</p>'}</div>
+  <h2 class="h2">Progresso por disciplina</h2>
+  <div class="card" style="display:flex;flex-direction:column;gap:12px">${bySub.map(([s,v])=>`<div class="subrow" style="--c:${s.hex}"><span><i class="dotc"></i>${s.name}</span><div class="bar"><i style="width:${v}%"></i></div><b>${v}%</b></div>`).join('')}</div>
+  <h2 class="h2">Minutos jogados por aluno na semana</h2>
+  <div class="card" style="display:flex;flex-direction:column;gap:12px">${eng.map(([t,m])=>`<div class="subrow" style="--c:#0EA5B7;grid-template-columns:52px 1fr 60px"><span>${esc(t.name)}</span><div class="bar"><i style="width:${pct(m,maxE)}%"></i></div><b>${m} min</b></div>`).join('')}</div>
+  <button class="card tap row" data-go="t-desemp" data-p=""><span class="grow" style="font-weight:800">Desempenho detalhado por turma</span>${icon('chev')}</button>
+ `,'c-ind','Coordenação');
+};
+SCREENS['c-ins']=()=>shell('Insights da IA',`<div class="note">${icon('info')}<span>Padrões da escola toda, para apoiar decisões pedagógicas. A IA sugere, a coordenação decide.</span></div>${insightsHTML()}`,'c-ins','Coordenação');
+
+/* ---------- ações ---------- */
+let persT;
+function salvarPersonagem(agora){clearTimeout(persT);const f=()=>salvarQuieto(api('PUT',`/api/alunos/${S.kid.id}/personagem`,S.kid.eq));if(agora)f();else persT=setTimeout(f,600)}
+function kidSay(q){S.chat.push({f:'k',x:esc(q)});salvarQuieto(api('POST',`/api/alunos/${S.kid.id}/mensagens`,{autor:'ALUNO',texto:q}))}
+function putAnos(s,anos,msg){api('PUT',`/api/disciplinas/${s}/anos`,{anos}).then(()=>{S.school.anos[s]=anos;render(false);if(msg)toast(msg)}).catch(e=>toast(e.message))}
+function situacaoQuestao(t,sit,label,msg){const c=S.custom.find(x=>String(x.id)===t.dataset.id);if(!c)return;t.disabled=true;api('PUT','/api/questoes/'+c.id,{situacao:sit}).then(()=>{c.status=label;render(false);toast(msg||`Pedido de ajuste enviado para ${c.author}.`)}).catch(e=>{t.disabled=false;toast(e.message)})}
+const falha=t=>e=>{if(t)t.disabled=false;toast(e.message)};
+const ACT={
+ back:()=>back(),
+ retry:()=>{if(entrandoComo)entrar(entrandoComo);else go('login',null,{tab:true})},
+ login:()=>{openSheet(`<div class="loading">${ticoSVG()}<p>Buscando contas…</p></div>`);
+  api('GET','/api/auth/contas-teste').then(cs=>{const sh=$('#scrim .sheet');if(!sh)return;const cor={ALUNO:['#FFF4CC','#8A5200','#FF7A1A'],PROFESSOR:['#E3ECFF','#2F55D4','#2F55D4'],COORDENADOR:['var(--good-bg)','#11703F','#1FAE64']};
+   sh.innerHTML=`<div class="grab"></div><div class="col"><h2>Escolha uma conta</h2><p>Contas de teste do banco de demonstração. Com o login Google ligado, o Google confirma quem você é e o Educa+ abre a área certa sozinho.</p><div class="acc-list">${cs.map(c=>`<button class="acc" data-act="as" data-email="${esc(c.email)}"><span class="ava" style="background:${cor[c.perfil][2]}">${initials(c.nome)}</span><span class="grow"><b>${esc(c.nome)}</b><small>${esc(c.email)}</small></span><span class="who" style="background:${cor[c.perfil][0]};color:${cor[c.perfil][1]}">${esc(c.detalhe)}</span></button>`).join('')}</div></div>`})
+  .catch(e=>{const sh=$('#scrim .sheet');if(sh)sh.innerHTML=`<div class="grab"></div><div class="col"><h2>Servidor fora do ar</h2><p>${esc(e.message)}. Confira se a API do Educa+ está rodando.</p></div>`})},
+ as:t=>{const sh=$('#scrim .sheet');if(sh)sh.innerHTML=`<div class="loading">${ticoSVG()}<b class="disp" style="font-size:20px">Entrando…</b></div>`;
+  api('POST','/api/auth/login',{email:t.dataset.email}).then(u=>{closeSheet();entrar(u.id)}).catch(e=>{closeSheet();toast(e.message)})},
+ logout:()=>sair(),
+ refresh:()=>{closeSheet();entrar(S.user.id)},
+ menu:()=>openSheet(`<div class="col"><h2>${esc(S.user.nome)}</h2><p>${esc(S.user.email)}<br>${S.role==='prof'?'Área do professor':'Coordenação · '+esc(S.escola)}</p><button class="btn block ghost" data-act="refresh">${icon('trend')} Atualizar dados</button><button class="btn block ghost" data-act="logout">${icon('logout')} Sair</button></div>`),
+ /* criança */
+ lvl:t=>levelSheet(t.dataset.s,+t.dataset.i),
+ lockedLvl:t=>{t.classList.add('shake');setTimeout(()=>t.classList.remove('shake'),450);const i=+t.dataset.i;toast(`Termine o Nível ${i} para abrir este!`)},
+ play:t=>{closeSheet();startAct(t.dataset.s,+t.dataset.i)},
+ playDirect:t=>startAct(t.dataset.s,+t.dataset.i),
+ reforco:t=>{const sk=t.dataset.skill;const k=KIND_BY_SKILL[sk];
+  if(k){startAct('mat',0,{reforco:true,skill:sk,title:'Treino de '+sk,rounds:Array.from({length:5},()=>genMat(k,0))})}
+  else{const d=S.kid.diffs.find(x=>x.skill===sk);const s=d&&BANK[d.subj]?d.subj:'por';const b=bankRounds(s,ri(0,9));startAct(s,0,{reforco:true,skill:sk,title:'Treino de '+sk,rounds:b.filter(r=>r.skill===sk).concat(b).slice(0,5)})}},
+ quit:()=>openSheet(`<div class="col" style="text-align:center;align-items:center">${ticoSVG()}<h2>Quer mesmo sair?</h2><p>Você ainda não ganhou as estrelas deste nível.</p><button class="btn block" style="--b:var(--good);--bs:var(--good-dk)" data-act="closeSheet">Continuar jogando</button><button class="btn block ghost" data-act="quitYes">Sair do nível</button></div>`),
+ quitYes:()=>{closeSheet();S.act=null;back()},
+ closeSheet:()=>closeSheet(),
+ hint:()=>{const A=S.act;if(!A||A.locked)return;A.hints++;A.sub.scaffold=true;A.msg={t:'hint',h:'Dica do Tico',x:A.rounds[A.r].hint};renderAct()},
+ pick:t=>{const A=S.act;if(!A||A.locked)return;const R=A.rounds[A.r];const j=+t.dataset.j;A.sub.no=A.sub.no||new Set();
+  if(R.options[j].v===R.answer){A.sub.ok=j;correct()}else{A.sub.no.add(j);A.sub.shake=j;wrong()}},
+ tile:t=>{const A=S.act;if(!A||A.locked)return;const R=A.rounds[A.r];const k=+t.dataset.k;A.sub.filled=A.sub.filled||[];const need=R.word[A.sub.filled.length];
+  if(R.tiles[k]===need){A.sub.filled.push(k);if(A.sub.filled.length===R.word.length)correct();else{correctStep();renderAct()}}
+  else{A.sub.shake=k;const vowel='AEIOU'.includes(need);R.hint=`A próxima letra é uma ${vowel?'vogal (A, E, I, O, U)':'consoante'}. Fale a palavra devagar.`;wrong()}},
+ bin:t=>{const A=S.act;if(!A||A.locked)return;const R=A.rounds[A.r];const k=+t.dataset.k;A.sub.idx=A.sub.idx||0;A.sub.inBin=A.sub.inBin||[[],[]];const it=R.items[A.sub.idx];
+  if(it[2]===k){A.sub.inBin[k].push(it);A.sub.idx++;if(A.sub.idx>=R.items.length)correct();else{correctStep();renderAct()}}
+  else{A.sub.shake=k;wrong()}},
+ ord:t=>{const A=S.act;if(!A||A.locked)return;const R=A.rounds[A.r];const k=+t.dataset.k;A.sub.placed=A.sub.placed||[];
+  if(k===A.sub.placed.length){A.sub.placed.push(k);if(A.sub.placed.length===R.items.length)correct();else{correctStep();renderAct()}}
+  else{A.sub.shake=k;wrong()}},
+ toIsland:()=>{const s=S.res.s;S.stack=[{screen:'k-home',p:null},{screen:'k-ilha',p:s}];S.screen='k-niveis';S.p=s+':'+curIdx(s);render(true)},
+ toShop:t=>{S.ui.shopCat=t.dataset.cat;go('k-loja',null,{tab:true})},
+ shopcat:t=>{S.ui.shopCat=t.dataset.cat;render(false)},
+ avcat:t=>{S.ui.avCat=t.dataset.cat;render(false)},
+ equip:t=>{S.kid.eq[t.dataset.cat]=t.dataset.id;S.ui.avPop=true;salvarPersonagem();if(S.screen==='k-loja'){S.ui.avCat=t.dataset.cat;go('k-avatar',null,{tab:true});toast('Agora você está usando isso!')}else render(false)},
+ setColor:t=>{S.kid.eq[t.dataset.k]=t.dataset.c;S.ui.avPop=true;salvarPersonagem();render(false)},
+ buyAsk:t=>{const it=ITEMS.find(x=>x.cat===t.dataset.cat&&x.id===t.dataset.id);const can=S.kid.wallet>=it.cost;
+  openSheet(`<div class="col" style="align-items:center;text-align:center">${avatarSVG({...S.kid.eq,[it.cat]:it.id},'av" style="width:140px;height:170px')}<h2>${esc(it.name)}</h2>${can?`<p>Custa <b>${it.cost} estrelas</b>. Você vai ficar com ${S.kid.wallet-it.cost}.</p><button class="btn block" style="--b:var(--mat)" data-act="buy" data-cat="${it.cat}" data-id="${it.id}">Comprar por ${it.cost} ${star()}</button><button class="btn block ghost" data-act="closeSheet">Agora não</button>`:`<p>Faltam <b>${it.cost-S.kid.wallet} estrelas</b>. Jogue mais um pouco nas ilhas!</p><button class="btn block" style="--b:var(--geo)" data-act="goWorld">Ir para o mundo</button>`}</div>`)},
+ buy:t=>{const it=ITEMS.find(x=>x.cat===t.dataset.cat&&x.id===t.dataset.id);if(S.kid.wallet<it.cost)return;t.disabled=true;t.textContent='Comprando…';
+  api('POST',`/api/alunos/${S.kid.id}/compras`,{parte:it.cat,codigo:it.id}).then(r=>{S.kid.wallet=r.saldo;S.kid.owned.add(key(it));S.kid.eq[it.cat]=it.id;S.kid.buys++;salvarPersonagem(true);closeSheet();S.ui.avPop=true;S.ui.avCat=it.cat;go('k-avatar',null,{tab:true});toast(`${it.name}: é sua! Já está no seu personagem.`,true)})
+  .catch(e=>{t.disabled=false;t.textContent='Tentar de novo';toast(e.message)})},
+ goWorld:()=>{closeSheet();go('k-home',null,{tab:true})},
+ ask:t=>{const q=t.dataset.q;kidSay(q);ticoReply(q);render(false);const m=$('#main');if(m)m.scrollTop=m.scrollHeight},
+ /* adulto */
+ insAct:t=>{const [kind,...rest]=t.dataset.a.split(':');
+  if(kind==='go'){const sc=rest[0],p=rest.slice(1).join(':');if(['t-alunos','t-aluno','c-alunos','c-cont','c-disc'].includes(sc))go(sc,p);else go(sc,null,{tab:true});return}
+  const id=+t.dataset.id;t.disabled=true;
+  api('PUT','/api/insights/'+id,{situacao:'APLICADO'}).then(()=>{const i=S.insights.find(x=>x.id===id);if(i)i.situacao='APLICADO';toast(rest.join(':'));render(false)}).catch(falha(t))},
+ dismiss:t=>{const id=+t.dataset.id;t.disabled=true;api('PUT','/api/insights/'+id,{situacao:'DISPENSADO'}).then(()=>{const i=S.insights.find(x=>x.id===id);if(i)i.situacao='DISPENSADO';render(false);toast('Insight dispensado.')}).catch(falha(t))},
+ filt:t=>{S.ui.alunosFilt=t.dataset.f;document.querySelectorAll('[data-act="filt"]').forEach(b=>b.classList.toggle('on',b===t));applyFilter()},
+ tTurma:t=>{S.ui.tTurma=t.dataset.t;S.ui.dStudent=null;render(false)},
+ setAno:t=>{setAno(+t.dataset.a);render(false)},
+ toggleSubj:t=>{const st=S.students.find(s=>s.id===S.ui.dStudent);const s=t.dataset.s;const novo=st.en[s]===false;t.disabled=true;
+  api('PUT',`/api/alunos/${st.id}/disciplinas/${s}`,{habilitada:novo,idProfessor:+S.user.id}).then(()=>{st.en[s]=novo;render(false);toast(`${SB[s].island} ${novo?'liberada':'escondida'} para ${st.name.split(' ')[0]}.`)}).catch(falha(t))},
+ tSubj:t=>{S.ui.tSubj=t.dataset.s;render(false)},
+ move:t=>{const s=S.ui.tSubj,L=lv(s),i=+t.dataset.i,j=i+ +t.dataset.d;if(j<0||j>=L.length)return;
+  const ri={regiao:L[i].regiao,idRegiao:L[i].idRegiao},rj={regiao:L[j].regiao,idRegiao:L[j].idRegiao};
+  [L[i],L[j]]=[L[j],L[i]];Object.assign(L[i],ri);Object.assign(L[j],rj);render(false);
+  salvarQuieto(api('PUT',`/api/trilhas/${S.ui.ano}/${s}/ordem`,{ids:L.map(l=>l.id)}))},
+ editLvl:t=>{const i=+t.dataset.i,l=lv(S.ui.tSubj)[i];S.ed2={diff:l.diff,i};openSheet(`<div class="col"><h2>Editar nível ${i+1}</h2><label class="field"><span>Nome do nível</span><input id="lv-title" value="${esc(l.title)}"></label><div class="field"><span>Dificuldade</span><div class="seg">${[1,2,3].map(d=>`<button class="${d===l.diff?'on':''}" data-act="lvDiff" data-v="${d}">${DIFF_LABEL[d]}</button>`).join('')}</div></div><button class="btn block" style="--b:#2F55D4;--bs:#1E3A9E" data-act="saveLvl">Salvar</button></div>`)},
+ newLvl:()=>{S.ed2={diff:2,i:-1};openSheet(`<div class="col"><h2>Novo nível em ${SB[S.ui.tSubj].name} (${S.ui.ano}º ano)</h2><p>Ele entra no fim da trilha. Depois você pode mudar a ordem.</p><label class="field"><span>Nome do nível</span><input id="lv-title" placeholder="Ex.: Divisão com balas"></label>${S.ui.tSubj==='mat'?`<label class="field"><span>Tipo de minijogo</span><select id="lv-kind">${Object.entries(MATK).map(([k,v])=>`<option value="${k}">${cap(v)}</option>`).join('')}</select></label>`:''}<div class="field"><span>Dificuldade</span><div class="seg">${[1,2,3].map(d=>`<button class="${d===2?'on':''}" data-act="lvDiff" data-v="${d}">${DIFF_LABEL[d]}</button>`).join('')}</div></div><button class="btn block" style="--b:#2F55D4;--bs:#1E3A9E" data-act="saveLvl">Criar nível</button></div>`)},
+ lvDiff:t=>{S.ed2.diff=+t.dataset.v;t.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b===t))},
+ saveLvl:t=>{const title=$('#lv-title').value.trim();if(!title){$('#lv-title').focus();toast('Dê um nome ao nível.');return}const s=S.ui.tSubj,L=lv(s);t.disabled=true;
+  if(S.ed2.i<0){const kd=$('#lv-kind');api('POST','/api/niveis',{ano:S.ui.ano,disciplina:s,titulo:title,dificuldade:S.ed2.diff,tipoMinijogo:kd?kd.value:null,idAutor:+S.user.id})
+    .then(l=>{const k=String(S.ui.ano);S.trilhas[k]=S.trilhas[k]||{};(S.trilhas[k][s]=S.trilhas[k][s]||[]).push(l);setAno(S.ui.ano);closeSheet();render(false);toast(`Nível ${lv(s).length} criado no fim da trilha.`)}).catch(falha(t))}
+  else{const l=L[S.ed2.i];api('PUT','/api/niveis/'+l.id,{titulo:title,dificuldade:S.ed2.diff}).then(()=>{l.title=title;l.diff=S.ed2.diff;closeSheet();render(false);toast('Nível atualizado.')}).catch(falha(t))}},
+ edType:t=>{S.ed.type=t.dataset.v;t.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b===t));const box=$('#ed-opts');box.querySelectorAll('.optrow').forEach((r,k)=>{r.classList.toggle('hide',S.ed.type==='tf'&&k>1);const inp=r.querySelector('input');inp.readOnly=S.ed.type==='tf';if(S.ed.type==='tf'&&k<2){inp.dataset.prev=inp.value;inp.value=['Verdadeiro','Falso'][k]}else if(S.ed.type!=='tf'&&inp.dataset.prev!=null){inp.value=inp.dataset.prev;delete inp.dataset.prev}});if(S.ed.ans>1&&S.ed.type==='tf'){S.ed.ans=0;box.querySelectorAll('.radio').forEach((b,k)=>b.classList.toggle('on',k===0))}edPreview()},
+ edAns:t=>{S.ed.ans=+t.dataset.k;document.querySelectorAll('#ed-opts .radio').forEach((b,k)=>b.classList.toggle('on',k===S.ed.ans));edPreview()},
+ edDiff:t=>{S.ed.diff=+t.dataset.v;t.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b===t))},
+ edSave:t=>{const v=edVals();const filled=v.options.filter(o=>o.trim());
+  if(!v.prompt){toast('Escreva a pergunta antes de salvar.');$('#ed-prompt').focus();return}
+  if(filled.length<2){toast('Coloque pelo menos duas opções.');return}
+  if(!v.options[S.ed.ans]||!v.options[S.ed.ans].trim()){toast('A opção marcada como certa está vazia.');return}
+  const nivel=lv(v.subj)[v.level];if(!nivel){toast('Essa ilha ainda não tem níveis neste ano.');return}
+  t.disabled=true;
+  api('POST','/api/questoes',{idAtividade:nivel.id,enunciado:v.prompt,tipo:S.ed.type,alternativas:v.options,correta:S.ed.ans,dica:v.hint,idAutor:+S.user.id})
+  .then(c=>{S.custom.push(c);S.ui.tSubj=v.subj;back();toast(c.status==='Publicado'?`Publicada no Nível ${v.level+1} de ${SB[v.subj].name}.`:`Salva no Nível ${v.level+1} de ${SB[v.subj].name}. Os alunos das suas turmas já veem; a coordenação revisa para o resto da escola.`)}).catch(falha(t))},
+ perfTurma:t=>{S.ui.perfTurma=t.dataset.t;render(false)},
+ addStudent:t=>{const tid=t.dataset.t;if(!tid){toast('Você ainda não tem turma.');return}openSheet(`<div class="col"><h2>Adicionar aluno ao ${esc(turmaName(tid))}</h2><label class="field"><span>Nome completo</span><input id="ns-name" placeholder="Ex.: Ana Beatriz Ramos"></label><label class="field"><span>E-mail Google da escola (opcional)</span><input id="ns-mail" type="email" placeholder="nome@aluno.escolahorizonte.edu.br"></label><p>O aluno entra com esse e-mail e cai direto no mapa dele.</p><button class="btn block" style="--b:#2F55D4;--bs:#1E3A9E" data-act="saveStudent" data-t="${tid}">Adicionar</button></div>`)},
+ saveStudent:t=>{const name=$('#ns-name').value.trim();if(!name){$('#ns-name').focus();toast('Digite o nome do aluno.');return}t.disabled=true;
+  api('POST','/api/alunos',{nome:name,email:$('#ns-mail').value.trim()||null,idTurma:+t.dataset.t}).then(st=>{st.color=AVC[S.students.length%AVC.length];S.students.push(st);const tm=S.turmas.find(x=>x.id===st.turma);if(tm)tm.n++;closeSheet();render(false);toast(`${name.split(' ')[0]} entrou no ${turmaName(st.turma)}.`)}).catch(falha(t))},
+ /* coordenação */
+ invite:()=>openSheet(`<div class="col"><h2>Convidar professor</h2><label class="field"><span>Nome</span><input id="np-name" placeholder="Nome completo"></label><label class="field"><span>E-mail Google</span><input id="np-mail" type="email" placeholder="nome@escolahorizonte.edu.br"></label><label class="field"><span>Área</span><input id="np-area" value="Polivalente"></label><button class="btn block" style="--b:#2F55D4;--bs:#1E3A9E" data-act="saveInvite">Cadastrar</button></div>`),
+ saveInvite:t=>{const n=$('#np-name').value.trim(),m=$('#np-mail').value.trim();if(!n||!m){toast('Preencha nome e e-mail.');return}t.disabled=true;
+  api('POST','/api/professores',{nome:n,email:m,area:$('#np-area').value}).then(p=>{S.profs.push(p);closeSheet();render(false);toast(`${n} cadastrado. Ele entra com esse e-mail Google.`)}).catch(falha(t))},
+ newTurma:()=>openSheet(`<div class="col"><h2>Nova turma</h2><label class="field"><span>Nome</span><input id="nt-name" placeholder="Ex.: 2º B"></label><label class="field"><span>Ano</span><select id="nt-ano">${[1,2,3,4,5].map(a=>`<option value="${a}">${a}º ano</option>`).join('')}</select></label><label class="field"><span>Professor</span><select id="nt-prof">${S.profs.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')}</select></label><button class="btn block" style="--b:#2F55D4;--bs:#1E3A9E" data-act="saveTurma">Criar turma</button></div>`),
+ saveTurma:t=>{const n=$('#nt-name').value.trim();if(!n){$('#nt-name').focus();toast('Dê um nome à turma.');return}t.disabled=true;
+  api('POST','/api/turmas',{nome:n,ano:+$('#nt-ano').value,idProfessor:+$('#nt-prof').value}).then(tm=>{S.turmas.push(tm);S.minhas.push(tm.id);S.series[tm.id]=[0,0,0,0,0];const p=S.profs.find(x=>x.id===tm.prof);if(p)p.turmas.push(tm.id);closeSheet();render(false);toast(`Turma ${n} criada.`)}).catch(falha(t))},
+ cTurma:t=>{S.ui.cAlunosTurma=t.dataset.t;render(false)},
+ schoolSubj:t=>{const s=t.dataset.s;const novo=(S.school.anos[s]||[]).length?[]:[1,2,3,4,5].filter(a=>s!=='ing'||a>=3);putAnos(s,novo,`${SB[s].name} ${novo.length?'ativada':'desativada'} na escola.`)},
+ schoolAno:t=>{const s=t.dataset.s,a=+t.dataset.a;const arr=(S.school.anos[s]||[]).slice();const k=arr.indexOf(a);if(k>=0)arr.splice(k,1);else{arr.push(a);arr.sort((x,y)=>x-y)}putAnos(s,arr)},
+ cSubj:t=>{S.ui.cSubj=t.dataset.s;render(false)},
+ openTCont:()=>{S.ui.tSubj=S.ui.cSubj;go('t-cont')},
+ approve:t=>situacaoQuestao(t,'PUBLICADA','Publicado','Atividade aprovada para todas as turmas.'),
+ reject:t=>situacaoQuestao(t,'RECUSADA','Recusada'),
+ indSel:t=>{const id=t.dataset.t,a=S.ui.indSel;const k=a.indexOf(id);if(k>=0)a.splice(k,1);else{if(a.length>=4)a.shift();a.push(id)}render(false)},
+};
+
+document.addEventListener('click',e=>{
+ const sc=e.target.closest('#scrim');if(sc&&e.target===sc){closeSheet();return}
+ const t=e.target.closest('[data-go],[data-act]');if(!t||t.disabled)return;
+ if(t.dataset.go){closeSheet();go(t.dataset.go,t.dataset.p??null,{tab:!!t.dataset.tab});return}
+ const f=ACT[t.dataset.act];if(f){e.preventDefault();f(t,e)}
+});
+document.addEventListener('submit',e=>{
+ if(e.target.id==='chatForm'){e.preventDefault();const i=$('#chatIn');const q=i.value.trim();if(!q)return;kidSay(q);ticoReply(q);render(false);const m=$('#main');if(m)m.scrollTop=m.scrollHeight;const i2=$('#chatIn');if(i2)i2.focus()}
+});
+document.addEventListener('input',e=>{
+ if(e.target.id==='q')applyFilter();
+ if(e.target.closest&&e.target.closest('#main')&&S.screen==='t-editor')edPreview();
+});
+document.addEventListener('change',e=>{
+ if(e.target.id==='dStu'){S.ui.dStudent=e.target.value;render(false)}
+ if(e.target.id==='ed-subj'){const s=e.target.value;$('#ed-level').innerHTML=lv(s).map((l,i)=>`<option value="${i}">Nível ${i+1}: ${esc(l.title)}</option>`).join('');edPreview()}
+ if(e.target.id==='ed-level')edPreview();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
+// Botão voltar do Android: fecha a folha aberta, sai do nível ou volta uma tela. Devolve false quando não há para onde voltar.
+window.educaVoltar=()=>{if($('#scrim')){closeSheet();return true}if(S.screen==='k-ativ'){ACT.quit();return true}if(S.stack.length){back();return true}return false};
+if(BRIDGE)entrar(BRIDGE.usuarioId());else render(true);
+</script>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Tema.Educa" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:colorAccent">@color/azul</item>
+        <item name="android:colorPrimary">@color/ceu</item>
+    </style>
+
+    <style name="Tema.Educa.Login">
+        <item name="android:windowBackground">@drawable/fundo_login</item>
+    </style>
+</resources>

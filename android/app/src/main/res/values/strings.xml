@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Educa+</string>
+    <string name="slogan">Vamos aprender brincando!</string>
+    <string name="entrar_google">Entrar com Google</string>
+    <string name="dica_login">Alunos, professores e coordenadores entram pelo mesmo botão.</string>
+    <string name="buscando_contas">Falando com o servidor…</string>
+    <string name="escolha_conta">Escolha uma conta de teste:</string>
+    <string name="entrando">Entrando…</string>
+    <string name="resposta_invalida">O servidor respondeu algo inesperado. Confira o endereço da API.</string>
+    <string name="configurar_servidor">Configurar servidor</string>
+    <string name="endereco_api">Endereço da API</string>
+    <string name="ajuda_servidor">No emulador: http://10.0.2.2:8080. No celular: http://IP-do-computador:8080, com o celular na mesma Wi-Fi.</string>
+    <string name="salvar_testar">Salvar e testar</string>
+    <string name="mascote">Tico, o mascote do Educa+</string>
+</resources>

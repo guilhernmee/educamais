@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="tinta">#1B2350</color>
+    <color name="tinta_2">#4A5684</color>
+    <color name="linha">#DFE6F3</color>
+    <color name="estrela">#FFC21A</color>
+    <color name="azul">#2F55D4</color>
+    <color name="verde">#1FAE64</color>
+    <color name="mat">#FF7A1A</color>
+    <color name="ceu">#36B6E6</color>
+    <color name="ic_launcher_background">#36B6E6</color>
+</resources>

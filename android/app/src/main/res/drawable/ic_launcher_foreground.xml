@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tico, o mascote do Educa+ (mesmo desenho das telas) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+  <group android:translateX="23.6" android:translateY="22.6" android:scaleX="0.95" android:scaleY="0.95">
+    <path android:pathData="M32,16L32,8" android:strokeColor="#1B2350" android:strokeWidth="2.6" android:strokeLineCap="round"/>
+    <group android:translateX="24.5" android:translateY="-1.5" android:scaleX="0.62" android:scaleY="0.62"><path android:pathData="M12 2.6l2.85 5.95 6.55.85-4.8 4.55 1.25 6.5L12 17.3l-5.85 3.15 1.25-6.5-4.8-4.55 6.55-.85z" android:fillColor="#FFC21A" android:strokeColor="#E58A00" android:strokeWidth="1.6"/></group>
+    <group android:rotation="20" android:pivotX="9" android:pivotY="42"><path android:pathData="M4,42a5,8 0 1,0 10,0a5,8 0 1,0 -10,0z" android:fillColor="#1FA898"/></group>
+    <group android:rotation="-20" android:pivotX="55" android:pivotY="42"><path android:pathData="M50,42a5,8 0 1,0 10,0a5,8 0 1,0 -10,0z" android:fillColor="#1FA898"/></group>
+    <path android:pathData="M15,61a7,3.4 0 1,0 14,0a7,3.4 0 1,0 -14,0z" android:fillColor="#178F82"/>
+    <path android:pathData="M35,61a7,3.4 0 1,0 14,0a7,3.4 0 1,0 -14,0z" android:fillColor="#178F82"/>
+    <path android:pathData="M8,39a24,22.5 0 1,0 48,0a24,22.5 0 1,0 -48,0z" android:fillColor="#2BC4B4"/>
+    <path android:pathData="M18,47a14,10.5 0 1,0 28,0a14,10.5 0 1,0 -28,0z" android:fillColor="#C2F4EE"/>
+    <path android:pathData="M16.6,34a7.4,7.4 0 1,0 14.8,0a7.4,7.4 0 1,0 -14.8,0z" android:fillColor="#FFFFFF"/>
+    <path android:pathData="M32.6,34a7.4,7.4 0 1,0 14.8,0a7.4,7.4 0 1,0 -14.8,0z" android:fillColor="#FFFFFF"/>
+    <path android:pathData="M22.0,35a3.6,3.6 0 1,0 7.2,0a3.6,3.6 0 1,0 -7.2,0z" android:fillColor="#1B2350"/>
+    <path android:pathData="M38.0,35a3.6,3.6 0 1,0 7.2,0a3.6,3.6 0 1,0 -7.2,0z" android:fillColor="#1B2350"/>
+    <path android:pathData="M25.400000000000002,33.6a1.2,1.2 0 1,0 2.4,0a1.2,1.2 0 1,0 -2.4,0z" android:fillColor="#FFFFFF"/>
+    <path android:pathData="M41.4,33.6a1.2,1.2 0 1,0 2.4,0a1.2,1.2 0 1,0 -2.4,0z" android:fillColor="#FFFFFF"/>
+    <path android:pathData="M27,45Q32,50 37,45" android:strokeColor="#1B2350" android:strokeWidth="2.5" android:strokeLineCap="round"/>
+    <path android:pathData="M14,42a3,3 0 1,0 6,0a3,3 0 1,0 -6,0z" android:fillColor="#FF9AB0" android:fillAlpha="0.6"/>
+    <path android:pathData="M44,42a3,3 0 1,0 6,0a3,3 0 1,0 -6,0z" android:fillColor="#FF9AB0" android:fillAlpha="0.6"/>
+  </group>
+</vector>
