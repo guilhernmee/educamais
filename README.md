@@ -322,7 +322,3 @@ O JPA está com `ddl-auto=none`: as tabelas são criadas só pelo script SQL, po
 - Vitor Ferreira de Assis Gomes
 
 Projeto desenvolvido no curso de Análise e Desenvolvimento de Sistemas da Universidade Cidade de São Paulo (UNICID), sob orientação do professor Jadir Custodio Mendonça Junior.
-
-## Licença
-
-<!-- Se quiser deixar o projeto aberto, adicione um arquivo LICENSE (por exemplo MIT) e cite aqui. -->
